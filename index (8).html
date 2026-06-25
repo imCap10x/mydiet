@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<!-- yo, curious traveler peeking at the source? nothing to see here, just vibes and <div>s 👀 -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyDiet — Personalized Diet & Workout Planner</title>
+<meta name="description" content="Get a free personalized diet plan, workout routine, BMI rating and supplement guide — by Aryan.">
+<!-- bro really opened devtools for THIS 😂 go touch some grass -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+/* ---------------------------------------------------------
+   if you're reading the CSS instead of using the app...
+   ngl that's kinda sus behavior chief 🕵️
+--------------------------------------------------------- */
+:root{
+  --bg:#0b0d12;
+  --bg-soft:#11141b;
+  --card:#161a23;
+  --card-2:#1b202b;
+  --border:#262c3a;
+  --text:#eef1f7;
+  --muted:#8b93a7;
+  --accent:#5ef0c0;
+  --accent-2:#7b8cff;
+  --accent-grad:linear-gradient(135deg,#5ef0c0 0%,#7b8cff 100%);
+  --danger:#ff6b81;
+  --warn:#ffb84d;
+  --radius:18px;
+  --shadow:0 10px 40px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:radial-gradient(circle at 20% -10%, #1a2230 0%, var(--bg) 45%) fixed;
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+h1,h2,h3,.brand{font-family:'Sora',sans-serif;}
+a{color:inherit;}
+::selection{background:var(--accent);color:#0b0d12;}
+
+/* secret note: if you found this comment, the answer to life is protein. 27g of it, ideally. */
+
+/* ===== Top bar ===== */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;
+  background:rgba(11,13,18,.7);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.menu-btn{
+  width:42px;height:42px;border-radius:12px;border:1px solid var(--border);
+  background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  cursor:pointer;transition:.2s;
+}
+.menu-btn:hover{background:var(--card-2);transform:translateY(-1px);}
+.menu-btn span{width:18px;height:2px;background:var(--text);border-radius:2px;}
+.brand{font-weight:800;font-size:20px;letter-spacing:.3px;display:flex;align-items:center;gap:8px;}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent-grad);box-shadow:0 0 14px var(--accent);}
+.brand small{color:var(--muted);font-weight:500;font-size:11px;font-family:'Inter',sans-serif;}
+
+/* ===== Sidebar ===== */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);
+  opacity:0;pointer-events:none;transition:.25s;z-index:60;
+}
+.overlay.open{opacity:1;pointer-events:auto;}
+.sidebar{
+  position:fixed;top:0;left:-340px;width:320px;height:100%;
+  background:var(--bg-soft);border-right:1px solid var(--border);
+  z-index:70;transition:left .3s cubic-bezier(.2,.9,.25,1);
+  padding:22px 18px;display:flex;flex-direction:column;gap:6px;
+}
+.sidebar.open{left:0;}
+.sidebar h3{margin:6px 6px 14px;color:var(--muted);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;}
+.side-link{
+  display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:12px;cursor:pointer;
+  color:var(--text);font-weight:600;font-size:14.5px;transition:.18s;border:1px solid transparent;
+}
+.side-link:hover{background:var(--card);border-color:var(--border);}
+.side-link.active{background:var(--card-2);border-color:var(--accent);color:var(--accent);}
+.side-link .ic{font-size:18px;}
+.sidebar-footer{margin-top:auto;color:var(--muted);font-size:12px;padding:10px 6px;border-top:1px solid var(--border);padding-top:16px;}
+
+/* ===== Layout ===== */
+.wrap{max-width:880px;margin:0 auto;padding:36px 20px 90px;}
+.hero{text-align:center;margin-bottom:34px;}
+.hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 10px;font-weight:800;line-height:1.15;}
+.hero h1 span{background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero p{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto;}
+
+.card{
+  background:linear-gradient(180deg,var(--card),var(--card-2));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:32px;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;top:-60%;right:-30%;width:60%;height:160%;
+  background:radial-gradient(circle, rgba(94,240,192,.08), transparent 60%);
+  pointer-events:none;
+}
+
+/* progress */
+.progress-wrap{margin-bottom:26px;}
+.progress-bar{height:6px;background:var(--bg);border-radius:6px;overflow:hidden;border:1px solid var(--border);}
+.progress-fill{height:100%;background:var(--accent-grad);width:0%;transition:width .4s ease;}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px;}
+
+.step{display:none;animation:fadeUp .4s ease;}
+.step.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+.q-title{font-size:23px;font-weight:700;margin:0 0 6px;}
+.q-sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:600;}
+.field input,.field select{
+  width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--border);
+  background:var(--bg);color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:.2s;
+}
+.field input:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(94,240,192,.15);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+.opt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.opt{
+  border:1px solid var(--border);background:var(--bg);border-radius:14px;
+  padding:16px;cursor:pointer;transition:.18s;text-align:left;
+  display:flex;flex-direction:column;gap:4px;
+}
+.opt:hover{border-color:var(--accent-2);transform:translateY(-2px);}
+.opt.selected{border-color:var(--accent);background:rgba(94,240,192,.08);box-shadow:0 0 0 1px var(--accent) inset;}
+.opt .t{font-weight:700;font-size:15px;}
+.opt .d{font-size:12px;color:var(--muted);}
+
+.nav-btns{display:flex;justify-content:space-between;margin-top:28px;gap:12px;}
+.btn{
+  border:none;padding:13px 26px;border-radius:12px;font-weight:700;font-size:14.5px;cursor:pointer;
+  transition:.2s;font-family:inherit;
+}
+.btn-primary{background:var(--accent-grad);color:#06140f;box-shadow:0 8px 20px rgba(94,240,192,.25);}
+.btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px);}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn-ghost:hover{color:var(--text);border-color:var(--accent-2);}
+.btn-block{width:100%;}
+
+/* result */
+.result-head{text-align:center;margin-bottom:26px;}
+.result-head .badge{
+  display:inline-flex;align-items:center;gap:8px;background:rgba(94,240,192,.1);
+  border:1px solid var(--accent);color:var(--accent);padding:6px 14px;border-radius:30px;font-size:12.5px;font-weight:700;margin-bottom:14px;
+}
+.day-card{border:1px solid var(--border);border-radius:16px;margin-bottom:14px;overflow:hidden;background:var(--bg);}
+.day-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;background:var(--card-2);}
+.day-head .dname{font-weight:700;font-size:15px;}
+.day-head .chev{transition:.25s;color:var(--muted);}
+.day-card.open .chev{transform:rotate(180deg);}
+.day-body{display:none;padding:6px 18px 18px;}
+.day-card.open .day-body{display:block;}
+.meal-block{margin-top:14px;}
+.meal-block h4{font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2);margin:0 0 8px;}
+.meal-opt{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:14px;background:var(--card);}
+.meal-opt .pro{color:var(--accent);font-weight:700;font-size:12.5px;white-space:nowrap;margin-left:10px;}
+
+.ex-block{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--card);font-size:14px;}
+.ex-block .meta{color:var(--muted);font-size:12px;}
+
+.bmi-result{text-align:center;padding:20px 0;}
+.bmi-num{font-size:54px;font-weight:800;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.bmi-cat{font-size:18px;font-weight:700;margin-top:6px;}
+.bmi-bar{height:14px;border-radius:10px;background:linear-gradient(90deg,#5ef0c0,#ffe066 35%,#ffb84d 60%,#ff6b81 85%);position:relative;margin:26px 0 8px;}
+.bmi-marker{position:absolute;top:-7px;width:4px;height:28px;background:#fff;border-radius:3px;box-shadow:0 0 8px #000;}
+.bmi-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);}
+
+.sup-card{border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:18px;margin-bottom:14px;}
+.sup-card h4{margin:0 0 4px;font-size:16px;}
+.sup-card p{margin:0 0 12px;color:var(--muted);font-size:13px;}
+.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.brand-row .name{width:120px;font-size:13px;font-weight:600;flex-shrink:0;}
+.brand-row .bar-bg{flex:1;height:10px;background:var(--card-2);border-radius:6px;overflow:hidden;}
+.brand-row .bar-fill{height:100%;background:var(--accent-grad);border-radius:6px;width:0;transition:width 1s ease;}
+.brand-row .score{width:34px;text-align:right;font-size:12px;color:var(--muted);}
+
+.actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
+.footer-note{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;}
+
+@media(max-width:560px){
+  .opt-grid{grid-template-columns:1fr;}
+  .row2{grid-template-columns:1fr;}
+  .card{padding:22px;}
+}
+</style>
+</head>
+<body>
+
+<!-- if you somehow inspected this far down... respect. but also, go make your diet plan instead 🥗 -->
+
+<div class="topbar">
+  <div class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></div>
+  <div class="brand"><span class="dot"></span>MyDiet <small>by Aryan</small></div>
+  <div style="width:42px"></div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="sidebar" id="sidebar">
+  <h3>Tools</h3>
+  <div class="side-link active" data-view="planner"><span class="ic">🥗</span>Diet Plan Maker</div>
+  <div class="side-link" data-view="workout"><span class="ic">🏋️</span>Workout Routine Maker</div>
+  <div class="side-link" data-view="bmi"><span class="ic">📏</span>BMI Calculator</div>
+  <div class="side-link" data-view="supps"><span class="ic">💊</span>Supplement Recommender</div>
+  <div class="sidebar-footer">MyDiet © 2026 — made by Aryan<br>Free forever. No login required.</div>
+</div>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* ============================================================
+   psst. nothing fishy here, just clean code & good vibes.
+   (but fr, if you're a recruiter reading this — hi, I'm hireable 😎)
+============================================================ */
+
+// ---------- DATA: MEALS (sample structure, expand freely) ----------
+const MEALS = {
+  veg:{
+    breakfast:[
+      ["Moong Daal Chilla (2 pcs) + Mint Chutney",18],
+      ["Besan Chilla + Curd",16],
+      ["Paneer Bhurji (100g) + 2 Multigrain Toast",24],
+      ["Oats Veg Upma + Roasted Peanuts",14],
+      ["Sprouts Salad + Boiled Chana",17],
+      ["Greek Yogurt Bowl + Chia + Almonds",20],
+      ["Stuffed Paneer Paratha + Curd",22]
+    ],
+    lunch:[
+      ["2 Roti + Rajma + Salad",19],
+      ["Brown Rice + Soya Chunk Curry + Veggies",26],
+      ["Paneer Tikka Bowl + Quinoa",28],
+      ["Chole + 2 Roti + Onion Salad",20],
+      ["Dal Tadka + Brown Rice + Sabzi",17],
+      ["Tofu Stir Fry + Brown Rice",24],
+      ["Mixed Veg + Roti + Curd",16]
+    ],
+    dinner:[
+      ["Paneer Bhurji + 2 Roti",22],
+      ["Moong Dal Soup + Veg Salad + Sprouts",15],
+      ["Tofu Curry + Quinoa",23],
+      ["Veg Khichdi + Curd",14],
+      ["Soya Curry + 2 Roti",21],
+      ["Grilled Paneer + Sauteed Veggies",25],
+      ["Lentil Soup + Multigrain Toast",13]
+    ]
+  },
+  nonveg:{
+    breakfast:[
+      ["4 Egg Whites + 2 Whole Eggs Bhurji + Toast",26],
+      ["Chicken Sausage + Scrambled Eggs",24],
+      ["Boiled Eggs (3) + Oats",21],
+      ["Greek Yogurt + Boiled Egg + Berries",19],
+      ["Egg Omelette + Multigrain Toast",20],
+      ["Chicken Mince Bhurji + Toast",27],
+      ["Protein Oats + 2 Boiled Eggs",23]
+    ],
+    lunch:[
+      ["Grilled Chicken Breast (150g) + Brown Rice",35],
+      ["Fish Curry + Brown Rice + Salad",30],
+      ["Chicken Curry + 2 Roti + Salad",32],
+      ["Egg Curry + Rice + Veggies",24],
+      ["Tuna Salad Bowl + Quinoa",28],
+      ["Chicken Tikka + Quinoa Salad",33],
+      ["Mutton Curry (lean) + Roti",29]
+    ],
+    dinner:[
+      ["Grilled Fish + Sauteed Veggies",27],
+      ["Chicken Soup + Boiled Egg Salad",22],
+      ["Stir Fry Chicken + Brown Rice",30],
+      ["Egg White Omelette + Salad",18],
+      ["Tandoori Chicken (150g) + Salad",31],
+      ["Prawn Curry + Veg + Roti",26],
+      ["Chicken Breast + Steamed Veg",29]
+    ]
+  }
+};
+const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+// ---------- DATA: WORKOUTS by goal + type ----------
+const WORKOUTS = {
+  gym:{
+    "Muscle Gain":[
+      ["Chest + Triceps","Bench Press, Incline DB Press, Dips, Tricep Pushdown, Skull Crushers"],
+      ["Back + Biceps","Deadlift, Lat Pulldown, Barbell Row, Bicep Curl, Hammer Curl"],
+      ["Legs","Squats, Leg Press, Lunges, Leg Curl, Calf Raises"],
+      ["Shoulders","Overhead Press, Lateral Raise, Face Pull, Front Raise"],
+      ["Rest / Active Recovery","Light walk, stretching, mobility work"],
+      ["Full Body Pump","Compound circuit: Squat, Bench, Row, Press"],
+      ["Rest","Recovery + meal prep"]
+    ],
+    "Getting Lean":[
+      ["Upper Body + HIIT","Push-ups, Pull-ups, DB Press, 15 min HIIT"],
+      ["Lower Body + Core","Squats, Lunges, Plank, Leg Raises"],
+      ["Cardio + Abs","30 min incline walk/run, Ab circuit"],
+      ["Full Body Circuit","Kettlebell swings, Burpees, Rows"],
+      ["Active Recovery","Stretch, mobility, light cardio"],
+      ["Upper Body + Core","DB Press, Rows, Plank variations"],
+      ["Rest"," "]
+    ],
+    "Bulking":[
+      ["Chest + Back","Bench Press, Barbell Row, Incline Press, Pull-ups"],
+      ["Legs (Heavy)","Squats, Romanian Deadlift, Leg Press, Calves"],
+      ["Shoulders + Arms","OHP, Lateral Raise, Curls, Tricep Extension"],
+      ["Rest","Recovery, extra meal"],
+      ["Full Body Strength","Deadlift, Bench, Squat — heavy compound"],
+      ["Back + Biceps","Rows, Pulldown, Curls"],
+      ["Rest"," "]
+    ],
+    "Aesthetic Physique":[
+      ["Chest + Shoulders","Incline Press, Cable Fly, Lateral Raise, Arnold Press"],
+      ["Back (V-taper focus)","Pull-ups, Lat Pulldown, Straight Arm Pulldown, Row"],
+      ["Legs + Core","Squats, Lunges, Hanging Leg Raise"],
+      ["Arms + Abs","Curls, Tricep work, Cable Crunch"],
+      ["Cardio + Mobility","20 min cardio + stretching"],
+      ["Shoulders + Back","Lateral Raise, Face Pull, Rear Delt Fly"],
+      ["Rest"," "]
+    ],
+    "Weight Loss":[
+      ["Full Body HIIT","Burpees, Mountain Climbers, Jump Squats"],
+      ["Strength Circuit","Goblet Squat, Push-up, Row, Plank"],
+      ["Cardio (Steady State)","30-40 min brisk walk/jog"],
+      ["Upper Body + Core","DB Press, Rows, Ab circuit"],
+      ["Lower Body + Cardio","Lunges, Step-ups, 20 min cardio"],
+      ["Active Recovery","Yoga / stretching / walk"],
+      ["Rest"," "]
+    ]
+  },
+  home:{
+    "Muscle Gain":[
+      ["Push Day","Push-ups (4 sets), Dips on chair, Pike Push-ups"],
+      ["Pull Day","Pull-ups (if bar available) or Towel Rows, Superman"],
+      ["Legs","Bodyweight Squats, Bulgarian Split Squat, Glute Bridge"],
+      ["Core + Shoulders","Plank, Pike Push-up, Lateral Raise (water bottles)"],
+      ["Rest"," "],
+      ["Full Body","Burpees, Squats, Push-ups, Rows"],
+      ["Rest"," "]
+    ],
+    "Getting Lean":[
+      ["HIIT Cardio","Jumping Jacks, High Knees, Burpees — 20 min"],
+      ["Core + Lower Body","Squats, Lunges, Plank, Leg Raises"],
+      ["Upper Body","Push-ups, Tricep Dips, Superman"],
+      ["Active Recovery","Stretch + walk"],
+      ["Full Body Circuit","Mountain Climbers, Squat Jumps, Push-ups"],
+      ["Cardio","30 min brisk walk/run"],
+      ["Rest"," "]
+    ],
+    "Bulking":[
+      ["Push Day (Heavy reps)","Push-ups till failure x4, Dips"],
+      ["Pull Day","Rows w/ bag, Superman holds"],
+      ["Legs","Squats, Step-ups, Lunges (weighted with bag)"],
+      ["Rest"," "],
+      ["Full Body","Burpees, Push-ups, Squats"],
+      ["Core","Plank, Leg Raises, Russian Twists"],
+      ["Rest"," "]
+    ],
+    "Aesthetic Physique":[
+      ["Upper Body Focus","Push-ups variations, Pike Push-up, Dips"],
+      ["Core + Back","Superman, Plank, Towel Rows"],
+      ["Lower Body","Lunges, Squats, Glute Bridge"],
+      ["Cardio + Abs","20 min cardio + Ab circuit"],
+      ["Active Recovery"," "],
+      ["Full Body","Circuit of all major movements"],
+      ["Rest"," "]
+    ],
+    "Weight Loss":[
+      ["HIIT","Burpees, Jump Squats, Mountain Climbers"],
+      ["Full Body Circuit","Push-ups, Squats, Plank, Lunges"],
+      ["Cardio","30 min walk/jog"],
+      ["Core","Plank variations, Leg Raises"],
+      ["Active Recovery"," "],
+      ["HIIT","Repeat circuit"],
+      ["Rest"," "]
+    ]
+  },
+  running:{
+    "Weight Loss":[["Easy Run","30 min easy pace"],["Interval Run","6x400m fast + jog recovery"],["Rest / Stretch"," "],["Tempo Run","20 min steady pace"],["Long Run","40-50 min easy"],["Core + Mobility","Plank, stretching"],["Rest"," "]],
+    "Getting Lean":[["Easy Run","25 min"],["Sprint Intervals","8x100m sprints"],["Core","Plank, leg raises"],["Tempo Run","20 min"],["Long Run","35 min"],["Rest"," "],["Easy Run + Stretch","20 min"]],
+    "default":[["Easy Run","25-30 min"],["Rest / Mobility"," "],["Interval Run","Intervals"],["Easy Run","30 min"],["Strength + Core"," "],["Long Run","40 min"],["Rest"," "]]
+  },
+  nothing:{
+    "default":[["Brisk Walk","20-30 min walk"],["Bodyweight Basics","Squats, Push-ups (knee variation ok), Plank"],["Walk + Stretch"," "],["Light Bodyweight Circuit"," "],["Walk","30 min"],["Stretch + Mobility"," "],["Rest"," "]]
+  }
+};
+
+// ---------- DATA: SUPPLEMENTS ----------
+const SUPP_DB = {
+  protein:{name:"Whey Protein",desc:"Helps hit your daily protein target easily, supports muscle repair & growth.",brands:[["MuscleBlaze Biozyme",88],["Avvatar Whey Pro",85],["GNC AMP Gold",82],["ON Gold Standard",94],["MyProtein Impact Whey",87]]},
+  creatine:{name:"Creatine Monohydrate",desc:"Improves strength, power output and muscle volume over time.",brands:[["MuscleBlaze Creatine",90],["GNC Creatine Monohydrate",86],["Avvatar Creatine",84],["MyProtein Creapure",92]]},
+  preworkout:{name:"Pre-Workout",desc:"Boosts energy & focus for intense sessions.",brands:[["MuscleBlaze PRE",83],["GNC Pump",80],["Avvatar Pre-Workout",81],["Optimum Nutrition Gold Pre",88]]},
+  lcarnitine:{name:"L-Carnitine",desc:"May support fat utilization during workouts when combined with training.",brands:[["GNC L-Carnitine",79],["MuscleBlaze L-Carnitine Liquid",82],["Avvatar L-Carnitine",77]]},
+  caffeine:{name:"Coffee / Caffeine",desc:"Cheap, natural energy & focus boost before training.",brands:[["Black Coffee (any brand)",90],["Green Tea",75],["MuscleBlaze Cuppa Joe",80]]},
+  multivitamin:{name:"Multivitamin",desc:"Covers micronutrient gaps from a busy diet.",brands:[["GNC Mega Men",85],["Avvatar Multivitamin",82],["MuscleBlaze Multivitamin",83]]}
+};
+
+// ---------- STATE ----------
+let state = { view:"planner" };
+
+// ---------- HELPERS ----------
+function rndPick(arr,n){ return arr; } // currently returns all 3 options
+const $ = sel => document.querySelector(sel);
+const app = $("#app");
+
+// ---------- SIDEBAR ----------
+const sidebar = $("#sidebar"), overlay = $("#overlay"), menuBtn = $("#menuBtn");
+menuBtn.onclick = ()=>{ sidebar.classList.add("open"); overlay.classList.add("open"); };
+overlay.onclick = ()=>{ sidebar.classList.remove("open"); overlay.classList.remove("open"); };
+document.querySelectorAll(".side-link").forEach(el=>{
+  el.onclick = ()=>{
+    document.querySelectorAll(".side-link").forEach(s=>s.classList.remove("active"));
+    el.classList.add("active");
+    state.view = el.dataset.view;
+    sidebar.classList.remove("open"); overlay.classList.remove("open");
+    render();
+  };
+});
+
+// ================= VIEW: DIET PLANNER =================
+const dietState = { step:0, data:{ name:"",age:"",height:"",weight:"",gender:"",goal:"",type:"",intensity:"",diet:"" } };
+const dietSteps = [
+  {key:"basic"},
+  {key:"goal",title:"What's your main goal?",sub:"Pick the one that fits you best.",field:"goal",options:[
+    ["Getting Lean","Lower body fat, stay toned"],["Muscle Gain","Build size & strength"],
+    ["Aesthetic Physique","V-taper, defined look"],["Bulking","Maximize mass gain"],["Weight Loss","Reduce overall weight"]]},
+  {key:"type",title:"What type of workout do you do?",sub:"Be honest, this shapes your plan.",field:"type",options:[
+    ["Gym","Regular gym training"],["Home Workout","Bodyweight at home"],["Normal Running","Running / jogging"],["Nothing","Not active currently"]]},
+  {key:"intensity",title:"How intense is your routine?",sub:"This decides calorie & macro targets.",field:"intensity",options:[
+    ["45 min/day, 3x week","Moderate & consistent"],["Intense Workout","High effort, daily"],["Rarely hits gym","Very light activity"],["Daily 1hr+","High frequency & duration"]]},
+  {key:"diet",title:"Veg or Non-Veg?",sub:"We'll tailor every meal to this.",field:"diet",options:[["Veg","Plant-based meals only"],["Non-Veg","Includes eggs, chicken, fish"]]},
+  {key:"result"}
+];
+
+function renderPlanner(){
+  app.innerHTML = `
+    <div class="hero">
+      <h1>Your Personal <span>Diet Plan</span>, Built for You</h1>
+      <p>Answer a few quick questions and get a full 7-day diet plan with protein counts — downloadable as a clean PDF.</p>
+    </div>
+    <div class="card" id="dietCard"></div>
+  `;
+  renderDietStep();
+}
+
+function renderDietStep(){
+  const card = $("#dietCard");
+  const total = dietSteps.length;
+  const pct = Math.round((dietState.step/(total-1))*100);
+  const s = dietSteps[dietState.step];
+
+  let inner = `<div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-label"><span>Step ${dietState.step+1} of ${total}</span><span>${pct}%</span></div>
+  </div>`;
+
+  if(s.key==="basic"){
+    const d = dietState.data;
+    inner += `
+      <h2 class="q-title">Tell us about you</h2>
+      <p class="q-sub">Basic info to personalize your plan.</p>
+      <div class="field"><label>Full Name</label><input id="f_name" value="${d.name}" placeholder="e.g. Aryan Sharma"></div>
+      <div class="row2">
+        <div class="field"><label>Age</label><input id="f_age" type="number" value="${d.age}" placeholder="22"></div>
+        <div class="field"><label>Gender</label><select id="f_gender">
+          <option value="">Select</option>
+          <option value="Male" ${d.gender==="Male"?"selected":""}>Male</option>
+          <option value="Female" ${d.gender==="Female"?"selected":""}>Female</option>
+          <option value="Other" ${d.gender==="Other"?"selected":""}>Other</option>
+        </select></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Height (cm)</label><input id="f_height" type="number" value="${d.height}" placeholder="175"></div>
+        <div class="field"><label>Weight (kg)</label><input id="f_weight" type="number" value="${d.weight}" placeholder="70"></div>
+      </div>
+      <div class="nav-btns"><span></span><button class="btn btn-primary" id="nextBtn">Continue →</button></div>
+    `;
+  } else if(s.key==="result"){
+    inner += renderDietResult();
+  } else {
+    inner += `<h2 class="q-title">${s.title}</h2><p class="q-sub">${s.sub}</p><div class="opt-grid">`;
+    s.options.forEach(([t,d])=>{
+      const sel = dietState.data[s.field]===t ? "selected":"";
+      inner += `<div class="opt ${sel}" data-val="${t}"><span class="t">${t}</span><span class="d">${d}</span></div>`;
+    });
+    inner += `</div><div class="nav-btns">
+      <button class="btn btn-ghost" id="backBtn">← Back</button>
+      <button class="btn btn-primary" id="nextBtn" ${dietState.data[s.field]?"":"disabled"}>Continue →</button>
+    </div>`;
+  }
+  card.innerHTML = inner;
+  bindDietStep(s);
+}
+
+function bindDietStep(s){
+  const back = $("#backBtn");
+  if(back) back.onclick = ()=>{ dietState.step--; renderDietStep(); };
+
+  if(s.key==="basic"){
+    $("#nextBtn").onclick = ()=>{
+      dietState.data.name = $("#f_name").value || "Friend";
+      dietState.data.age = $("#f_age").value;
+      dietState.data.gender = $("#f_gender").value;
+      dietState.data.height = $("#f_height").value;
+      dietState.data.weight = $("#f_weight").value;
+      dietState.step++; renderDietStep();
+    };
+  } else if(s.key!=="result"){
+    document.querySelectorAll(`#dietCard .opt`).forEach(o=>{
+      o.onclick = ()=>{
+        dietState.data[s.field] = o.dataset.val;
+        renderDietStep();
+      };
+    });
+    const nb = $("#nextBtn");
+    if(nb) nb.onclick = ()=>{ dietState.step++; renderDietStep(); };
+  } else {
+    bindDietResult();
+  }
+}
+
+function renderDietResult(){
+  const d = dietState.data;
+  const dietKey = d.diet === "Veg" ? "veg" : "nonveg";
+  let html = `
+    <div class="result-head">
+      <div class="badge">✓ Plan Ready</div>
+      <h2 class="q-title">Hey ${d.name}, here's your 7-day diet plan</h2>
+      <p class="q-sub">Goal: ${d.goal} · ${d.diet} · ${d.intensity}</p>
+    </div>
+    <div id="daysWrap">`;
+  DAYS.forEach((day,i)=>{
+    html += `<div class="day-card" data-day="${i}">
+      <div class="day-head"><span class="dname">${day}</span><span class="chev">▾</span></div>
+      <div class="day-body">
+        ${["breakfast","lunch","dinner"].map(meal=>`
+          <div class="meal-block"><h4>${meal}</h4>
+            ${MEALS[dietKey][meal][i].length ? "" : ""}
+            ${MEALS[dietKey][meal].filter((_,idx)=>true).slice(0,0)}
+            ${[0,1,2].map(opt=>{
+              const arr = MEALS[dietKey][meal];
+              const item = arr[(i+opt)%arr.length];
+              return `<div class="meal-opt"><span>${item[0]}</span><span class="pro">${item[1]}g protein</span></div>`;
+            }).join("")}
+          </div>`).join("")}
+      </div>
+    </div>`;
+  });
+  html += `</div>
+    <div class="actions">
+      <button class="btn btn-primary" id="downloadDiet">⬇ Download PDF</button>
+      <button class="btn btn-ghost" id="restartDiet">Start Over</button>
+    </div>
+    <p class="footer-note">This plan is general guidance, not medical advice. Consult a professional for medical conditions.</p>
+  `;
+  return html;
+}
+
+function bindDietResult(){
+  document.querySelectorAll(".day-card").forEach(dc=>{
+    dc.querySelector(".day-head").onclick = ()=> dc.classList.toggle("open");
+  });
+  document.querySelectorAll(".day-card")[0]?.classList.add("open");
+  $("#restartDiet").onclick = ()=>{ dietState.step=0; dietState.data={name:"",age:"",height:"",weight:"",gender:"",goal:"",type:"",intensity:"",diet:""}; renderDietStep(); };
+  $("#downloadDiet").onclick = ()=> generateDietPDF(dietState.data);
+}
+
+// ---------- PDF GENERATION ----------
+function generateDietPDF(d){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:"pt",format:"a4"});
+  const W = doc.internal.pageSize.getWidth();
+  let y = 0;
+
+  function header(){
+    doc.setFillColor(11,13,18); doc.rect(0,0,W,90,"F");
+    doc.setTextColor(94,240,192); doc.setFont("helvetica","bold"); doc.setFontSize(22);
+    doc.text("MyDiet", 40, 45);
+    doc.setTextColor(150,160,180); doc.setFontSize(10); doc.setFont("helvetica","normal");
+    doc.text("Personalized Diet Plan", 40, 62);
+    doc.setTextColor(255,255,255); doc.setFontSize(9);
+    doc.text(`${d.name}  |  Age ${d.age}  |  ${d.gender}  |  ${d.height}cm / ${d.weight}kg`, 40, 78);
+    return 110;
+  }
+  function footer(){
+    doc.setTextColor(140,140,140); doc.setFontSize(9);
+    doc.text("Made by Aryan — MyDiet.app", W/2, 815, {align:"center"});
+  }
+
+  y = header();
+  doc.setTextColor(20,20,20); doc.setFontSize(11); doc.setFont("helvetica","bold");
+  doc.text(`Goal: ${d.goal}   |   Type: ${d.type}   |   Intensity: ${d.intensity}   |   Diet: ${d.diet}`, 40, y);
+  y += 26;
+
+  const dietKey = d.diet === "Veg" ? "veg" : "nonveg";
+  DAYS.forEach((day,i)=>{
+    if(y > 700){ footer(); doc.addPage(); y = header(); }
+    doc.setFillColor(27,32,43); doc.roundedRect(40,y,W-80,18,4,4,"F");
+    doc.setTextColor(94,240,192); doc.setFontSize(12); doc.setFont("helvetica","bold");
+    doc.text(day, 48, y+13);
+    y += 28;
+    ["Breakfast","Lunch","Dinner"].forEach((mealLabel,mi)=>{
+      const meal = mealLabel.toLowerCase();
+      doc.setTextColor(120,140,255); doc.setFontSize(9.5); doc.setFont("helvetica","bold");
+      doc.text(mealLabel.toUpperCase(), 48, y);
+      y += 12;
+      [0,1,2].forEach(opt=>{
+        const arr = MEALS[dietKey][meal];
+        const item = arr[(i+opt)%arr.length];
+        doc.setTextColor(40,40,40); doc.setFont("helvetica","normal"); doc.setFontSize(9.5);
+        doc.text(`• ${item[0]}`, 56, y);
+        doc.setTextColor(94,160,120); doc.setFont("helvetica","bold");
+        doc.text(`${item[1]}g protein`, W-110, y);
+        y += 13;
+      });
+      y += 4;
+    });
+    y += 10;
+  });
+  footer();
+  doc.save(`MyDiet_Plan_${d.name.replace(/\s+/g,"_")}.pdf`);
+}
+
+// ================= VIEW: WORKOUT MAKER =================
+const wState = { step:0, data:{goal:"",type:"",intensity:""} };
+const wSteps = [
+  {title:"What's your main goal?",field:"goal",options:[["Muscle Gain",""],["Getting Lean",""],["Bulking",""],["Aesthetic Physique",""],["Weight Loss",""]]},
+  {title:"Workout type?",field:"type",options:[["Gym",""],["Home Workout",""],["Normal Running",""],["Nothing",""]]},
+  {title:"Intensity?",field:"intensity",options:[["45 min/day, 3x week",""],["Intense Workout",""],["Rarely hits gym",""],["Daily 1hr+",""]]},
+  {key:"result"}
+];
+function renderWorkout(){
+  app.innerHTML = `
+    <div class="hero"><h1>Custom <span>Workout Plan</span></h1>
+    <p>A 7-day routine built around your goal, equipment and intensity.</p></div>
+    <div class="card" id="wCard"></div>`;
+  renderWStep();
+}
+function renderWStep(){
+  const card = $("#wCard");
+  const s = wSteps[wState.step];
+  const pct = Math.round((wState.step/(wSteps.length-1))*100);
+  let inner = `<div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-label"><span>Step ${wState.step+1} of ${wSteps.length}</span><span>${pct}%</span></div></div>`;
+  if(s.key==="result"){
+    inner += renderWorkoutResult();
+  } else {
+    inner += `<h2 class="q-title">${s.title}</h2><div class="opt-grid">`;
+    s.options.forEach(([t])=>{
+      const sel = wState.data[s.field]===t?"selected":"";
+      inner += `<div class="opt ${sel}" data-val="${t}"><span class="t">${t}</span></div>`;
+    });
+    inner += `</div><div class="nav-btns">
+      <button class="btn btn-ghost" id="wBack">← Back</button>
+      <button class="btn btn-primary" id="wNext" ${wState.data[s.field]?"":"disabled"}>Continue →</button></div>`;
+  }
+  card.innerHTML = inner;
+  const back = $("#wBack"); if(back) back.onclick=()=>{ wState.step--; renderWStep(); };
+  if(s.key!=="result"){
+    document.querySelectorAll("#wCard .opt").forEach(o=>{
+      o.onclick = ()=>{ wState.data[s.field]=o.dataset.val; renderWStep(); };
+    });
+    const nb = $("#wNext"); if(nb) nb.onclick=()=>{ wState.step++; renderWStep(); };
+  } else {
+    $("#downloadWorkout").onclick = ()=> generateWorkoutPDF(wState.data, getWorkoutPlan(wState.data));
+    $("#restartWorkout").onclick = ()=>{ wState.step=0; wState.data={goal:"",type:"",intensity:""}; renderWStep(); };
+  }
+}
+function getWorkoutPlan(d){
+  const typeKey = d.type==="Gym"?"gym": d.type==="Home Workout"?"home": d.type==="Normal Running"?"running":"nothing";
+  const bank = WORKOUTS[typeKey];
+  return bank[d.goal] || bank["default"] || Object.values(bank)[0];
+}
+function renderWorkoutResult(){
+  const plan = getWorkoutPlan(wState.data);
+  let html = `<div class="result-head"><div class="badge">✓ Plan Ready</div>
+    <h2 class="q-title">Your 7-Day Workout Plan</h2>
+    <p class="q-sub">${wState.data.goal} · ${wState.data.type} · ${wState.data.intensity}</p></div>`;
+  plan.forEach(([title,detail],i)=>{
+    html += `<div class="ex-block"><div><b>${DAYS[i]}: ${title}</b><div class="meta">${detail}</div></div></div>`;
+  });
+  html += `<div class="actions">
+    <button class="btn btn-primary" id="downloadWorkout">⬇ Download PDF</button>
+    <button class="btn btn-ghost" id="restartWorkout">Start Over</button></div>`;
+  return html;
+}
+function generateWorkoutPDF(d, plan){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:"pt",format:"a4"});
+  const W = doc.internal.pageSize.getWidth();
+  doc.setFillColor(11,13,18); doc.rect(0,0,W,90,"F");
+  doc.setTextColor(123,140,255); doc.setFont("helvetica","bold"); doc.setFontSize(22);
+  doc.text("MyDiet", 40, 45);
+  doc.setTextColor(150,160,180); doc.setFontSize(10); doc.setFont("helvetica","normal");
+  doc.text("Personalized Workout Plan", 40, 62);
+  doc.setTextColor(255,255,255); doc.setFontSize(9);
+  doc.text(`Goal: ${d.goal}  |  Type: ${d.type}  |  Intensity: ${d.intensity}`, 40, 78);
+  let y = 120;
+  plan.forEach(([title,detail],i)=>{
+    doc.setFillColor(27,32,43); doc.roundedRect(40,y-14,W-80,24,4,4,"F");
+    doc.setTextColor(94,240,192); doc.setFont("helvetica","bold"); doc.setFontSize(12);
+    doc.text(`${DAYS[i]} — ${title}`, 48, y+2);
+    y += 22;
+    doc.setTextColor(60,60,60); doc.setFont("helvetica","normal"); doc.setFontSize(9.5);
+    doc.text(detail, 48, y, {maxWidth:W-96});
+    y += 36;
+  });
+  doc.setTextColor(140,140,140); doc.setFontSize(9);
+  doc.text("Made by Aryan — MyDiet.app", W/2, 815, {align:"center"});
+  doc.save("MyDiet_Workout_Plan.pdf");
+}
+
+// ================= VIEW: BMI CALCULATOR =================
+function renderBMI(){
+  app.innerHTML = `
+    <div class="hero"><h1>BMI <span>Calculator</span></h1><p>Instantly check your Body Mass Index and what it means.</p></div>
+    <div class="card">
+      <div class="row2">
+        <div class="field"><label>Height (cm)</label><input id="bmiHeight" type="number" placeholder="175"></div>
+        <div class="field"><label>Weight (kg)</label><input id="bmiWeight" type="number" placeholder="70"></div>
+      </div>
+      <button class="btn btn-primary btn-block" id="bmiCalc">Calculate BMI</button>
+      <div id="bmiOut"></div>
+    </div>`;
+  $("#bmiCalc").onclick = ()=>{
+    const h = parseFloat($("#bmiHeight").value)/100;
+    const w = parseFloat($("#bmiWeight").value);
+    if(!h||!w){ $("#bmiOut").innerHTML = `<p class="q-sub" style="margin-top:16px;color:var(--danger)">Please enter valid height & weight.</p>`; return; }
+    const bmi = w/(h*h);
+    let cat, color, pos;
+    if(bmi<18.5){cat="Underweight";color="var(--warn)";pos=(bmi/18.5)*20;}
+    else if(bmi<25){cat="Healthy / Normal";color="var(--accent)";pos=20+((bmi-18.5)/6.5)*30;}
+    else if(bmi<30){cat="Overweight";color="var(--warn)";pos=50+((bmi-25)/5)*25;}
+    else {cat="Obese";color="var(--danger)";pos=Math.min(75+((bmi-30)/10)*25,98);}
+    $("#bmiOut").innerHTML = `
+      <div class="bmi-result">
+        <div class="bmi-num">${bmi.toFixed(1)}</div>
+        <div class="bmi-cat" style="color:${color}">${cat}</div>
+        <div class="bmi-bar"><div class="bmi-marker" style="left:${pos}%"></div></div>
+        <div class="bmi-scale"><span>Under</span><span>Normal</span><span>Over</span><span>Obese</span></div>
+        <p class="q-sub" style="margin-top:18px">${
+          cat==="Healthy / Normal" ? "Great! Maintain your current habits with balanced nutrition & regular movement."
+          : cat==="Underweight" ? "Consider a calorie surplus with protein-rich meals — try our Diet Plan Maker."
+          : "Consider a structured diet + workout plan to move toward a healthier range — check our Diet & Workout tools."
+        }</p>
+      </div>`;
+  };
+}
+
+// ================= VIEW: SUPPLEMENT RECOMMENDER =================
+const supState = { step:0, data:{} };
+const supQs = [
+  {q:"How long have you been training?",key:"experience",opts:["< 3 months","3-12 months","1-3 years","3+ years"]},
+  {q:"Do you feel tired / low energy before workouts?",key:"tired",opts:["Yes, often","Sometimes","Rarely","Never"]},
+  {q:"Are you finding it hard to hit your daily protein target from food alone?",key:"protein_gap",opts:["Yes, very hard","Somewhat","No, I manage fine"]},
+  {q:"What's your main goal?",key:"goal",opts:["Muscle Gain","Strength/Power","Fat Loss","General Fitness"]},
+  {q:"Do you want a natural energy boost over supplements like pre-workout?",key:"natural",opts:["Yes, prefer natural","No, I'm okay with pre-workout","Either is fine"]}
+];
+function renderSupps(){
+  app.innerHTML = `<div class="hero"><h1>Supplement <span>Recommender</span></h1>
+    <p>Answer a few quick questions to get supplements that actually fit your needs.</p></div>
+    <div class="card" id="supCard"></div>`;
+  renderSupStep();
+}
+function renderSupStep(){
+  const card = $("#supCard");
+  if(supState.step >= supQs.length){ card.innerHTML = renderSupResult(); bindSupResult(); return; }
+  const s = supQs[supState.step];
+  const pct = Math.round((supState.step/supQs.length)*100);
+  card.innerHTML = `
+    <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-label"><span>Question ${supState.step+1} of ${supQs.length}</span><span>${pct}%</span></div></div>
+    <h2 class="q-title">${s.q}</h2>
+    <div class="opt-grid">${s.opts.map(o=>`<div class="opt ${supState.data[s.key]===o?"selected":""}" data-val="${o}"><span class="t">${o}</span></div>`).join("")}</div>
+    <div class="nav-btns">
+      <button class="btn btn-ghost" id="supBack" ${supState.step===0?"disabled":""}>← Back</button>
+      <button class="btn btn-primary" id="supNext" ${supState.data[s.key]?"":"disabled"}>Continue →</button>
+    </div>`;
+  document.querySelectorAll("#supCard .opt").forEach(o=>{
+    o.onclick = ()=>{ supState.data[s.key]=o.dataset.val; renderSupStep(); };
+  });
+  $("#supBack").onclick = ()=>{ supState.step--; renderSupStep(); };
+  $("#supNext").onclick = ()=>{ supState.step++; renderSupStep(); };
+}
+function getSupRecommendations(d){
+  const recs = [];
+  if(d.protein_gap && d.protein_gap !== "No, I manage fine") recs.push("protein");
+  if(d.goal === "Muscle Gain" || d.goal === "Strength/Power") recs.push("creatine");
+  if(d.tired === "Yes, often" || d.tired === "Sometimes"){
+    if(d.natural === "Yes, prefer natural") recs.push("caffeine"); else recs.push("preworkout");
+  }
+  if(d.goal === "Fat Loss") recs.push("lcarnitine");
+  recs.push("multivitamin");
+  return [...new Set(recs)];
+}
+function renderSupResult(){
+  const recs = getSupRecommendations(supState.data);
+  let html = `<div class="result-head"><div class="badge">✓ Recommendations Ready</div>
+    <h2 class="q-title">Your Supplement Stack</h2>
+    <p class="q-sub">Based on your training, energy & goals.</p></div>`;
+  recs.forEach(key=>{
+    const s = SUPP_DB[key];
+    const sorted = [...s.brands].sort((a,b)=>b[1]-a[1]);
+    html += `<div class="sup-card"><h4>${s.name}</h4><p>${s.desc}</p>
+      ${sorted.map(([name,score])=>`
+        <div class="brand-row"><div class="name">${name}</div>
+          <div class="bar-bg"><div class="bar-fill" data-w="${score}" style="width:0%"></div></div>
+          <div class="score">${score}</div></div>`).join("")}
+    </div>`;
+  });
+  html += `<div class="actions"><button class="btn btn-ghost" id="restartSup">Retake Quiz</button></div>
+    <p class="footer-note">Ratings are aggregated approximations based on general online reviews — always check current third-party reviews before purchasing.</p>`;
+  return html;
+}
+function bindSupResult(){
+  setTimeout(()=>{
+    document.querySelectorAll(".bar-fill").forEach(b=>{ b.style.width = b.dataset.w + "%"; });
+  }, 80);
+  $("#restartSup").onclick = ()=>{ supState.step=0; supState.data={}; renderSupStep(); };
+}
+
+// ================= ROUTER =================
+function render(){
+  if(state.view==="planner") renderPlanner();
+  else if(state.view==="workout") renderWorkout();
+  else if(state.view==="bmi") renderBMI();
+  else if(state.view==="supps") renderSupps();
+}
+render();
+
+/* end of file. ngl if you read all the way down here you deserve a protein shake 🥤 */
+</script>
+</body>
+</html>
