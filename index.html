@@ -8,7 +8,7 @@
 <meta name="description" content="Get a free personalized diet plan, workout routine, BMI rating and supplement guide — by Aryan.">
 <!-- bro really opened devtools for THIS 😂 go touch some grass -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ---------------------------------------------------------
@@ -16,33 +16,37 @@
    ngl that's kinda sus behavior chief 🕵️
 --------------------------------------------------------- */
 :root{
-  --bg:#0b0d12;
-  --bg-soft:#11141b;
-  --card:#161a23;
-  --card-2:#1b202b;
-  --border:#262c3a;
-  --text:#eef1f7;
-  --muted:#8b93a7;
-  --accent:#5ef0c0;
-  --accent-2:#7b8cff;
-  --accent-grad:linear-gradient(135deg,#5ef0c0 0%,#7b8cff 100%);
-  --danger:#ff6b81;
-  --warn:#ffb84d;
-  --radius:18px;
-  --shadow:0 10px 40px rgba(0,0,0,.45);
+  --bg:#0a0a0a;
+  --bg-soft:#0f0f0f;
+  --card:#131313;
+  --card-2:#181818;
+  --border:#2a2a2a;
+  --border-soft:#1f1f1f;
+  --text:#f5f5f3;
+  --muted:#8a8a85;
+  --accent:#ffffff;
+  --accent-2:#d4d4d0;
+  --accent-grad:linear-gradient(135deg,#ffffff 0%,#bdbdb8 100%);
+  --danger:#e5645f;
+  --warn:#cfa24a;
+  --radius:16px;
+  --shadow:0 20px 60px rgba(0,0,0,.6);
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
-  background:radial-gradient(circle at 20% -10%, #1a2230 0%, var(--bg) 45%) fixed;
+  background:
+    radial-gradient(circle at 15% -10%, rgba(255,255,255,.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 0%, rgba(255,255,255,.03) 0%, transparent 45%),
+    var(--bg) fixed;
   color:var(--text);
   font-family:'Inter',sans-serif;
   min-height:100vh;
   overflow-x:hidden;
 }
-h1,h2,h3,.brand{font-family:'Sora',sans-serif;}
+h1,h2,h3,.brand{font-family:'Fraunces',serif;letter-spacing:-.01em;}
 a{color:inherit;}
-::selection{background:var(--accent);color:#0b0d12;}
+::selection{background:var(--text);color:#0a0a0a;}
 
 /* secret note: if you found this comment, the answer to life is protein. 27g of it, ideally. */
 
@@ -62,9 +66,9 @@ a{color:inherit;}
 }
 .menu-btn:hover{background:var(--card-2);transform:translateY(-1px);}
 .menu-btn span{width:18px;height:2px;background:var(--text);border-radius:2px;}
-.brand{font-weight:800;font-size:20px;letter-spacing:.3px;display:flex;align-items:center;gap:8px;}
-.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent-grad);box-shadow:0 0 14px var(--accent);}
-.brand small{color:var(--muted);font-weight:500;font-size:11px;font-family:'Inter',sans-serif;}
+.brand{font-weight:600;font-size:21px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;}
+.brand .dot{width:7px;height:7px;border-radius:50%;background:var(--text);box-shadow:0 0 10px rgba(255,255,255,.5);}
+.brand small{color:var(--muted);font-weight:500;font-size:10.5px;font-family:'Inter',sans-serif;letter-spacing:.04em;text-transform:uppercase;margin-left:2px;}
 
 /* ===== Sidebar ===== */
 .overlay{
@@ -85,116 +89,120 @@ a{color:inherit;}
   color:var(--text);font-weight:600;font-size:14.5px;transition:.18s;border:1px solid transparent;
 }
 .side-link:hover{background:var(--card);border-color:var(--border);}
-.side-link.active{background:var(--card-2);border-color:var(--accent);color:var(--accent);}
+.side-link.active{background:var(--card-2);border-color:var(--text);color:var(--text);}
 .side-link .ic{font-size:18px;}
 .sidebar-footer{margin-top:auto;color:var(--muted);font-size:12px;padding:10px 6px;border-top:1px solid var(--border);padding-top:16px;}
 
 /* ===== Layout ===== */
-.wrap{max-width:880px;margin:0 auto;padding:36px 20px 90px;}
-.hero{text-align:center;margin-bottom:34px;}
-.hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 10px;font-weight:800;line-height:1.15;}
-.hero h1 span{background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
-.hero p{color:var(--muted);font-size:16px;max-width:560px;margin:0 auto;}
+.wrap{max-width:880px;margin:0 auto;padding:48px 20px 90px;}
+.hero{text-align:center;margin-bottom:40px;}
+.hero .kicker{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;border:1px solid var(--border);padding:5px 14px;border-radius:30px;}
+.hero h1{font-size:clamp(30px,5.2vw,48px);margin:0 0 12px;font-weight:600;line-height:1.12;letter-spacing:-.02em;}
+.hero h1 em,.hero h1 span{font-style:italic;font-weight:500;color:var(--muted);background:none;-webkit-text-fill-color:unset;}
+.hero p{color:var(--muted);font-size:16px;max-width:540px;margin:0 auto;line-height:1.6;}
 
 .card{
   background:linear-gradient(180deg,var(--card),var(--card-2));
   border:1px solid var(--border);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
-  padding:32px;
+  padding:36px;
   position:relative;
   overflow:hidden;
 }
 .card::before{
   content:"";position:absolute;top:-60%;right:-30%;width:60%;height:160%;
-  background:radial-gradient(circle, rgba(94,240,192,.08), transparent 60%);
+  background:radial-gradient(circle, rgba(255,255,255,.04), transparent 60%);
   pointer-events:none;
 }
 
 /* progress */
-.progress-wrap{margin-bottom:26px;}
-.progress-bar{height:6px;background:var(--bg);border-radius:6px;overflow:hidden;border:1px solid var(--border);}
-.progress-fill{height:100%;background:var(--accent-grad);width:0%;transition:width .4s ease;}
-.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px;}
+.progress-wrap{margin-bottom:30px;}
+.progress-bar{height:3px;background:var(--border-soft);border-radius:6px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--text);width:0%;transition:width .4s ease;}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:9px;letter-spacing:.04em;text-transform:uppercase;}
 
 .step{display:none;animation:fadeUp .4s ease;}
 .step.active{display:block;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 
-.q-title{font-size:23px;font-weight:700;margin:0 0 6px;}
-.q-sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+.q-title{font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em;font-family:'Fraunces',serif;}
+.q-sub{color:var(--muted);font-size:14px;margin:0 0 24px;}
 
 .field{margin-bottom:18px;}
-.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:600;}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;}
 .field input,.field select{
-  width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--border);
+  width:100%;padding:13px 14px;border-radius:10px;border:1px solid var(--border);
   background:var(--bg);color:var(--text);font-size:15px;font-family:inherit;outline:none;transition:.2s;
 }
-.field input:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(94,240,192,.15);}
+.field input::placeholder{color:#55554f;}
+.field input:focus,.field select:focus{border-color:var(--text);box-shadow:0 0 0 3px rgba(255,255,255,.06);}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 
 .opt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
 .opt{
-  border:1px solid var(--border);background:var(--bg);border-radius:14px;
-  padding:16px;cursor:pointer;transition:.18s;text-align:left;
+  border:1px solid var(--border);background:var(--bg);border-radius:12px;
+  padding:17px;cursor:pointer;transition:.18s;text-align:left;
   display:flex;flex-direction:column;gap:4px;
 }
-.opt:hover{border-color:var(--accent-2);transform:translateY(-2px);}
-.opt.selected{border-color:var(--accent);background:rgba(94,240,192,.08);box-shadow:0 0 0 1px var(--accent) inset;}
-.opt .t{font-weight:700;font-size:15px;}
+.opt:hover{border-color:var(--accent-2);transform:translateY(-2px);background:var(--card);}
+.opt.selected{border-color:var(--text);background:var(--card-2);box-shadow:0 0 0 1px var(--text) inset;}
+.opt .t{font-weight:600;font-size:15px;}
 .opt .d{font-size:12px;color:var(--muted);}
 
-.nav-btns{display:flex;justify-content:space-between;margin-top:28px;gap:12px;}
+.nav-btns{display:flex;justify-content:space-between;margin-top:30px;gap:12px;}
 .btn{
-  border:none;padding:13px 26px;border-radius:12px;font-weight:700;font-size:14.5px;cursor:pointer;
-  transition:.2s;font-family:inherit;
+  border:none;padding:13px 26px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;
+  transition:.2s;font-family:inherit;letter-spacing:.01em;
 }
-.btn-primary{background:var(--accent-grad);color:#06140f;box-shadow:0 8px 20px rgba(94,240,192,.25);}
-.btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px);}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-primary{background:var(--text);color:#0a0a0a;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+.btn-primary:hover{background:#e8e8e4;transform:translateY(-1px);}
+.btn-primary:disabled{opacity:.3;cursor:not-allowed;transform:none;}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
 .btn-ghost:hover{color:var(--text);border-color:var(--accent-2);}
 .btn-block{width:100%;}
 
 /* result */
-.result-head{text-align:center;margin-bottom:26px;}
+.result-head{text-align:center;margin-bottom:30px;}
 .result-head .badge{
-  display:inline-flex;align-items:center;gap:8px;background:rgba(94,240,192,.1);
-  border:1px solid var(--accent);color:var(--accent);padding:6px 14px;border-radius:30px;font-size:12.5px;font-weight:700;margin-bottom:14px;
+  display:inline-flex;align-items:center;gap:8px;background:var(--card-2);
+  border:1px solid var(--border);color:var(--text);padding:6px 16px;border-radius:30px;font-size:11.5px;font-weight:600;margin-bottom:16px;letter-spacing:.04em;text-transform:uppercase;
 }
-.day-card{border:1px solid var(--border);border-radius:16px;margin-bottom:14px;overflow:hidden;background:var(--bg);}
-.day-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;background:var(--card-2);}
-.day-head .dname{font-weight:700;font-size:15px;}
+.day-card{border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--bg);}
+.day-head{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;cursor:pointer;background:var(--card-2);transition:.15s;}
+.day-head:hover{background:var(--card);}
+.day-head .dname{font-weight:600;font-size:15px;font-family:'Fraunces',serif;}
 .day-head .chev{transition:.25s;color:var(--muted);}
 .day-card.open .chev{transform:rotate(180deg);}
 .day-body{display:none;padding:6px 18px 18px;}
 .day-card.open .day-body{display:block;}
-.meal-block{margin-top:14px;}
-.meal-block h4{font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:var(--accent-2);margin:0 0 8px;}
-.meal-opt{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-size:14px;background:var(--card);}
-.meal-opt .pro{color:var(--accent);font-weight:700;font-size:12.5px;white-space:nowrap;margin-left:10px;}
+.meal-block{margin-top:16px;}
+.meal-block h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 9px;font-weight:600;}
+.meal-opt{display:flex;justify-content:space-between;align-items:center;padding:11px 13px;border:1px solid var(--border-soft);border-radius:9px;margin-bottom:7px;font-size:14px;background:var(--card);}
+.meal-opt .pro{color:var(--text);font-weight:600;font-size:12px;white-space:nowrap;margin-left:10px;opacity:.75;}
 
-.ex-block{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--card);font-size:14px;}
-.ex-block .meta{color:var(--muted);font-size:12px;}
+.ex-block{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border:1px solid var(--border);border-radius:10px;margin-bottom:9px;background:var(--bg);font-size:14px;}
+.ex-block b{font-family:'Fraunces',serif;font-weight:600;}
+.ex-block .meta{color:var(--muted);font-size:12px;margin-top:2px;}
 
-.bmi-result{text-align:center;padding:20px 0;}
-.bmi-num{font-size:54px;font-weight:800;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
-.bmi-cat{font-size:18px;font-weight:700;margin-top:6px;}
-.bmi-bar{height:14px;border-radius:10px;background:linear-gradient(90deg,#5ef0c0,#ffe066 35%,#ffb84d 60%,#ff6b81 85%);position:relative;margin:26px 0 8px;}
-.bmi-marker{position:absolute;top:-7px;width:4px;height:28px;background:#fff;border-radius:3px;box-shadow:0 0 8px #000;}
-.bmi-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);}
+.bmi-result{text-align:center;padding:24px 0 4px;}
+.bmi-num{font-size:58px;font-weight:600;font-family:'Fraunces',serif;color:var(--text);}
+.bmi-cat{font-size:17px;font-weight:600;margin-top:4px;letter-spacing:-.01em;}
+.bmi-bar{height:8px;border-radius:10px;background:linear-gradient(90deg,#5a5a55,#9b9b94 35%,#cfcfc6 60%,#ffffff 85%);position:relative;margin:30px 0 10px;}
+.bmi-marker{position:absolute;top:-6px;width:3px;height:20px;background:#0a0a0a;border-radius:3px;box-shadow:0 0 0 2px #fff;}
+.bmi-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;}
 
-.sup-card{border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:18px;margin-bottom:14px;}
-.sup-card h4{margin:0 0 4px;font-size:16px;}
-.sup-card p{margin:0 0 12px;color:var(--muted);font-size:13px;}
-.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-.brand-row .name{width:120px;font-size:13px;font-weight:600;flex-shrink:0;}
-.brand-row .bar-bg{flex:1;height:10px;background:var(--card-2);border-radius:6px;overflow:hidden;}
-.brand-row .bar-fill{height:100%;background:var(--accent-grad);border-radius:6px;width:0;transition:width 1s ease;}
-.brand-row .score{width:34px;text-align:right;font-size:12px;color:var(--muted);}
+.sup-card{border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:20px;margin-bottom:14px;}
+.sup-card h4{margin:0 0 5px;font-size:17px;font-family:'Fraunces',serif;font-weight:600;}
+.sup-card p{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.5;}
+.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.brand-row .name{width:130px;font-size:12.5px;font-weight:500;flex-shrink:0;color:var(--accent-2);}
+.brand-row .bar-bg{flex:1;height:6px;background:var(--border-soft);border-radius:6px;overflow:hidden;}
+.brand-row .bar-fill{height:100%;background:var(--text);border-radius:6px;width:0;transition:width 1s ease;opacity:.85;}
+.brand-row .score{width:30px;text-align:right;font-size:11.5px;color:var(--muted);}
 
-.actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;}
-.footer-note{text-align:center;color:var(--muted);font-size:12px;margin-top:40px;}
+.actions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;}
+.footer-note{text-align:center;color:#5a5a55;font-size:11.5px;margin-top:44px;line-height:1.6;}
 
 @media(max-width:560px){
   .opt-grid{grid-template-columns:1fr;}
@@ -450,7 +458,8 @@ const dietSteps = [
 function renderPlanner(){
   app.innerHTML = `
     <div class="hero">
-      <h1>Your Personal <span>Diet Plan</span>, Built for You</h1>
+      <span class="kicker">Diet Plan Maker</span>
+      <h1>Your Personal <em>Diet Plan</em>, Built for You</h1>
       <p>Answer a few quick questions and get a full 7-day diet plan with protein counts — downloadable as a clean PDF.</p>
     </div>
     <div class="card" id="dietCard"></div>
@@ -588,17 +597,17 @@ function generateDietPDF(d){
   let y = 0;
 
   function header(){
-    doc.setFillColor(11,13,18); doc.rect(0,0,W,90,"F");
-    doc.setTextColor(94,240,192); doc.setFont("helvetica","bold"); doc.setFontSize(22);
+    doc.setFillColor(10,10,10); doc.rect(0,0,W,90,"F");
+    doc.setTextColor(255,255,255); doc.setFont("helvetica","bold"); doc.setFontSize(22);
     doc.text("MyDiet", 40, 45);
-    doc.setTextColor(150,160,180); doc.setFontSize(10); doc.setFont("helvetica","normal");
+    doc.setTextColor(170,170,165); doc.setFontSize(10); doc.setFont("helvetica","normal");
     doc.text("Personalized Diet Plan", 40, 62);
-    doc.setTextColor(255,255,255); doc.setFontSize(9);
+    doc.setTextColor(220,220,215); doc.setFontSize(9);
     doc.text(`${d.name}  |  Age ${d.age}  |  ${d.gender}  |  ${d.height}cm / ${d.weight}kg`, 40, 78);
     return 110;
   }
   function footer(){
-    doc.setTextColor(140,140,140); doc.setFontSize(9);
+    doc.setTextColor(150,150,150); doc.setFontSize(9);
     doc.text("Made by Aryan — MyDiet.app", W/2, 815, {align:"center"});
   }
 
@@ -610,13 +619,13 @@ function generateDietPDF(d){
   const dietKey = d.diet === "Veg" ? "veg" : "nonveg";
   DAYS.forEach((day,i)=>{
     if(y > 700){ footer(); doc.addPage(); y = header(); }
-    doc.setFillColor(27,32,43); doc.roundedRect(40,y,W-80,18,4,4,"F");
-    doc.setTextColor(94,240,192); doc.setFontSize(12); doc.setFont("helvetica","bold");
+    doc.setFillColor(20,20,20); doc.roundedRect(40,y,W-80,18,4,4,"F");
+    doc.setTextColor(255,255,255); doc.setFontSize(12); doc.setFont("helvetica","bold");
     doc.text(day, 48, y+13);
     y += 28;
     ["Breakfast","Lunch","Dinner"].forEach((mealLabel,mi)=>{
       const meal = mealLabel.toLowerCase();
-      doc.setTextColor(120,140,255); doc.setFontSize(9.5); doc.setFont("helvetica","bold");
+      doc.setTextColor(90,90,90); doc.setFontSize(9.5); doc.setFont("helvetica","bold");
       doc.text(mealLabel.toUpperCase(), 48, y);
       y += 12;
       [0,1,2].forEach(opt=>{
@@ -624,7 +633,7 @@ function generateDietPDF(d){
         const item = arr[(i+opt)%arr.length];
         doc.setTextColor(40,40,40); doc.setFont("helvetica","normal"); doc.setFontSize(9.5);
         doc.text(`• ${item[0]}`, 56, y);
-        doc.setTextColor(94,160,120); doc.setFont("helvetica","bold");
+        doc.setTextColor(20,20,20); doc.setFont("helvetica","bold");
         doc.text(`${item[1]}g protein`, W-110, y);
         y += 13;
       });
@@ -646,7 +655,7 @@ const wSteps = [
 ];
 function renderWorkout(){
   app.innerHTML = `
-    <div class="hero"><h1>Custom <span>Workout Plan</span></h1>
+    <div class="hero"><span class="kicker">Workout Routine Maker</span><h1>Custom <em>Workout Plan</em></h1>
     <p>A 7-day routine built around your goal, equipment and intensity.</p></div>
     <div class="card" id="wCard"></div>`;
   renderWStep();
@@ -703,24 +712,24 @@ function generateWorkoutPDF(d, plan){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({unit:"pt",format:"a4"});
   const W = doc.internal.pageSize.getWidth();
-  doc.setFillColor(11,13,18); doc.rect(0,0,W,90,"F");
-  doc.setTextColor(123,140,255); doc.setFont("helvetica","bold"); doc.setFontSize(22);
+  doc.setFillColor(10,10,10); doc.rect(0,0,W,90,"F");
+  doc.setTextColor(255,255,255); doc.setFont("helvetica","bold"); doc.setFontSize(22);
   doc.text("MyDiet", 40, 45);
-  doc.setTextColor(150,160,180); doc.setFontSize(10); doc.setFont("helvetica","normal");
+  doc.setTextColor(170,170,165); doc.setFontSize(10); doc.setFont("helvetica","normal");
   doc.text("Personalized Workout Plan", 40, 62);
-  doc.setTextColor(255,255,255); doc.setFontSize(9);
+  doc.setTextColor(220,220,215); doc.setFontSize(9);
   doc.text(`Goal: ${d.goal}  |  Type: ${d.type}  |  Intensity: ${d.intensity}`, 40, 78);
   let y = 120;
   plan.forEach(([title,detail],i)=>{
-    doc.setFillColor(27,32,43); doc.roundedRect(40,y-14,W-80,24,4,4,"F");
-    doc.setTextColor(94,240,192); doc.setFont("helvetica","bold"); doc.setFontSize(12);
+    doc.setFillColor(20,20,20); doc.roundedRect(40,y-14,W-80,24,4,4,"F");
+    doc.setTextColor(255,255,255); doc.setFont("helvetica","bold"); doc.setFontSize(12);
     doc.text(`${DAYS[i]} — ${title}`, 48, y+2);
     y += 22;
     doc.setTextColor(60,60,60); doc.setFont("helvetica","normal"); doc.setFontSize(9.5);
     doc.text(detail, 48, y, {maxWidth:W-96});
     y += 36;
   });
-  doc.setTextColor(140,140,140); doc.setFontSize(9);
+  doc.setTextColor(150,150,150); doc.setFontSize(9);
   doc.text("Made by Aryan — MyDiet.app", W/2, 815, {align:"center"});
   doc.save("MyDiet_Workout_Plan.pdf");
 }
@@ -728,7 +737,7 @@ function generateWorkoutPDF(d, plan){
 // ================= VIEW: BMI CALCULATOR =================
 function renderBMI(){
   app.innerHTML = `
-    <div class="hero"><h1>BMI <span>Calculator</span></h1><p>Instantly check your Body Mass Index and what it means.</p></div>
+    <div class="hero"><span class="kicker">BMI Calculator</span><h1>Check Your <em>BMI</em></h1><p>Instantly check your Body Mass Index and what it means.</p></div>
     <div class="card">
       <div class="row2">
         <div class="field"><label>Height (cm)</label><input id="bmiHeight" type="number" placeholder="175"></div>
@@ -772,7 +781,7 @@ const supQs = [
   {q:"Do you want a natural energy boost over supplements like pre-workout?",key:"natural",opts:["Yes, prefer natural","No, I'm okay with pre-workout","Either is fine"]}
 ];
 function renderSupps(){
-  app.innerHTML = `<div class="hero"><h1>Supplement <span>Recommender</span></h1>
+  app.innerHTML = `<div class="hero"><span class="kicker">Supplement Recommender</span><h1>Your <em>Supplement</em> Stack</h1>
     <p>Answer a few quick questions to get supplements that actually fit your needs.</p></div>
     <div class="card" id="supCard"></div>`;
   renderSupStep();
@@ -847,3 +856,4 @@ render();
 </script>
 </body>
 </html>
+
