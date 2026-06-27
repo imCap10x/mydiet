@@ -6,13 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyDiet, Personalized Diet & Workout Planner</title>
 <meta name="description" content="Get a free personalized diet plan, workout routine, BMI rating and supplement guide, by Aryan.">
-<!-- bro really opened devtools for THIS 😂 go touch some grass -->
+<!-- bro really opened devtools for THIS lodeeee 😂 go touch some lund -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ---------------------------------------------------------
-   if you're reading the CSS instead of using the app...
+   if you're reading the CSS then fuck your ass...
    ngl that's kinda sus behavior chief 🕵️
 --------------------------------------------------------- */
 :root{
@@ -69,32 +69,53 @@ a{color:inherit;}
 .brand{font-weight:600;font-size:21px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;}
 .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--text);box-shadow:0 0 10px rgba(255,255,255,.5);}
 .brand small{color:var(--muted);font-weight:500;font-size:10.5px;font-family:'Manrope',sans-serif;letter-spacing:.04em;text-transform:uppercase;margin-left:2px;}
+.brand-wrap{display:flex;flex-direction:column;gap:2px;line-height:1.1;}
+.brand-x{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  display:flex;align-items:center;gap:1px;color:var(--accent-2);
+}
+.brand-x .x-letter{
+  color:var(--danger);font-weight:800;display:inline-block;
+  animation:xGlow 2.6s ease-in-out infinite;
+}
+@keyframes xGlow{0%,100%{text-shadow:0 0 6px rgba(229,100,95,.35);} 50%{text-shadow:0 0 16px rgba(229,100,95,.9);}}
+@media(max-width:560px){ .brand-x{font-size:10.5px;letter-spacing:.14em;} .brand{font-size:18px;} .sidebar{width:88vw;left:-90vw;} }
 
-/* ===== Sidebar ===== */
+/* ===== Sidebar ki mkc ===== */
 .overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);
   opacity:0;pointer-events:none;transition:.25s;z-index:60;
 }
 .overlay.open{opacity:1;pointer-events:auto;}
 .sidebar{
-  position:fixed;top:0;left:-340px;width:320px;height:100%;
+  position:fixed;top:0;left:-380px;width:360px;height:100%;
   background:var(--bg-soft);border-right:1px solid var(--border);
   z-index:70;transition:left .3s cubic-bezier(.2,.9,.25,1);
-  padding:22px 18px;display:flex;flex-direction:column;gap:6px;
+  padding:22px 16px;display:flex;flex-direction:column;gap:4px;
+  overflow-y:auto;
 }
 .sidebar.open{left:0;}
-.sidebar h3{margin:6px 6px 14px;color:var(--muted);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;}
+.sidebar h3{margin:18px 8px 12px;color:var(--muted);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;}
+.sidebar h3:first-of-type{margin-top:6px;}
+.side-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 2px;}
 .side-link{
-  display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:12px;cursor:pointer;
-  color:var(--text);font-weight:600;font-size:14.5px;transition:.18s;border:1px solid transparent;
+  position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:9px;
+  padding:14px 12px;border-radius:14px;cursor:pointer;
+  color:var(--text);font-weight:600;font-size:12.5px;line-height:1.3;
+  border:1px solid var(--border-soft);background:var(--card);
+  transition:transform .2s cubic-bezier(.2,.8,.25,1), border-color .2s, background .2s, box-shadow .2s;
 }
-.side-link:hover{background:var(--card);border-color:var(--border);}
-.side-link.active{background:var(--card-2);border-color:var(--text);color:var(--text);}
-.side-link .ic{font-size:11px;font-weight:700;color:var(--muted);width:24px;flex-shrink:0;font-family:'Manrope',sans-serif;letter-spacing:.02em;}
-.side-link.active .ic{color:var(--text);}
-.new-badge{margin-left:auto;font-size:9px;font-weight:800;letter-spacing:.06em;background:#caa24a;color:#0a0a0a;padding:2px 7px;border-radius:20px;animation:badgePulse 1.8s infinite;}
+.side-link:hover{transform:translateY(-3px);border-color:var(--accent-2);box-shadow:0 10px 24px rgba(0,0,0,.35);}
+.side-link.active{background:var(--card-2);border-color:var(--text);box-shadow:0 0 0 1px var(--text) inset;}
+.side-link .ic{
+  display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;
+  font-size:13px;font-weight:700;color:var(--text);background:rgba(255,255,255,.06);
+  font-family:'Space Grotesk',sans-serif;flex-shrink:0;
+}
+.side-link.active .ic{background:var(--text);color:#0a0a0a;}
+.new-badge{position:absolute;top:10px;right:10px;font-size:8px;font-weight:800;letter-spacing:.05em;background:#caa24a;color:#0a0a0a;padding:2px 6px;border-radius:20px;animation:badgePulse 1.8s infinite;}
 @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(202,162,74,.5);}50%{box-shadow:0 0 0 5px rgba(202,162,74,0);}}
-.sidebar-footer{margin-top:auto;color:var(--muted);font-size:12px;padding:10px 6px;border-top:1px solid var(--border);padding-top:16px;line-height:1.7;}
+.sidebar-footer{margin-top:auto;color:var(--muted);font-size:12px;padding:18px 8px 4px;border-top:1px solid var(--border);margin-top:20px;line-height:1.7;}
 .insta-link{display:inline-flex;align-items:center;gap:6px;color:var(--text);font-weight:600;margin-top:4px;border-bottom:1px solid transparent;transition:.2s;}
 .insta-link:hover{border-bottom-color:var(--text);}
 
@@ -207,6 +228,59 @@ a{color:inherit;}
 .bmi-bar{height:8px;border-radius:10px;background:linear-gradient(90deg,#5a5a55,#9b9b94 35%,#cfcfc6 60%,#ffffff 85%);position:relative;margin:30px 0 10px;}
 .bmi-marker{position:absolute;top:-6px;width:3px;height:20px;background:#0a0a0a;border-radius:3px;box-shadow:0 0 0 2px #fff;}
 .bmi-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;}
+
+/* ===== Gym Budget Planner ===== */
+.budget-goal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-bottom:18px;}
+.budget-goal{
+  border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:16px 14px;cursor:pointer;
+  transition:transform .18s, border-color .18s, background .18s;text-align:center;
+}
+.budget-goal:hover{transform:translateY(-2px);border-color:var(--accent-2);}
+.budget-goal.active{background:var(--text);color:#0a0a0a;border-color:var(--text);}
+.budget-goal .bg-ico{font-size:22px;margin-bottom:6px;}
+.budget-goal .bg-name{font-size:12.5px;font-weight:600;}
+.budget-result{border:1px solid var(--border);background:var(--bg);border-radius:16px;padding:24px;margin-top:6px;animation:cardIn .4s ease;}
+.budget-tier-tag{display:inline-block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border-soft);padding:4px 12px;border-radius:30px;margin-bottom:14px;}
+.budget-tier-tag.home{color:var(--danger);border-color:rgba(229,100,95,.4);}
+.budget-result h3{margin:0 0 6px;font-size:20px;}
+.budget-price{font-size:14px;color:var(--accent-2);font-weight:600;margin-bottom:14px;}
+.budget-why{color:var(--muted);font-size:13.5px;line-height:1.6;margin-bottom:16px;}
+.budget-items{margin:0;padding-left:20px;line-height:1.85;font-size:14px;}
+.budget-items li{margin-bottom:6px;}
+.budget-alt-note{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);}
+
+/* ===== 1-Rep Max Calculator ===== */
+.rm-hero-num{text-align:center;padding:22px 0 6px;}
+.rm-num{font-size:54px;font-weight:600;font-family:'Space Grotesk',sans-serif;}
+.rm-label{color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;margin-top:2px;}
+.rm-table{width:100%;border-collapse:collapse;margin-top:22px;font-size:13.5px;}
+.rm-table th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 6px;border-bottom:1px solid var(--border);}
+.rm-table td{padding:9px 6px;border-bottom:1px solid var(--border-soft);}
+.rm-table tr:last-child td{border-bottom:none;}
+.rm-table .rm-pct-tag{font-weight:600;}
+.rm-table .rm-use{color:var(--muted);font-size:12px;}
+
+/* ===== Water Intake Calculator ===== */
+.water-result{text-align:center;padding:20px 0 6px;}
+.water-num{font-size:54px;font-weight:600;font-family:'Space Grotesk',sans-serif;}
+.water-sub{color:var(--muted);font-size:13px;margin-top:4px;}
+.water-glass-wrap{display:flex;justify-content:center;margin:26px 0 6px;}
+.water-glass-big{
+  width:130px;height:180px;position:relative;overflow:hidden;
+  clip-path:polygon(14% 0%, 86% 0%, 78% 100%, 22% 100%);
+  border:3px solid var(--border);background:rgba(255,255,255,.02);
+}
+.water-fill{position:absolute;left:0;right:0;bottom:0;height:0%;transition:height 1.4s cubic-bezier(.2,.8,.25,1);overflow:hidden;background:linear-gradient(180deg, rgba(123,140,255,.25), rgba(123,140,255,.45));}
+.glass-wave-svg{position:absolute;top:-14px;left:0;width:200%;height:24px;animation:waveScroll 3.2s linear infinite;}
+.glass-wave-svg path{fill:var(--accent-2);opacity:.7;}
+.glass-wave-svg.wave2{animation-duration:4.6s;top:-9px;opacity:.6;animation-direction:reverse;}
+.glass-wave-svg.wave2 path{fill:var(--text);opacity:.4;}
+@keyframes waveScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.water-droplets{display:flex;justify-content:center;gap:6px;margin:20px 0 4px;flex-wrap:wrap;}
+.water-drop{width:13px;height:17px;border-radius:50% 50% 50% 0;background:var(--accent-2);opacity:.22;transform:rotate(45deg);transition:opacity .3s;}
+.water-drop.filled{opacity:.9;background:var(--text);}
+.creatine-note{border:1px solid var(--border);background:var(--card);border-radius:12px;padding:14px 16px;margin-top:18px;font-size:13px;color:var(--accent-2);text-align:left;}
+@media(max-width:560px){ .budget-goal-grid{grid-template-columns:repeat(auto-fit,minmax(90px,1fr));} .rm-table{font-size:12px;} }
 
 .sup-card{border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:20px;margin-bottom:14px;}
 .sup-card h4{margin:0 0 5px;font-size:17px;font-family:'Space Grotesk',sans-serif;font-weight:600;}
@@ -322,6 +396,12 @@ a{color:inherit;}
   transition:opacity .6s ease, visibility .6s ease;
 }
 .intro-splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.intro-kicker{
+  text-align:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(11px,2vw,15px);
+  letter-spacing:.32em;text-transform:uppercase;color:#8a8a85;margin-bottom:14px;opacity:0;
+  animation:introKickerIn 2.6s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes introKickerIn{0%{opacity:0;transform:translateY(8px);}20%{opacity:.85;transform:translateY(0);}100%{opacity:.85;}}
 .intro-text{
   font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(34px,9vw,80px);
   letter-spacing:-.02em;
@@ -383,15 +463,179 @@ a{color:inherit;}
   66%{transform:translate(-30px,30px) scale(.95);}
 }
 @media(max-width:560px){ .blob{filter:blur(50px);opacity:.35;} }
+
+/* ===========================================================
+   FITNESS VIDEO HUB
+=========================================================== */
+.fit-trigger{
+  width:42px;height:42px;border-radius:12px;border:1px solid var(--border);
+  background:var(--card);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.25,1), background .2s, border-color .2s, box-shadow .2s;
+  position:relative;color:var(--text);flex-shrink:0;
+}
+.fit-trigger svg{width:19px;height:19px;position:relative;z-index:1;}
+.fit-trigger:hover{background:var(--card-2);transform:translateY(-1px);border-color:var(--accent-2);box-shadow:0 0 0 4px rgba(255,255,255,.05);}
+.fit-trigger:active{transform:translateY(0) scale(.94);}
+.fit-trigger::after{
+  content:"";position:absolute;inset:-1px;border-radius:13px;
+  background:radial-gradient(circle, rgba(229,100,95,.45), transparent 70%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.fit-trigger:hover::after{opacity:1;}
+.fit-dot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--danger);box-shadow:0 0 0 2px var(--bg);animation:fitPulse 2s infinite;}
+@keyframes fitPulse{0%,100%{box-shadow:0 0 0 2px var(--bg), 0 0 0 0 rgba(229,100,95,.6);}50%{box-shadow:0 0 0 2px var(--bg), 0 0 0 5px rgba(229,100,95,0);}}
+
+.fit-overlay{
+  position:fixed;inset:0;z-index:200;background:rgba(6,7,9,.78);backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.fit-overlay.open{opacity:1;pointer-events:auto;}
+
+.fit-modal{
+  position:fixed;z-index:201;inset:0;
+  background:
+    radial-gradient(circle at 12% -10%, rgba(229,100,95,.07) 0%, transparent 45%),
+    radial-gradient(circle at 88% 0%, rgba(255,255,255,.04) 0%, transparent 45%),
+    var(--bg-soft);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);opacity:0;
+  transition:transform .4s cubic-bezier(.2,.9,.25,1), opacity .35s ease;
+  pointer-events:none;
+}
+.fit-overlay.open .fit-modal{transform:translateY(0);opacity:1;pointer-events:auto;}
+@media(min-width:760px){
+  .fit-modal{inset:3.5% 8%;border-radius:24px;border:1px solid var(--border);box-shadow:0 30px 90px rgba(0,0,0,.65);transform:translateY(24px) scale(.97);}
+  .fit-overlay.open .fit-modal{transform:translateY(0) scale(1);}
+}
+
+.fit-head{
+  display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.fit-back{
+  width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--card);
+  display:none;align-items:center;justify-content:center;cursor:pointer;transition:.18s;color:var(--text);flex-shrink:0;
+}
+.fit-back svg{width:16px;height:16px;}
+.fit-back:hover{background:var(--card-2);border-color:var(--accent-2);}
+.fit-modal[data-view="videos"] .fit-back,.fit-modal[data-view="player"] .fit-back{display:flex;}
+.fit-head-title{flex:1;min-width:0;}
+.fit-head-title h2{margin:0;font-size:18px;font-weight:600;font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fit-head-title p{margin:2px 0 0;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fit-close{
+  width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--card);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.18s;color:var(--text);flex-shrink:0;
+}
+.fit-close svg{width:16px;height:16px;}
+.fit-close:hover{background:var(--danger);border-color:var(--danger);color:#fff;transform:rotate(90deg);}
+
+.fit-body{flex:1;overflow-y:auto;padding:30px 22px 50px;}
+.fit-body::-webkit-scrollbar{width:8px;}
+.fit-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px;}
+
+/* --- categories view --- */
+.fit-intro{text-align:center;max-width:560px;margin:0 auto 32px;}
+.fit-intro .kicker{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;border:1px solid var(--border);padding:5px 14px;border-radius:30px;}
+.fit-intro h1{font-size:clamp(24px,4.2vw,36px);margin:0 0 10px;font-weight:600;letter-spacing:-.02em;}
+.fit-intro p{color:var(--muted);font-size:14.5px;line-height:1.6;margin:0;}
+
+.fit-cats{
+  display:grid;grid-template-columns:repeat(auto-fill, minmax(220px,1fr));gap:14px;
+  max-width:1080px;margin:0 auto;
+}
+.fit-cat{
+  display:flex;align-items:center;gap:14px;padding:18px;border-radius:16px;
+  background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid var(--border);
+  cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.25,1), border-color .2s, box-shadow .2s;
+  opacity:0;transform:translateY(14px);animation:fitCatIn .5s cubic-bezier(.2,.8,.25,1) forwards;
+  position:relative;overflow:hidden;
+}
+.fit-cat::before{content:"";position:absolute;top:-50%;right:-20%;width:55%;height:140%;background:radial-gradient(circle, rgba(255,255,255,.05), transparent 65%);pointer-events:none;}
+.fit-cat:hover{transform:translateY(-4px);border-color:var(--accent-2);box-shadow:0 14px 34px rgba(0,0,0,.45);}
+.fit-cat:active{transform:translateY(-1px) scale(.99);}
+.fit-cat .ico{font-size:26px;flex-shrink:0;width:46px;height:46px;border-radius:13px;background:var(--bg);border:1px solid var(--border-soft);display:flex;align-items:center;justify-content:center;}
+.fit-cat .info{min-width:0;}
+.fit-cat .name{font-weight:600;font-size:14.5px;font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fit-cat .count{color:var(--muted);font-size:11.5px;margin-top:2px;letter-spacing:.02em;}
+@keyframes fitCatIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* --- videos grid view --- */
+.fit-grid-head{max-width:1080px;margin:0 auto 22px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.fit-grid-head h2{margin:0;font-size:21px;font-weight:600;font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;}
+.fit-grid-head span{color:var(--muted);font-size:12.5px;}
+.fit-vgrid{display:grid;grid-template-columns:repeat(auto-fill, minmax(250px,1fr));gap:18px;max-width:1080px;margin:0 auto;}
+.fit-vcard{
+  border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer;
+  transition:transform .25s cubic-bezier(.2,.8,.25,1), border-color .25s, box-shadow .25s;
+  opacity:0;transform:translateY(16px) scale(.99);animation:fitCatIn .5s cubic-bezier(.2,.8,.25,1) forwards;
+}
+.fit-vcard:hover{transform:translateY(-6px);border-color:var(--accent-2);box-shadow:0 18px 40px rgba(0,0,0,.5);}
+.fit-thumb-wrap{position:relative;width:100%;aspect-ratio:16/9;background:var(--bg);overflow:hidden;}
+.fit-thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease;}
+.fit-vcard:hover .fit-thumb-wrap img{transform:scale(1.07);}
+.fit-thumb-wrap .play-ov{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.75) 100%);
+}
+.fit-thumb-wrap .play-circle{
+  width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;
+  transform:scale(.8);opacity:.85;transition:transform .25s cubic-bezier(.2,.8,.25,1), opacity .25s;box-shadow:0 8px 22px rgba(0,0,0,.4);
+}
+.fit-vcard:hover .play-circle{transform:scale(1);opacity:1;}
+.fit-thumb-wrap .play-circle svg{width:18px;height:18px;fill:#0a0a0a;margin-left:2px;}
+.fit-thumb-wrap .dur{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.78);color:#fff;font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;letter-spacing:.02em;}
+.fit-vcard .meta{padding:13px 14px 15px;}
+.fit-vcard .vtitle{font-size:13.5px;font-weight:600;line-height:1.35;margin:0 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.fit-vcard .vsub{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11.5px;}
+.fit-vcard .vsub svg{width:13px;height:13px;flex-shrink:0;opacity:.8;}
+.fit-vcard .vsub .creator{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* --- player view --- */
+.fit-player-wrap{max-width:880px;margin:0 auto;}
+.fit-player-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+.fit-player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.fit-player-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;gap:10px;flex-direction:column;}
+.fit-spin{width:26px;height:26px;border-radius:50%;border:2.5px solid var(--border);border-top-color:var(--text);animation:fitSpin .8s linear infinite;}
+@keyframes fitSpin{to{transform:rotate(360deg);}}
+.fit-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.fit-fallback img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(2px) brightness(.45);}
+.fit-fallback-card{position:relative;z-index:1;text-align:center;max-width:320px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.fit-fallback-card .fb-ico{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.fit-fallback-card .fb-ico svg{width:20px;height:20px;color:#fff;}
+.fit-fallback-card p{color:#eee;font-size:13.5px;line-height:1.5;margin:0;}
+.fit-fallback-card a.btn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0a0a0a;font-weight:600;font-size:13px;padding:10px 18px;border-radius:30px;text-decoration:none;transition:transform .2s, box-shadow .2s;}
+.fit-fallback-card a.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.4);}
+.fit-fallback-card a.btn svg{width:14px;height:14px;}
+.fit-player-info{padding:18px 2px 0;}
+.fit-player-info h3{margin:0 0 6px;font-size:18px;font-weight:600;font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;}
+.fit-player-info .row{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12.5px;}
+.fit-player-info .row svg{width:14px;height:14px;}
+.fit-related{margin-top:34px;}
+.fit-related h4{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;font-weight:600;}
+
+@media(max-width:560px){
+  .fit-body{padding:22px 14px 40px;}
+  .fit-cats{grid-template-columns:1fr 1fr;gap:10px;}
+  .fit-cat{padding:13px;gap:10px;}
+  .fit-cat .ico{width:38px;height:38px;font-size:20px;border-radius:11px;}
+  .fit-cat .name{font-size:12.5px;}
+  .fit-cat .count{font-size:10px;}
+  .fit-vgrid{grid-template-columns:1fr 1fr;gap:10px;}
+  .fit-vcard .vtitle{font-size:12px;}
+  .fit-head{padding:14px 16px;}
+}
+@media(max-width:380px){
+  .fit-cats{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
-<!-- if you somehow inspected this far down... respect. but also, go make your diet plan instead -->
+<!-- if you somehow inspected this far down... respect. but also, go make your diet plan instead hehe -->
 
 <div class="blob-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 
-<div class="intro-splash" id="introSplash"><div class="intro-text">MyDiet</div></div>
+<div class="intro-splash" id="introSplash"><div><div class="intro-kicker">FitnessX</div><div class="intro-text">MyDiet</div></div></div>
 
 <div class="music-widget" id="musicWidget">
   <div class="music-toggle" id="musicToggle">
@@ -405,25 +649,60 @@ a{color:inherit;}
 
 <div class="topbar">
   <div class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></div>
-  <div class="brand"><span class="dot"></span>MyDiet <small>by Aryan</small></div>
-  <div style="width:42px"></div>
+  <div class="brand-wrap">
+    <div class="brand-x">Fitness<span class="x-letter">X</span></div>
+    <div class="brand"><span class="dot"></span>MyDiet <small>by Aryan</small></div>
+  </div>
+  <div class="fit-trigger" id="fitTrigger" aria-label="Fitness Video Hub" title="Fitness Video Hub">
+    <span class="fit-dot"></span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor" stroke="none"></polygon></svg>
+  </div>
 </div>
 
 <div class="overlay" id="overlay"></div>
 <div class="sidebar" id="sidebar">
-  <h3>Tools</h3>
-  <div class="side-link active" data-view="planner"><span class="ic">01</span>Diet Plan Maker</div>
-  <div class="side-link" data-view="workout"><span class="ic">02</span>Workout Routine Maker</div>
-  <div class="side-link" data-view="bmi"><span class="ic">03</span>BMI Calculator</div>
-  <div class="side-link" data-view="calories"><span class="ic">04</span>Calorie Tracker<span class="new-badge">NEW</span></div>
-  <div class="side-link" data-view="supps"><span class="ic">05</span>Supplement Recommender</div>
-  <div class="side-link" data-view="solver"><span class="ic">06</span>Problem Solver</div>
-  <div class="side-link" data-view="coach"><span class="ic">07</span>Ask Coach</div>
-  <div class="side-link" data-view="recipes"><span class="ic">08</span>What to Eat</div>
-  <div class="side-link" data-view="skincare"><span class="ic">09</span>AI Skincare Advisor<span class="new-badge">NEW</span></div>
+  <h3>Plan</h3>
+  <div class="side-grid">
+    <div class="side-link active" data-view="planner"><span class="ic">DP</span>Diet Plan Maker</div>
+    <div class="side-link" data-view="workout"><span class="ic">WO</span>Workout Routine Maker</div>
+  </div>
+  <h3>Calculate & Track</h3>
+  <div class="side-grid">
+    <div class="side-link" data-view="bmi"><span class="ic">BM</span>BMI Calculator</div>
+    <div class="side-link" data-view="calories"><span class="ic">CT</span>Calorie Tracker<span class="new-badge">NEW</span></div>
+    <div class="side-link" data-view="onerm"><span class="ic">1R</span>1-Rep Max Calculator<span class="new-badge">NEW</span></div>
+    <div class="side-link" data-view="water"><span class="ic">H2</span>Water Intake Calculator<span class="new-badge">NEW</span></div>
+    <div class="side-link" data-view="budget"><span class="ic">₹</span>Gym Budget Planner<span class="new-badge">NEW</span></div>
+  </div>
+  <h3>Learn & Explore</h3>
+  <div class="side-grid">
+    <div class="side-link" data-view="supps"><span class="ic">SP</span>Supplement Recommender</div>
+    <div class="side-link" data-view="solver"><span class="ic">PS</span>Problem Solver</div>
+    <div class="side-link" data-view="coach"><span class="ic">AC</span>Ask Coach</div>
+    <div class="side-link" data-view="recipes"><span class="ic">WE</span>What to Eat</div>
+    <div class="side-link" data-view="skincare"><span class="ic">SK</span>AI Skincare Advisor</div>
+  </div>
   <div class="sidebar-footer">
-    MyDiet, made by Aryan<br>Free forever. No login required.<br>
+    FitnessX, MyDiet, made by Aryan<br>Free forever. No login required.<br>
     <a href="https://instagram.com/aryann.ax" target="_blank" rel="noopener" class="insta-link">@aryann.ax</a>
+  </div>
+</div>
+
+<div class="fit-overlay" id="fitOverlay">
+  <div class="fit-modal" id="fitModal" data-view="categories">
+    <div class="fit-head">
+      <div class="fit-back" id="fitBack" aria-label="back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </div>
+      <div class="fit-head-title">
+        <h2 id="fitHeadTitle">Fitness Video Hub</h2>
+        <p id="fitHeadSub">Curated workouts, nutrition &amp; recovery</p>
+      </div>
+      <div class="fit-close" id="fitClose" aria-label="close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </div>
+    </div>
+    <div class="fit-body" id="fitBody"></div>
   </div>
 </div>
 
@@ -1081,7 +1360,58 @@ const PROBLEMS = [
     fix:["Pick ONE structured plan (use our Workout Routine Maker) and stick to it for 8 weeks","Learn 5 core movements well: squat, hinge, push, pull, carry","Focus on consistency over perfection for the first 2-3 months","Track your workouts so you can see objective progress","Don't change programs every week, give one a real chance first"]},
   {cat:"Beginners",title:"Sore for days after every workout",
     why:"Normal when starting out or trying a new movement, but excessive soreness usually means overdoing volume/intensity too fast.",
-    fix:["Light movement (walking, easy cardio) speeds up recovery more than rest","Make sure you're eating enough protein and staying hydrated","Increase training volume gradually, don't jump from 0 to 6 days/week","Soreness is not the goal, consistent progress is","If soreness lasts more than 4-5 days regularly, you're likely overtraining"]}
+    fix:["Light movement (walking, easy cardio) speeds up recovery more than rest","Make sure you're eating enough protein and staying hydrated","Increase training volume gradually, don't jump from 0 to 6 days/week","Soreness is not the goal, consistent progress is","If soreness lasts more than 4-5 days regularly, you're likely overtraining"]},
+  {cat:"Sleep & Recovery",title:"Can't fall asleep even though I'm tired from training",
+    why:"Late-night intense training, screen time, or caffeine too close to bedtime keeps your nervous system wired even when the body is fatigued.",
+    fix:["Avoid caffeine (coffee, pre-workout) after 4-5pm","Finish intense training at least 2-3 hours before bed","Cut screen time 30-45 mins before sleeping, blue light delays melatonin","Keep a consistent sleep-wake time, even on rest days","Try a warm shower and light stretching as a wind-down routine"]},
+  {cat:"Sleep & Recovery",title:"Waking up tired despite sleeping 7-8 hours",
+    why:"Often it's sleep quality, not quantity, disrupted by late meals, alcohol, stress, or an irregular sleep schedule.",
+    fix:["Avoid heavy meals or alcohol within 2-3 hours of bedtime","Keep your room cool, dark, and quiet for deeper sleep cycles","Stick to the same sleep and wake time daily, including weekends","Manage stress with a short walk or journaling before bed","If this continues for weeks, consider asking a doctor about sleep quality issues"]},
+  {cat:"Supplements",title:"Confused about which supplements I actually need",
+    why:"Supplement marketing oversells 'needs' that food can usually cover; only a few have strong evidence behind them.",
+    fix:["Start with the basics: whey protein (if hitting protein from food is hard) and creatine monohydrate","Skip fancy fat burners and 'testosterone boosters', evidence is weak at best","Multivitamins are only useful if your diet has clear gaps","Use our Supplement Recommender for a personalized, no-nonsense stack","Whole food first, supplements fill gaps, they don't replace a poor diet"]},
+  {cat:"Supplements",title:"Supplements upsetting my stomach",
+    why:"Usually lactose in whey concentrate, taking creatine on an empty stomach, or just too much at once.",
+    fix:["Switch to whey isolate if lactose is the issue, it's far gentler on digestion","Take creatine with a meal instead of on an empty stomach","Split your dose, don't take everything in one go","Introduce one new supplement at a time so you know what's causing it","Plant-based protein (pea/soy) is a solid alternative if dairy keeps bothering you"]},
+  {cat:"Cardio",title:"Getting winded too quickly during cardio",
+    why:"Usually low cardiovascular base fitness, poor breathing pattern, or starting at too high an intensity too soon.",
+    fix:["Start with steady-state low intensity (brisk walk/jog) before adding intervals","Practice nasal breathing during easy-paced cardio to build aerobic base","Don't go all-out in the first few minutes, build up gradually each session","Consistency over intensity for the first 4-6 weeks of cardio training","Track resting heart rate, it should slowly improve as fitness builds"]},
+  {cat:"Cardio",title:"Hate doing cardio, can't stay consistent with it",
+    why:"Traditional cardio (treadmill, cycling) isn't enjoyable for everyone, that doesn't mean you're 'lazy'.",
+    fix:["Try sport-based cardio instead, badminton, football, swimming, cycling outdoors","Break it into shorter 10-15 min sessions instead of one long boring session","Pair cardio with something enjoyable, music, podcast, or a friend","Use weight training supersets as a cardio substitute if you truly dislike it","Remember: daily walking (8-10k steps) counts and is highly sustainable"]},
+  {cat:"Mobility",title:"Feeling stiff and inflexible, especially hips and shoulders",
+    why:"Usually from a sedentary lifestyle (desk job), skipping warm-ups, or never training through a full range of motion.",
+    fix:["Spend 5-10 mins daily on hip flexor and shoulder mobility drills","Train exercises through a full range of motion, not just partial reps","Take short movement breaks every hour if you sit for long stretches","Add a dedicated mobility/yoga session once a week","Consistency matters more than intensity here, little and often wins"]},
+  {cat:"Mobility",title:"Can't squat deep without my heels lifting off the ground",
+    why:"Usually tight ankles (limited dorsiflexion) or tight hips, not a strength issue.",
+    fix:["Do daily ankle mobility drills, knee-to-wall stretches work well","Try squatting with a slight heel elevation (plates or wedge) temporarily","Stretch hip flexors and calves consistently, 3-4x a week","Practice bodyweight squats slowly, focusing on depth before adding load","If it persists for months, a physiotherapist assessment can pinpoint the exact restriction"]},
+  {cat:"Hydration",title:"Not sure how much water I should actually be drinking",
+    why:"Needs vary by bodyweight, activity level, and climate, there's no single number for everyone.",
+    fix:["A solid starting point is roughly 30-35ml per kg of bodyweight per day","Add 500ml-1L extra on intense training days or in hot weather","Use our Water Intake Calculator for a number tailored to you","Urine should be pale yellow, that's a quick everyday hydration check","Spread intake across the day instead of chugging it all at once"]},
+  {cat:"Habits & Consistency",title:"Keep starting and quitting the gym every few weeks",
+    why:"Usually too aggressive a start (6 days/week, extreme diet) that burns out willpower fast.",
+    fix:["Start with just 3 days/week, sustainable beats intense for the first 2-3 months","Pick a time slot you can realistically protect daily, not just 'whenever'","Track streaks, not perfection, missing one day isn't failure","Pair gym days with something you enjoy, music playlist, gym buddy","Re-commit for just 2 weeks at a time, it's easier mentally than 'forever'"]},
+  {cat:"Habits & Consistency",title:"Struggle to track food and end up giving up on logging",
+    why:"Detailed gram-by-gram logging is exhausting long-term for most people without a clear system.",
+    fix:["Start by just logging protein and total calories, skip micromanaging every macro","Use repeatable meals, fewer decisions makes tracking far easier","Log right after eating, not at the end of the day from memory","Our Calorie Tracker and Diet Plan Maker do the heavy lifting for you","Track 80% of the time consistently, that beats 100% for 2 weeks then quitting"]},
+  {cat:"Travel & No Gym Access",title:"No gym access while travelling or at home for a few weeks",
+    why:"Short breaks from structured training don't ruin progress, but doing nothing for too long does.",
+    fix:["Bodyweight circuits (push-ups, squats, lunges, planks) maintain most of your strength","Use resistance bands, they pack flat and replicate most gym exercises","Walk daily, hotel stairs and city walks add up fast","Don't stress about 'losing gains' in 1-2 weeks, that fear is overblown","Resume your normal program as soon as you're back, no need to 'ease in' for long"]},
+  {cat:"Women's Fitness",title:"Worried that lifting weights will make me 'bulky'",
+    why:"A common myth, building visible bulk requires years of dedicated training plus a calorie surplus, it doesn't happen by accident.",
+    fix:["Strength training builds a toned, defined look far more often than 'bulk'","Muscle takes a long time and deliberate surplus eating to grow significantly","Lifting heavy improves bone density, metabolism, and body composition","If a leaner, athletic look is the goal, lifting is one of the best tools for it","Track how your clothes fit, not just the scale, body composition shifts even without big weight changes"]},
+  {cat:"Women's Fitness",title:"Training and energy levels feel different across the month",
+    why:"Hormonal fluctuations across the menstrual cycle genuinely affect energy, strength, and recovery for many people.",
+    fix:["It's normal to feel stronger in some weeks and more fatigued in others","Consider lighter intensity or more rest during low-energy phases instead of forcing PRs","Iron and overall calorie intake matter more during this time, don't under-eat","Track patterns over a few cycles to understand your own rhythm","There's no need to 'push through' every session at max intensity, listen to your body"]},
+  {cat:"Older Lifters",title:"Worried it's 'too late' to start training in my 40s/50s",
+    why:"A common but false belief, strength and muscle can be built at any age, recovery just needs more respect.",
+    fix:["Start with lighter loads and prioritize perfect form over heavy weight","Warm up more thoroughly than you think you need to","Allow an extra rest day between intense sessions for recovery","Strength training is one of the best tools for healthy aging, bone density and balance included","Progress will still happen, just expect it a bit slower and steadier than in your 20s"]},
+  {cat:"Plateau",title:"Strength going up but the mirror doesn't look any different",
+    why:"Strength and aesthetics don't always move together, body composition (fat vs muscle ratio) is what changes how you look.",
+    fix:["Check if your calories have crept up alongside your strength gains","Add some direct hypertrophy work (higher reps, more volume) alongside heavy lifts","Track waist measurement and progress photos, not just the scale or lift numbers","Be patient, visible body composition change usually takes longer than strength gains","Combine consistent training with a slight calorie deficit if 'looking leaner' is the actual goal"]},
+  {cat:"Equipment",title:"Don't know what gym equipment is actually worth buying for home",
+    why:"Most beginners either overbuy gear they never use or underbuy and hit a ceiling fast.",
+    fix:["Start with the cheapest, most versatile tools: resistance bands and a pull-up bar","Adjustable dumbbells give the best strength-per-rupee for home training","A flat bench unlocks a huge jump in exercise variety once budget allows","Avoid gimmicky 'as seen on TV' equipment, it rarely delivers real results","Use our Gym Budget Planner to get a recommendation matched to your exact budget"]}
 ];
 const solverState = { selected:null, query:"" };
 function renderSolver(){
@@ -1478,6 +1808,33 @@ const RECIPES = {
     ["Chickpea Salad with Lemon","Veg · 14g protein"],["Sprouted Moong Salad","Veg · 12g protein"],["Milk with Dates","Veg · 9g protein"],
     ["Paneer Wrap (whole wheat)","Veg · 20g protein"],["Grilled Chicken & Rice Bowl","Non-Veg · 35g protein"],["Egg White Omelette Wrap","Non-Veg · 18g protein"],
     ["Tuna Salad Bowl","Non-Veg · 28g protein"],["Chicken & Quinoa Salad","Non-Veg · 33g protein"],["Boiled Eggs with Banana","Non-Veg · 19g protein"]
+  ],
+  "Bulking (High-Calorie)":[
+    ["Peanut Butter Banana Smoothie","Veg · 850 kcal · 22g protein"],["Paneer Paratha with Butter & Curd","Veg · 720 kcal · 26g protein"],
+    ["Rajma Chawal with Ghee","Veg · 680 kcal · 20g protein"],["Soya Chunk Pulao with Cashews","Veg · 750 kcal · 30g protein"],
+    ["Full-Fat Milk with Dates & Almonds","Veg · 480 kcal · 14g protein"],["Cheese Loaded Veg Sandwich","Veg · 600 kcal · 18g protein"],
+    ["Mass Gainer Shake (Banana + Oats + Peanut Butter)","Veg · 900 kcal · 35g protein"],["Paneer Bhurji with Butter Naan","Veg · 770 kcal · 28g protein"],
+    ["Chicken Biryani (generous portion)","Non-Veg · 820 kcal · 36g protein"],["Egg Fried Rice with Extra Eggs","Non-Veg · 700 kcal · 28g protein"],
+    ["Mutton Curry with Rice & Ghee","Non-Veg · 780 kcal · 34g protein"],["Chicken Alfredo Pasta","Non-Veg · 850 kcal · 38g protein"],
+    ["Peanut Butter & Chicken Wrap","Non-Veg · 650 kcal · 32g protein"],["Whole Egg Omelette with Cheese & Toast","Non-Veg · 600 kcal · 30g protein"]
+  ],
+  "Cutting (Light & Filling)":[
+    ["Sprouts & Cucumber Salad","Veg · 180 kcal · 12g protein"],["Vegetable Clear Soup with Tofu","Veg · 150 kcal · 14g protein"],
+    ["Steamed Moong Dal Chilla (no oil)","Veg · 200 kcal · 16g protein"],["Curd & Cucumber Raita Bowl","Veg · 130 kcal · 9g protein"],
+    ["Grilled Paneer Salad (light dressing)","Veg · 280 kcal · 22g protein"],["Boiled Chana Chaat (no oil)","Veg · 220 kcal · 13g protein"],
+    ["Vegetable Khichdi (small portion)","Veg · 260 kcal · 10g protein"],["Tofu & Veg Stir Fry (minimal oil)","Veg · 240 kcal · 20g protein"],
+    ["Grilled Chicken Salad (light dressing)","Non-Veg · 290 kcal · 32g protein"],["Egg White Salad Bowl","Non-Veg · 180 kcal · 24g protein"],
+    ["Clear Chicken Soup","Non-Veg · 200 kcal · 26g protein"],["Steamed Fish with Lemon & Veggies","Non-Veg · 260 kcal · 30g protein"],
+    ["Grilled Chicken Breast with Salad","Non-Veg · 300 kcal · 35g protein"],["Tuna with Cucumber & Lettuce","Non-Veg · 220 kcal · 28g protein"]
+  ],
+  "Quick & Lazy (Under 10 Min)":[
+    ["Peanut Butter on Toast","Veg · 5 min · 10g protein"],["Curd with Roasted Chana","Veg · 3 min · 14g protein"],
+    ["Microwave Oats with Milk","Veg · 5 min · 12g protein"],["Cheese & Veg Maggi (upgraded)","Veg · 8 min · 10g protein"],
+    ["Protein Shake + Banana","Veg · 2 min · 26g protein"],["Bread Omelette (Veg, with cheese)","Veg · 7 min · 16g protein"],
+    ["Sprouts Bowl with Lemon","Veg · 3 min · 11g protein"],["Paneer Cubes with Ketchup (quick snack)","Veg · 4 min · 15g protein"],
+    ["Boiled Egg & Toast","Non-Veg · 8 min · 18g protein"],["Microwave Egg Bhurji","Non-Veg · 6 min · 17g protein"],
+    ["Canned Tuna with Bread","Non-Veg · 4 min · 22g protein"],["Leftover Chicken Wrap","Non-Veg · 6 min · 26g protein"],
+    ["Egg & Cheese Toast Sandwich","Non-Veg · 8 min · 20g protein"],["Curd + Boiled Egg Bowl","Non-Veg · 5 min · 21g protein"]
   ]
 };
 const recipeState = { tab:"Morning Breakfast" };
@@ -1635,6 +1992,198 @@ function bindSkinResult(){
   $("#restartSkin").onclick = ()=>{ skinState.step=0; skinState.data={}; renderSkinStep(); };
 }
 
+// ================= GYM BUDGET PLANNER =================
+const GYM_BUDGET = {
+  "Build Muscle": [
+    {max:500, type:"home", title:"Skip the spend — use what you've got", items:["Backpack loaded with books/water bottles as adjustable dumbbells","Two sturdy chairs for dips & elevated push-ups","Stairs for weighted step-ups (use the loaded backpack)","A towel looped over a sturdy door/rod for rows"], why:"At this budget, gear isn't worth it yet. Bodyweight + household-object resistance can build real strength for months before you need to spend a rupee."},
+    {max:1500, type:"product", title:"Resistance Band Set", price:"₹400 – 900", items:["Set of 3-5 latex resistance bands (light to heavy)","Door anchor (usually included)"], why:"Bands let you progressively overload chest, back, shoulders & legs at home for a fraction of dumbbell cost, and they pack away in a drawer."},
+    {max:3500, type:"product", title:"Adjustable Dumbbell Pair (~20kg total)", price:"₹1,800 – 3,000", items:["2x spinlock dumbbell rods","Plates totaling roughly 20kg combined"], why:"The single best value-for-money tool for building muscle at home, it covers nearly every upper body exercise you'll ever need."},
+    {max:7000, type:"product", title:"Adjustable Dumbbells + Flat Bench", price:"₹3,500 – 6,500", items:["Spinlock dumbbell set (~30-40kg total)","Foldable flat bench"], why:"Adding a bench unlocks bench press, incline work & step-ups, a huge jump in exercise variety for not much extra money."},
+    {max:15000, type:"product", title:"Heavier Dumbbell Set + Pull-up Bar", price:"₹7,000 – 14,000", items:["Dumbbell set up to ~50kg total","Doorway pull-up bar","Adjustable bench"], why:"This is close to a complete home gym for muscle building, most lifters never actually need more than this."},
+    {max:Infinity, type:"product", title:"Entry Barbell + Plates + Squat Rack", price:"₹15,000+", items:["7ft barbell","Rubber/bumper plates (~80-100kg)","Compact power rack or squat stand"], why:"At this budget you can train heavy compound lifts (squat, bench, deadlift) properly, this is true gym-replacement territory."}
+  ],
+  "Lose Fat / Cardio": [
+    {max:500, type:"home", title:"Your body is the only equipment you need", items:["Bodyweight HIIT circuits (jump squats, burpees, mountain climbers)","Stair climbing in your building, 10-15 mins counts as solid cardio","Brisk walking/jogging outdoors, free and highly effective","Dance to music for 20-30 mins, genuinely effective cardio"], why:"Cardio fitness barely needs equipment. Save your money, consistency with free movement matters far more than gear here."},
+    {max:1500, type:"product", title:"Skipping Rope + Resistance Bands", price:"₹400 – 1,200", items:["Good quality ball-bearing skipping rope","Light resistance band for active recovery days"], why:"A skipping rope is the single most efficient cardio tool per rupee, 15 minutes can torch serious calories."},
+    {max:4000, type:"product", title:"Skipping Rope + Yoga Mat + Cheap Tracker", price:"₹1,500 – 3,500", items:["Skipping rope","Yoga mat for floor-based HIIT","Basic step counter or fitness band"], why:"Tracking steps and having a comfortable mat removes friction, the easier it is to start, the more consistent you'll stay."},
+    {max:10000, type:"product", title:"Proper Running Shoes", price:"₹4,000 – 9,000", items:["A pair of good cushioned running shoes","Moisture-wicking workout clothes"], why:"If you plan to run or walk regularly, this is the highest-impact purchase, bad footwear causes shin splints and knee pain fast."},
+    {max:25000, type:"product", title:"Mini Stepper or Cross-Trainer", price:"₹10,000 – 22,000", items:["Compact stepper or mini elliptical for home cardio","Skipping rope for variety"], why:"Great for low-impact cardio at home when outdoor space or time is limited, especially in bad weather."},
+    {max:Infinity, type:"product", title:"Home Treadmill or Mid-Range Cycle", price:"₹25,000+", items:["Entry-to-mid level treadmill OR a quality cycle","Smartwatch to track heart rate & pace"], why:"At this budget you get a genuinely reliable, durable machine that removes every excuse for skipping cardio."}
+  ],
+  "General Fitness / Mobility": [
+    {max:500, type:"home", title:"Stretch it out with what's already home", items:["Doorframe/wall stretches for shoulders & chest","Towel-assisted hamstring & shoulder stretches","Floor-based mobility flows (cat-cow, world's greatest stretch)","A long stick/broom handle for shoulder dislocates"], why:"Mobility work is almost entirely about consistency and technique, not equipment. Start free, upgrade later if you enjoy it."},
+    {max:1500, type:"product", title:"Yoga Mat + Mini Foam Roller", price:"₹600 – 1,400", items:["6-8mm cushioned yoga mat","Compact foam roller for self-massage"], why:"A decent mat makes floor work far more comfortable, and a foam roller helps with tight muscles after leg day."},
+    {max:4000, type:"product", title:"Mat + Foam Roller + Resistance Bands", price:"₹1,500 – 3,500", items:["Yoga mat","Full-size foam roller","Light-medium resistance band set"], why:"This combo covers stretching, myofascial release, and light strength/mobility work, a well-rounded recovery kit."},
+    {max:8000, type:"product", title:"Entry-Level Massage Gun", price:"₹4,000 – 7,500", items:["Basic percussion massage gun","Yoga mat"], why:"A massage gun speeds up recovery between sessions noticeably, this price range covers reliable entry models."},
+    {max:15000, type:"product", title:"Quality Massage Gun + Mobility Kit", price:"₹8,000 – 14,000", items:["Higher-power massage gun with multiple attachments","Resistance bands + mat + roller"], why:"A complete recovery station at home, useful for anyone training 4+ days a week."},
+    {max:Infinity, type:"product", title:"Premium Recovery Setup or Physio Sessions", price:"₹15,000+", items:["Premium massage gun / entry compression boots","OR a package of physiotherapy/sports-massage sessions"], why:"At this budget, professional hands-on assessment (physio) often beats more gadgets, especially for persistent stiffness or pain."}
+  ],
+  "Home Workout Setup": [
+    {max:500, type:"home", title:"Zero-equipment home workout is real and effective", items:["Bodyweight push-ups, squats, lunges, planks (endless progressions exist)","Two chairs for dips and step-ups","Stairs for cardio and weighted step-ups","Backpack with books/bottles for added resistance"], why:"You can run a complete, progressive program at home with literally no equipment for months. Don't spend until you've maxed out bodyweight progressions."},
+    {max:1500, type:"product", title:"Skipping Rope + Resistance Bands", price:"₹500 – 1,300", items:["Skipping rope","3-band resistance set"], why:"This combo covers cardio and strength resistance for almost every muscle group, extremely portable too."},
+    {max:4000, type:"product", title:"Full Resistance Band Set + Doorway Pull-up Bar", price:"₹1,500 – 3,500", items:["Heavy-duty resistance band set (multiple resistances)","Doorway pull-up bar","Yoga mat"], why:"This unlocks pulling movements (rows, pull-ups, lat work) at home, the hardest muscle group to train without equipment."},
+    {max:8000, type:"product", title:"Light Adjustable Dumbbells + Mat + Bands", price:"₹4,000 – 7,500", items:["Adjustable dumbbells (~10-15kg total)","Yoga mat","Resistance bands"], why:"A genuinely versatile home setup that covers strength, mobility, and light cardio circuits."},
+    {max:15000, type:"product", title:"Adjustable Dumbbells + Bench + Pull-up Bar", price:"₹8,000 – 14,000", items:["Dumbbells up to ~24kg total","Foldable flat bench","Doorway pull-up bar"], why:"At this point your home setup rivals a basic commercial gym for most muscle-building purposes."},
+    {max:Infinity, type:"product", title:"Complete Home Gym Kit", price:"₹15,000+", items:["Heavier adjustable dumbbells (40kg+)","Flat bench","Pull-up bar","Kettlebell (12-16kg)"], why:"A genuinely complete home gym, very few lifters ever outgrow this setup."}
+  ],
+  "Supplements": [
+    {max:600, type:"home", title:"Skip supplements, fix food first", items:["Add 2-3 boiled eggs or a bowl of paneer/curd to a meal you're already eating","Soaked chana, sprouts, or peanuts as a free protein-boosting snack","A simple banana + peanut butter combo covers a lot of post-workout needs"], why:"At this budget, whole food almost always beats a supplement. Save up a bit more before buying anything, the protein gap can usually be closed with food alone."},
+    {max:1500, type:"product", title:"Basic Whey Protein (budget tier)", price:"₹600 - 1,400 (1kg)", items:["MuscleBlaze Biozyme Performance Whey","Avvatar Whey Pro (budget pack size)","GNC AMP Pure Isolate (smaller pack)"], why:"A 1kg budget whey pack covers roughly a month of post-workout protein at a low per-serving cost, useful if your diet genuinely falls short on protein."},
+    {max:3000, type:"product", title:"Whey Protein + Creatine Monohydrate", price:"₹1,500 - 2,800", items:["MuscleBlaze Whey Protein (1kg)","MuscleBlaze Creatine Monohydrate (250g) or GNC Creatine Monohydrate"], why:"Creatine monohydrate is one of the most well-researched, cheapest-per-dose supplements for strength and muscle gain, pairs naturally with a whey budget."},
+    {max:6000, type:"product", title:"Whey Isolate + Creatine + Multivitamin", price:"₹3,000 - 5,500", items:["Optimum Nutrition Gold Standard Whey (2lb)","MuscleBlaze Creatine Monohydrate","GNC Mega Men or Avvatar Multivitamin"], why:"At this budget you can move to a cleaner whey isolate (less lactose, faster digesting) and round out gaps with a daily multivitamin."},
+    {max:12000, type:"product", title:"Full Stack: Whey + Creatine + Multivitamin + Omega-3", price:"₹6,000 - 11,000", items:["Optimum Nutrition Gold Standard Whey (5lb)","Creapure-grade Creatine Monohydrate (MyProtein)","Multivitamin","Omega-3 Fish Oil (GNC or HealthKart)"], why:"This is a genuinely complete supplement stack covering protein, strength, micronutrient gaps, and joint/heart health, most lifters never need more than this."},
+    {max:Infinity, type:"product", title:"Premium Stack + Pre-Workout + EAAs", price:"₹12,000+", items:["Premium Whey Isolate (ON or MyProtein, bulk size)","Creatine Monohydrate","Pre-Workout (MuscleBlaze PRE or ON Gold Pre)","EAA/BCAA blend","Multivitamin + Omega-3"], why:"At this budget you're covering performance (pre-workout), recovery (EAAs), and baseline health (multi + omega-3) on top of the core protein/creatine basics, genuinely premium territory."}
+  ]
+};
+const budgetState = { goal:"Build Muscle" };
+function renderBudget(){
+  app.innerHTML = `
+    <div class="hero"><span class="kicker">Gym Budget Planner</span><h1>Spend Smart, <em>Not Blind</em></h1>
+    <p>Bata kitna budget hai aur goal kya hai, hum bata dete hain kya khareedna hai (equipment ya supplements), ya ghar pe kya use kar sakta hai bina kharcha kiye.</p></div>
+    <div class="card">
+      <div class="field"><label>Your Budget (₹)</label><input id="budgetAmt" type="number" placeholder="e.g. 2000"></div>
+      <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;">Your Goal</label>
+      <div class="budget-goal-grid" id="budgetGoalGrid">
+        ${[["Build Muscle","💪"],["Lose Fat / Cardio","🔥"],["General Fitness / Mobility","🧘"],["Home Workout Setup","🏠"],["Supplements","💊"]].map(([g,ico])=>`
+          <div class="budget-goal ${budgetState.goal===g?'active':''}" data-goal="${g}"><div class="bg-ico">${ico}</div><div class="bg-name">${g}</div></div>
+        `).join("")}
+      </div>
+      <button class="btn btn-primary btn-block" id="budgetCalc">Find My Gear</button>
+      <div id="budgetOut"></div>
+    </div>`;
+  document.querySelectorAll(".budget-goal").forEach(el=>{
+    el.onclick = ()=>{
+      budgetState.goal = el.dataset.goal;
+      document.querySelectorAll(".budget-goal").forEach(b=>b.classList.remove("active"));
+      el.classList.add("active");
+    };
+  });
+  $("#budgetCalc").onclick = ()=>{
+    const amt = parseFloat($("#budgetAmt").value);
+    if(!amt || amt < 0){ $("#budgetOut").innerHTML = `<p class="q-sub" style="margin-top:16px;color:var(--danger)">Please enter a valid budget amount.</p>`; return; }
+    const tiers = GYM_BUDGET[budgetState.goal];
+    const tier = tiers.find(t => amt <= t.max) || tiers[tiers.length-1];
+    $("#budgetOut").innerHTML = `
+      <div class="budget-result">
+        <span class="budget-tier-tag ${tier.type==='home'?'home':''}">${tier.type==='home' ? '🏠 Home Alternative' : '🛒 Recommended Buy'}</span>
+        <h3>${tier.title}</h3>
+        ${tier.price ? `<div class="budget-price">${tier.price}</div>` : ""}
+        <ol class="budget-items">${tier.items.map(it=>`<li>${it}</li>`).join("")}</ol>
+        <div class="budget-why">${tier.why}</div>
+        <div class="budget-alt-note">${tier.type==='home'
+          ? "Got a little more saved up? Bump your budget up above and see what becomes possible."
+          : "On a tighter budget? Lower the number above, we'll show you the free home alternative instead."}</div>
+      </div>`;
+    $("#budgetOut").scrollIntoView({behavior:"smooth", block:"nearest"});
+  };
+}
+
+// ================= 1-REP MAX CALCULATOR =================
+function renderOneRM(){
+  app.innerHTML = `
+    <div class="hero"><span class="kicker">1-Rep Max Calculator</span><h1>Find Your <em>True Max</em></h1>
+    <p>Weight aur reps daal, bina PR attempt kiye apna estimated 1RM aur training percentages dekh le.</p></div>
+    <div class="card">
+      <div class="row2">
+        <div class="field"><label>Weight Lifted (kg)</label><input id="rmWeight" type="number" placeholder="e.g. 80"></div>
+        <div class="field"><label>Reps Performed</label><input id="rmReps" type="number" placeholder="e.g. 5" max="15"></div>
+      </div>
+      <button class="btn btn-primary btn-block" id="rmCalc">Calculate 1RM</button>
+      <div id="rmOut"></div>
+    </div>`;
+  $("#rmCalc").onclick = ()=>{
+    const w = parseFloat($("#rmWeight").value);
+    const r = parseInt($("#rmReps").value);
+    if(!w || !r || r<1){ $("#rmOut").innerHTML = `<p class="q-sub" style="margin-top:16px;color:var(--danger)">Please enter a valid weight and rep count.</p>`; return; }
+    if(r > 12){ $("#rmOut").innerHTML = `<p class="q-sub" style="margin-top:16px;color:var(--danger)">For reps above 12, 1RM estimates get unreliable. Try a heavier set with fewer reps for a more accurate number.</p>`; return; }
+    const oneRM = r===1 ? w : w * (1 + r/30);
+    const rows = [
+      [100,"1","Max effort / testing"], [95,"2-3","Max strength"], [90,"3-4","Strength"], [85,"4-6","Strength"],
+      [80,"6-8","Strength-hypertrophy"], [75,"8-10","Hypertrophy"], [70,"10-12","Hypertrophy"],
+      [65,"12-15","Hypertrophy-endurance"], [60,"15-18","Muscular endurance"], [50,"18-22","Endurance / warm-up"]
+    ];
+    $("#rmOut").innerHTML = `
+      <div class="rm-hero-num">
+        <div class="rm-num">${oneRM.toFixed(1)} kg</div>
+        <div class="rm-label">Estimated One-Rep Max</div>
+      </div>
+      <table class="rm-table">
+        <tr><th>% of 1RM</th><th>Weight</th><th>Reps</th><th>Best For</th></tr>
+        ${rows.map(([pct,reps,use])=>`<tr><td class="rm-pct-tag">${pct}%</td><td>${(oneRM*pct/100).toFixed(1)} kg</td><td>${reps}</td><td class="rm-use">${use}</td></tr>`).join("")}
+      </table>
+      <p class="footer-note" style="margin-top:18px">Estimated using the Epley formula. Real 1RM can vary ±5% based on technique, fatigue, and lift type, treat this as a strong planning estimate, not gospel.</p>`;
+  };
+}
+
+// ================= WATER INTAKE CALCULATOR =================
+const WAVE_SVG = `<svg class="glass-wave-svg" viewBox="0 0 200 24" preserveAspectRatio="none"><path d="M0,12 C25,22 75,2 100,12 C125,22 175,2 200,12 L200,24 L0,24 Z"></path></svg>`;
+const WAVE_SVG2 = `<svg class="glass-wave-svg wave2" viewBox="0 0 200 24" preserveAspectRatio="none"><path d="M0,14 C30,4 70,24 100,14 C130,4 170,24 200,14 L200,24 L0,24 Z"></path></svg>`;
+function renderWater(){
+  app.innerHTML = `
+    <div class="hero"><span class="kicker">Water Intake Calculator</span><h1>Stay <em>Properly Hydrated</em></h1>
+    <p>Weight aur activity level daal, roughly pata chal jayega din mein kitna paani peena chahiye.</p></div>
+    <div class="card">
+      <div class="field"><label>Body Weight (kg)</label><input id="waterWeight" type="number" placeholder="e.g. 70"></div>
+      <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;">Activity Level</label>
+      <div class="opt-grid" id="waterActGrid">
+        ${["Sedentary (desk job, little exercise)","Light (1-3 workouts/week)","Moderate (4-5 workouts/week)","Intense (daily training / hot climate)"].map((a,i)=>{
+          const [name,desc] = [a.split(" (")[0], a.includes("(") ? a.split("(")[1].replace(")","") : ""];
+          return `<div class="opt ${i===0?'selected':''}" data-act="${a}"><span class="t">${name}</span><span class="d">${desc}</span></div>`;
+        }).join("")}
+      </div>
+      <label style="display:block;font-size:12px;color:var(--muted);margin:18px 0 8px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;">Do you take creatine?</label>
+      <div class="opt-grid" id="waterCreatineGrid">
+        <div class="opt selected" data-cr="no"><span class="t">No</span><span class="d">Not currently supplementing</span></div>
+        <div class="opt" data-cr="yes"><span class="t">Yes</span><span class="d">Taking creatine daily</span></div>
+      </div>
+      <button class="btn btn-primary btn-block" id="waterCalc" style="margin-top:18px">Calculate My Intake</button>
+      <div id="waterOut"></div>
+    </div>`;
+  let selectedAct = "Sedentary (desk job, little exercise)";
+  let onCreatine = false;
+  document.querySelectorAll("#waterActGrid .opt").forEach(el=>{
+    el.onclick = ()=>{
+      selectedAct = el.dataset.act;
+      document.querySelectorAll("#waterActGrid .opt").forEach(o=>o.classList.remove("selected"));
+      el.classList.add("selected");
+    };
+  });
+  document.querySelectorAll("#waterCreatineGrid .opt").forEach(el=>{
+    el.onclick = ()=>{
+      onCreatine = el.dataset.cr === "yes";
+      document.querySelectorAll("#waterCreatineGrid .opt").forEach(o=>o.classList.remove("selected"));
+      el.classList.add("selected");
+    };
+  });
+  $("#waterCalc").onclick = ()=>{
+    const w = parseFloat($("#waterWeight").value);
+    if(!w || w<=0){ $("#waterOut").innerHTML = `<p class="q-sub" style="margin-top:16px;color:var(--danger)">Please enter a valid body weight.</p>`; return; }
+    // Base: ~35ml per kg bodyweight, a widely used general hydration guideline
+    let liters = w * 0.035;
+    if(selectedAct.startsWith("Light")) liters += 0.3;
+    else if(selectedAct.startsWith("Moderate")) liters += 0.6;
+    else if(selectedAct.startsWith("Intense")) liters += 1.0;
+    if(onCreatine) liters += 0.6; // commonly recommended extra to support increased intracellular water uptake from creatine
+    const glasses = Math.round((liters*1000)/250);
+    const fillPct = Math.min(82, Math.max(35, (liters/5)*82)); // visual only, scaled for a satisfying glass animation
+    $("#waterOut").innerHTML = `
+      <div class="water-result">
+        <div class="water-num">${liters.toFixed(1)} L</div>
+        <div class="water-sub">Recommended daily water intake, roughly ${glasses} glasses (250ml each)</div>
+        <div class="water-glass-wrap">
+          <div class="water-glass-big">
+            <div class="water-fill" id="waterFillEl">${WAVE_SVG}${WAVE_SVG2}</div>
+          </div>
+        </div>
+        <div class="water-droplets">${Array.from({length:Math.min(glasses,14)}).map(()=>`<div class="water-drop filled"></div>`).join("")}${glasses>14?`<span class="q-sub" style="align-self:center">+${glasses-14} more</span>`:""}</div>
+        ${onCreatine ? `<div class="creatine-note">Since you're supplementing with creatine: it draws extra water into your muscle cells, so an additional ~500ml to 1L per day (already added above) is commonly recommended to support that shift and normal kidney filtration. Spread the extra intake across the day rather than chugging it at once.</div>` : ""}
+        <p class="footer-note" style="margin-top:18px;text-align:left">This is a general estimate based on the widely used ~35ml per kg of bodyweight guideline. Increase intake further in hot/humid weather, during illness, or if your urine is consistently dark yellow. Spread intake across the day rather than drinking it all at once.</p>
+      </div>`;
+    setTimeout(()=>{ const fillEl = document.getElementById("waterFillEl"); if(fillEl) fillEl.style.height = fillPct + "%"; }, 60);
+    $("#waterOut").scrollIntoView({behavior:"smooth", block:"nearest"});
+  };
+}
+
 // ================= ROUTER =================
 function render(){
   if(state.view==="planner") renderPlanner();
@@ -1646,6 +2195,9 @@ function render(){
   else if(state.view==="calories") renderCalories();
   else if(state.view==="recipes") renderRecipes();
   else if(state.view==="skincare") renderSkincare();
+  else if(state.view==="budget") renderBudget();
+  else if(state.view==="onerm") renderOneRM();
+  else if(state.view==="water") renderWater();
 }
 render();
 
@@ -1776,6 +2328,324 @@ render = function(){ _origRender(); setTimeout(observeReveals, 30); };
 observeReveals();
 
 /* end of file. ngl if you read all the way down here you deserve a protein shake */
+</script>
+
+<script>
+/* ============================================================
+   FITNESS VIDEO HUB
+   Self-contained feature. Does not touch any existing app state.
+   To add more videos: just push more objects into FIT_VIDEOS below.
+   thumb is auto-derived from the YouTube id — no API calls, no keys.
+============================================================ */
+(function(){
+
+  // ---------- CATEGORY DEFINITIONS ----------
+  const FIT_CATS = [
+    { id:"chest",       emoji:"💪", name:"Chest & Triceps Workout" },
+    { id:"back",        emoji:"🏋️", name:"Back & Biceps Workout" },
+    { id:"legs",        emoji:"🦵", name:"Legs Workout" },
+    { id:"shoulders",   emoji:"🔥", name:"Shoulder Workout" },
+    { id:"core",        emoji:"⚡", name:"Core & Abs" },
+    { id:"cardio",      emoji:"❤️", name:"Cardio & Fat Loss" },
+    { id:"nutrition",   emoji:"🥗", name:"Gym Diet & Nutrition" },
+    { id:"recovery",    emoji:"😴", name:"Sleep & Recovery" },
+    { id:"supplements", emoji:"🧠", name:"Supplements Explained" },
+    { id:"muscle",      emoji:"📈", name:"Muscle Building Tips" },
+    { id:"weightloss",  emoji:"⚖️", name:"Weight Loss" },
+    { id:"beginner",    emoji:"🚶", name:"Beginner Gym Guide" }
+  ];
+
+  // ---------- CURATED VIDEO LIBRARY ----------
+  // Real, manually verified YouTube IDs from well-known fitness creators.
+  // Add as many objects per category as you like — the grid just adapts.
+  const FIT_VIDEOS = [
+    // CHEST & TRICEPS
+    { id:"zD266B2jk0s", category:"chest", title:"The PERFECT Chest Workout (2025 Edition)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"16:40" },
+
+    // BACK & BICEPS
+    { id:"bt-IQFsvNPQ", category:"back", title:"Back and Biceps Workout (Intense!!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"11:20" },
+    { id:"yPiANlQxank", category:"back", title:"Upper Body Workout (Back & Biceps — Total Madness!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"10:05" },
+    { id:"YvKOvyiAdAI", category:"back", title:"The Back Workout (Most Effective!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"13:12" },
+    { id:"ohXcSo0j4PE", category:"back", title:"Big Back | Big Biceps (Big Mistakes!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"9:48" },
+
+    // LEGS
+    { id:"wOS5ddDqf84", category:"legs", title:"Push/Pull/Legs: The Leg Workout & Key Growth Tips", creator:"Jeff Nippard", duration:"14:30" },
+
+    // SHOULDERS
+    { id:"ss7WW_H8sR8", category:"shoulders", title:"Full Shoulder Workout (2023)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"12:15" },
+    { id:"zGZVv5zqCFE", category:"shoulders", title:"The 💯 Shoulder Workout (Most Effective!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"11:50" },
+
+    // CORE & ABS
+    { id:"i27K2ry9jEo", category:"core", title:"10 Min Ab Workout // 6 Pack Abs // No Equipment", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"10:02" },
+    { id:"8jyhJ6TiUPA", category:"core", title:"7 Minute Ab Workout (6 Pack Promise!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"7:05" },
+    { id:"9VsDP584zyQ", category:"core", title:"The \"22 Day\" Ab Workout (No Rest!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"9:40" },
+    { id:"5qVd7_O5ifY", category:"core", title:"6 Minute Ab Workout (The Only One You'll Need!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"6:30" },
+    { id:"O7Bx0Qz1Xro", category:"core", title:"Get \"Six Pack Abs\" in 22 Days! (Ab Workout)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"11:10" },
+
+    // CARDIO & FAT LOSS
+    { id:"Q7tiLCn8z-8", category:"cardio", title:"Best Fat Burning Workout (How I Stay Lean!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"9:15" },
+    { id:"T7WsVtLIZEs", category:"cardio", title:"Cardio Workout Confusion — What's Best for Fat Loss", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"8:40" },
+    { id:"OP1p_n_fbAA", category:"cardio", title:"6 Minute Fat Loss Workout (Beginner/Int/Advanced)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"6:50" },
+
+    // GYM DIET & NUTRITION
+    { id:"o6dj8a-wLQE", category:"nutrition", title:"Fitness & Nutrition — The Myths + Truths", creator:"Layne Norton", duration:"48:20" },
+    { id:"IwZVgOcnfQ8", category:"nutrition", title:"Busting 100 Fitness Myths in 24 Hours!", creator:"ft. Jeff Nippard", duration:"24:10" },
+    { id:"G891USVAdio", category:"nutrition", title:"Dieting 101", creator:"Layne Norton", duration:"22:30" },
+    { id:"03Q6DCIge6s", category:"nutrition", title:"The Science of Obesity", creator:"Layne Norton", duration:"1:10:15" },
+
+    // SLEEP & RECOVERY
+    { id:"ULh_CHEQvxk", category:"recovery", title:"Training With Joint & Muscle Soreness — Good or Bad Idea?", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"9:55" },
+    { id:"3NDAysp5n5M", category:"recovery", title:"Muscle Soreness Mystery — Should You Work Out or Not?", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"8:20" },
+    { id:"A2pcU2XDn1s", category:"recovery", title:"Overtraining — Slow Muscle Recovery (3 Second Test!!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"7:45" },
+    { id:"4xqOc4hJu94", category:"recovery", title:"Do This on Non-Workout Days (No Gains Lost!!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"10:30" },
+    { id:"O_LNwX4C1wg", category:"recovery", title:"Your Workouts Are Hurting You! (Here's Why)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"11:05" },
+
+    // SUPPLEMENTS EXPLAINED
+    { id:"epAVydG6IxI", category:"supplements", title:"The Truth About Creatine!", creator:"Jeff Cavaliere", duration:"18:40" },
+    { id:"JDuZCWNeYJ4", category:"supplements", title:"2025 Supplement Guide (Which Supplements, What Age)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"13:50" },
+    { id:"dpqJN8bmUiw", category:"supplements", title:"A Science-Based Supplement Review", creator:"Sean Nalewanyj", duration:"16:25" },
+
+    // MUSCLE BUILDING TIPS
+    { id:"5kSc3eWdZdc", category:"muscle", title:"Build Muscle With Only 30 Minutes (Science Explained)", creator:"Jeremy Ethier", duration:"11:40" },
+
+    // WEIGHT LOSS
+    { id:"sWoQS_JDHoU", category:"weightloss", title:"Fastest Way to Burn Fat (Literally!!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"9:30" },
+    { id:"TTnB03u1Qj4", category:"weightloss", title:"5 Minute Cardio Workout — Keep Your Muscle!", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"5:45" },
+    { id:"WLx5q7M741k", category:"weightloss", title:"10 Minute Home Fat Burning Workout (No Equipment!!)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"10:50" },
+
+    // BEGINNER GYM GUIDE
+    { id:"ixkQaZXVQjs", category:"beginner", title:"The PERFECT Beginner Workout (Sets & Reps Included)", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"15:20" },
+    { id:"zv0b069zgqo", category:"beginner", title:"Top 6 Beginner Workout Mistakes!", creator:"ATHLEAN-X (Jeff Cavaliere)", duration:"10:40" }
+  ];
+
+  function thumbUrl(id){ return `https://img.youtube.com/vi/${id}/hqdefault.jpg`; }
+  function videosFor(catId){ return FIT_VIDEOS.filter(v=>v.category===catId); }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+  const YT_ICON = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33zM9.75 15.02V8.48l5.75 3.27z"></path></svg>`;
+  const PLAY_ICON = `<svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"></polygon></svg>`;
+
+  // ---------- STATE ----------
+  const fit = { view:"categories", category:null, video:null };
+
+  // ---------- DOM REFS ----------
+  const overlay   = document.getElementById("fitOverlay");
+  const modal     = document.getElementById("fitModal");
+  const body      = document.getElementById("fitBody");
+  const headTitle = document.getElementById("fitHeadTitle");
+  const headSub   = document.getElementById("fitHeadSub");
+
+  function openHub(){
+    overlay.classList.add("open");
+    document.body.style.overflow = "hidden";
+    fit.view = "categories"; fit.category = null; fit.video = null;
+    render();
+  }
+  function closeHub(){
+    overlay.classList.remove("open");
+    document.body.style.overflow = "";
+    // stop any playing video by clearing the player markup after the transition
+    setTimeout(()=>{ if(!overlay.classList.contains("open")){ fit.view="categories"; fit.category=null; fit.video=null; render(); } }, 350);
+  }
+  function goBack(){
+    if(fit.view === "player"){ fit.view = "videos"; fit.video = null; }
+    else if(fit.view === "videos"){ fit.view = "categories"; fit.category = null; }
+    render();
+  }
+  function openCategory(catId){
+    fit.view = "videos"; fit.category = catId; render();
+  }
+  function openVideo(videoId){
+    fit.view = "player"; fit.video = videoId; render();
+    body.scrollTop = 0;
+  }
+
+  function renderCategories(){
+    modal.dataset.view = "categories";
+    headTitle.textContent = "Fitness Video Hub";
+    headSub.textContent = "Curated workouts, nutrition & recovery";
+    const cards = FIT_CATS.map((c,i)=>{
+      const n = videosFor(c.id).length;
+      return `<div class="fit-cat" style="animation-delay:${i*0.04}s" data-cat="${c.id}">
+        <div class="ico">${c.emoji}</div>
+        <div class="info">
+          <div class="name">${escapeHtml(c.name)}</div>
+          <div class="count">${n} video${n===1?"":"s"}</div>
+        </div>
+      </div>`;
+    }).join("");
+    body.innerHTML = `
+      <div class="fit-intro">
+        <span class="kicker">🔥 Must Watch Fitness Content</span>
+        <h1>Pick a category to dive in</h1>
+        <p>Hand-picked videos from Jeff Nippard, ATHLEAN-X, Jeremy Ethier, Layne Norton, Sean Nalewanyj and more — all playable right here, no need to leave the site.</p>
+      </div>
+      <div class="fit-cats">${cards}</div>
+    `;
+    body.querySelectorAll(".fit-cat").forEach(el=>{
+      el.addEventListener("click", ()=> openCategory(el.dataset.cat));
+    });
+  }
+
+  function renderVideos(){
+    modal.dataset.view = "videos";
+    const cat = FIT_CATS.find(c=>c.id===fit.category);
+    headTitle.textContent = cat ? `${cat.emoji} ${cat.name}` : "Videos";
+    headSub.textContent = "Tap a video to watch it instantly";
+    const vids = videosFor(fit.category);
+    const cards = vids.map((v,i)=>`
+      <div class="fit-vcard" style="animation-delay:${i*0.05}s" data-vid="${v.id}">
+        <div class="fit-thumb-wrap">
+          <img src="${thumbUrl(v.id)}" alt="${escapeHtml(v.title)}" loading="lazy">
+          <div class="play-ov"><div class="play-circle">${PLAY_ICON}</div></div>
+          ${v.duration ? `<div class="dur">${v.duration}</div>` : ""}
+        </div>
+        <div class="meta">
+          <p class="vtitle">${escapeHtml(v.title)}</p>
+          <div class="vsub">${YT_ICON}<span class="creator">${escapeHtml(v.creator)}</span></div>
+        </div>
+      </div>
+    `).join("");
+    body.innerHTML = `
+      <div class="fit-grid-head"><h2>${cat ? escapeHtml(cat.name) : ""}</h2><span>${vids.length} curated video${vids.length===1?"":"s"}</span></div>
+      <div class="fit-vgrid">${cards || `<p style="color:var(--muted)">More videos for this category are coming soon.</p>`}</div>
+    `;
+    body.querySelectorAll(".fit-vcard").forEach(el=>{
+      el.addEventListener("click", ()=> openVideo(el.dataset.vid));
+    });
+  }
+
+  function renderPlayer(){
+    modal.dataset.view = "player";
+    const v = FIT_VIDEOS.find(x=>x.id===fit.video);
+    if(!v){ fit.view="categories"; return renderCategories(); }
+    const cat = FIT_CATS.find(c=>c.id===v.category);
+    headTitle.textContent = v.title;
+    headSub.textContent = v.creator;
+    const related = videosFor(v.category).filter(x=>x.id!==v.id);
+    const relCards = related.map((r,i)=>`
+      <div class="fit-vcard" style="animation-delay:${i*0.05}s" data-vid="${r.id}">
+        <div class="fit-thumb-wrap">
+          <img src="${thumbUrl(r.id)}" alt="${escapeHtml(r.title)}" loading="lazy">
+          <div class="play-ov"><div class="play-circle">${PLAY_ICON}</div></div>
+          ${r.duration ? `<div class="dur">${r.duration}</div>` : ""}
+        </div>
+        <div class="meta">
+          <p class="vtitle">${escapeHtml(r.title)}</p>
+          <div class="vsub">${YT_ICON}<span class="creator">${escapeHtml(r.creator)}</span></div>
+        </div>
+      </div>
+    `).join("");
+    body.innerHTML = `
+      <div class="fit-player-wrap">
+        <div class="fit-player-frame" id="fitPlayerFrame">
+          <div class="fit-player-loading"><div class="fit-spin"></div><span>Loading player…</span></div>
+        </div>
+        <div class="fit-player-info">
+          <h3>${escapeHtml(v.title)}</h3>
+          <div class="row">${YT_ICON}<span>${escapeHtml(v.creator)}</span>${v.duration?`<span>&middot; ${v.duration}</span>`:""}${cat?`<span>&middot; ${cat.emoji} ${escapeHtml(cat.name)}</span>`:""}</div>
+        </div>
+        ${related.length ? `<div class="fit-related"><h4>More in this category</h4><div class="fit-vgrid">${relCards}</div></div>` : ""}
+      </div>
+    `;
+    body.querySelectorAll(".fit-vcard").forEach(el=>{
+      el.addEventListener("click", ()=> openVideo(el.dataset.vid));
+    });
+    mountPlayer(v.id, v.title);
+  }
+
+  // ---------- YOUTUBE IFRAME API (so we can detect embedding-disabled videos
+  // and show a clean fallback instead of YouTube's blocked-content screen) ----------
+  let ytApiPromise = null;
+  function loadYTApi(){
+    if(ytApiPromise) return ytApiPromise;
+    ytApiPromise = new Promise((resolve)=>{
+      if(window.YT && window.YT.Player){ resolve(window.YT); return; }
+      const prevCb = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = function(){
+        if(typeof prevCb === "function"){ try{ prevCb(); }catch(e){} }
+        resolve(window.YT);
+      };
+      if(!document.querySelector('script[src*="youtube.com/iframe_api"]')){
+        const s = document.createElement("script");
+        s.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(s);
+      }
+    });
+    return ytApiPromise;
+  }
+
+  const FALLBACK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path></svg>`;
+  const EXTERNAL_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
+
+  function showPlayerFallback(videoId, title){
+    const frame = document.getElementById("fitPlayerFrame");
+    if(!frame) return;
+    frame.innerHTML = `
+      <div class="fit-fallback">
+        <img src="${thumbUrl(videoId)}" alt="">
+        <div class="fit-fallback-card">
+          <div class="fb-ico">${FALLBACK_ICON}</div>
+          <p>This creator has disabled in-site playback for this video — but you can still watch it directly on YouTube.</p>
+          <a class="btn" href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener">${EXTERNAL_ICON} Watch on YouTube</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function mountPlayer(videoId, title){
+    // guard against race conditions if the user navigates away while the API loads
+    const requestedView = fit.view, requestedVideo = fit.video;
+    let settled = false;
+    const failTimer = setTimeout(()=>{
+      if(settled) return;
+      settled = true;
+      if(fit.view === requestedView && fit.video === requestedVideo) showPlayerFallback(videoId, title);
+    }, 7000);
+
+    loadYTApi().then(YT=>{
+      if(fit.view !== requestedView || fit.video !== requestedVideo) return; // user moved on
+      const frame = document.getElementById("fitPlayerFrame");
+      if(!frame) return;
+      frame.innerHTML = `<div id="fitYtMount" style="position:absolute;inset:0;"></div>`;
+      try{
+        new YT.Player("fitYtMount", {
+          videoId: videoId,
+          playerVars:{ autoplay:1, rel:0, modestbranding:1, playsinline:1 },
+          events:{
+            onReady:function(){ settled = true; clearTimeout(failTimer); },
+            onError:function(){ settled = true; clearTimeout(failTimer); showPlayerFallback(videoId, title); }
+          }
+        });
+      }catch(e){
+        settled = true; clearTimeout(failTimer);
+        showPlayerFallback(videoId, title);
+      }
+    }).catch(()=>{
+      if(settled) return;
+      settled = true; clearTimeout(failTimer);
+      if(fit.view === requestedView && fit.video === requestedVideo) showPlayerFallback(videoId, title);
+    });
+  }
+
+  function render(){
+    if(fit.view === "categories") renderCategories();
+    else if(fit.view === "videos") renderVideos();
+    else if(fit.view === "player") renderPlayer();
+  }
+
+  // ---------- EVENTS ----------
+  document.getElementById("fitTrigger").addEventListener("click", openHub);
+  document.getElementById("fitClose").addEventListener("click", closeHub);
+  document.getElementById("fitBack").addEventListener("click", goBack);
+  overlay.addEventListener("click", (e)=>{ if(e.target === overlay) closeHub(); });
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape" && overlay.classList.contains("open")){
+      if(fit.view !== "categories") goBack(); else closeHub();
+    }
+  });
+
+})();
 </script>
 </body>
 </html>
