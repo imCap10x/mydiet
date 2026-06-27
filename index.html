@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<!-- yo, curious traveler peeking at the source? nothing to see here, just vibes and <div>s 👀 -->
+<!-- yo, curious traveler peeking at the source laude? nothing to see here, just vibes and <div>s 👀 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyDiet — Personalized Diet & Workout Planner</title>
-<meta name="description" content="Get a free personalized diet plan, workout routine, BMI rating and supplement guide — by Aryan.">
-<!-- bro really opened devtools for THIS 😂 go touch some grass -->
+<title>MyDiet, Personalized Diet & Workout Planner</title>
+<meta name="description" content="Get a free personalized diet plan, workout routine, BMI rating and supplement guide, by Aryan.">
+<!-- bro really opened devtools for THIS 😂 go touch some grass bkl -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ---------------------------------------------------------
    if you're reading the CSS instead of using the app...
-   ngl that's kinda sus behavior chief 🕵️
+   ngl that's kinda sus behavior lode 🕵️
 --------------------------------------------------------- */
 :root{
   --bg:#0a0a0a;
@@ -40,11 +40,11 @@ body{
     radial-gradient(circle at 85% 0%, rgba(255,255,255,.03) 0%, transparent 45%),
     var(--bg) fixed;
   color:var(--text);
-  font-family:'Inter',sans-serif;
+  font-family:'Manrope',sans-serif;
   min-height:100vh;
   overflow-x:hidden;
 }
-h1,h2,h3,.brand{font-family:'Fraunces',serif;letter-spacing:-.01em;}
+h1,h2,h3,.brand{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em;}
 a{color:inherit;}
 ::selection{background:var(--text);color:#0a0a0a;}
 
@@ -68,7 +68,7 @@ a{color:inherit;}
 .menu-btn span{width:18px;height:2px;background:var(--text);border-radius:2px;}
 .brand{font-weight:600;font-size:21px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;}
 .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--text);box-shadow:0 0 10px rgba(255,255,255,.5);}
-.brand small{color:var(--muted);font-weight:500;font-size:10.5px;font-family:'Inter',sans-serif;letter-spacing:.04em;text-transform:uppercase;margin-left:2px;}
+.brand small{color:var(--muted);font-weight:500;font-size:10.5px;font-family:'Manrope',sans-serif;letter-spacing:.04em;text-transform:uppercase;margin-left:2px;}
 
 /* ===== Sidebar ===== */
 .overlay{
@@ -90,8 +90,21 @@ a{color:inherit;}
 }
 .side-link:hover{background:var(--card);border-color:var(--border);}
 .side-link.active{background:var(--card-2);border-color:var(--text);color:var(--text);}
-.side-link .ic{font-size:18px;}
-.sidebar-footer{margin-top:auto;color:var(--muted);font-size:12px;padding:10px 6px;border-top:1px solid var(--border);padding-top:16px;}
+.side-link .ic{font-size:11px;font-weight:700;color:var(--muted);width:24px;flex-shrink:0;font-family:'Manrope',sans-serif;letter-spacing:.02em;}
+.side-link.active .ic{color:var(--text);}
+.new-badge{margin-left:auto;font-size:9px;font-weight:800;letter-spacing:.06em;background:#caa24a;color:#0a0a0a;padding:2px 7px;border-radius:20px;animation:badgePulse 1.8s infinite;}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(202,162,74,.5);}50%{box-shadow:0 0 0 5px rgba(202,162,74,0);}}
+.sidebar-footer{margin-top:auto;color:var(--muted);font-size:12px;padding:10px 6px;border-top:1px solid var(--border);padding-top:16px;line-height:1.7;}
+.insta-link{display:inline-flex;align-items:center;gap:6px;color:var(--text);font-weight:600;margin-top:4px;border-bottom:1px solid transparent;transition:.2s;}
+.insta-link:hover{border-bottom-color:var(--text);}
+
+/* page transition */
+.wrap{animation:pageIn .45s cubic-bezier(.2,.8,.25,1);}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* subtle shimmer on cards */
+.card{animation:cardIn .5s cubic-bezier(.2,.8,.25,1);}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.99);}to{opacity:1;transform:translateY(0) scale(1);}}
 
 /* ===== Layout ===== */
 .wrap{max-width:880px;margin:0 auto;padding:48px 20px 90px;}
@@ -126,7 +139,7 @@ a{color:inherit;}
 .step.active{display:block;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 
-.q-title{font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em;font-family:'Fraunces',serif;}
+.q-title{font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em;font-family:'Space Grotesk',sans-serif;}
 .q-sub{color:var(--muted);font-size:14px;margin:0 0 24px;}
 
 .field{margin-bottom:18px;}
@@ -142,24 +155,27 @@ a{color:inherit;}
 .opt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
 .opt{
   border:1px solid var(--border);background:var(--bg);border-radius:12px;
-  padding:17px;cursor:pointer;transition:.18s;text-align:left;
+  padding:17px;cursor:pointer;transition:transform .18s cubic-bezier(.2,.8,.25,1), border-color .18s, background .18s, box-shadow .18s;text-align:left;
   display:flex;flex-direction:column;gap:4px;
 }
-.opt:hover{border-color:var(--accent-2);transform:translateY(-2px);background:var(--card);}
-.opt.selected{border-color:var(--text);background:var(--card-2);box-shadow:0 0 0 1px var(--text) inset;}
+.opt:hover{border-color:var(--accent-2);transform:translateY(-3px);background:var(--card);}
+.opt:active{transform:translateY(-1px) scale(.99);}
+.opt.selected{border-color:var(--text);background:var(--card-2);box-shadow:0 0 0 1px var(--text) inset;animation:optPop .3s ease;}
+@keyframes optPop{0%{transform:scale(.97);}60%{transform:scale(1.01);}100%{transform:scale(1);}}
 .opt .t{font-weight:600;font-size:15px;}
 .opt .d{font-size:12px;color:var(--muted);}
 
 .nav-btns{display:flex;justify-content:space-between;margin-top:30px;gap:12px;}
 .btn{
   border:none;padding:13px 26px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;
-  transition:.2s;font-family:inherit;letter-spacing:.01em;
+  transition:transform .18s cubic-bezier(.2,.8,.25,1), background .18s, color .18s, border-color .18s;font-family:inherit;letter-spacing:.01em;
 }
 .btn-primary{background:var(--text);color:#0a0a0a;box-shadow:0 8px 24px rgba(0,0,0,.4);}
-.btn-primary:hover{background:#e8e8e4;transform:translateY(-1px);}
+.btn-primary:hover{background:#e8e8e4;transform:translateY(-2px);}
+.btn-primary:active{transform:translateY(0) scale(.98);}
 .btn-primary:disabled{opacity:.3;cursor:not-allowed;transform:none;}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
-.btn-ghost:hover{color:var(--text);border-color:var(--accent-2);}
+.btn-ghost:hover{color:var(--text);border-color:var(--accent-2);transform:translateY(-2px);}
 .btn-block{width:100%;}
 
 /* result */
@@ -171,7 +187,7 @@ a{color:inherit;}
 .day-card{border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;background:var(--bg);}
 .day-head{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;cursor:pointer;background:var(--card-2);transition:.15s;}
 .day-head:hover{background:var(--card);}
-.day-head .dname{font-weight:600;font-size:15px;font-family:'Fraunces',serif;}
+.day-head .dname{font-weight:600;font-size:15px;font-family:'Space Grotesk',sans-serif;}
 .day-head .chev{transition:.25s;color:var(--muted);}
 .day-card.open .chev{transform:rotate(180deg);}
 .day-body{display:none;padding:6px 18px 18px;}
@@ -182,18 +198,18 @@ a{color:inherit;}
 .meal-opt .pro{color:var(--text);font-weight:600;font-size:12px;white-space:nowrap;margin-left:10px;opacity:.75;}
 
 .ex-block{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border:1px solid var(--border);border-radius:10px;margin-bottom:9px;background:var(--bg);font-size:14px;}
-.ex-block b{font-family:'Fraunces',serif;font-weight:600;}
+.ex-block b{font-family:'Space Grotesk',sans-serif;font-weight:600;}
 .ex-block .meta{color:var(--muted);font-size:12px;margin-top:2px;}
 
 .bmi-result{text-align:center;padding:24px 0 4px;}
-.bmi-num{font-size:58px;font-weight:600;font-family:'Fraunces',serif;color:var(--text);}
+.bmi-num{font-size:58px;font-weight:600;font-family:'Space Grotesk',sans-serif;color:var(--text);}
 .bmi-cat{font-size:17px;font-weight:600;margin-top:4px;letter-spacing:-.01em;}
 .bmi-bar{height:8px;border-radius:10px;background:linear-gradient(90deg,#5a5a55,#9b9b94 35%,#cfcfc6 60%,#ffffff 85%);position:relative;margin:30px 0 10px;}
 .bmi-marker{position:absolute;top:-6px;width:3px;height:20px;background:#0a0a0a;border-radius:3px;box-shadow:0 0 0 2px #fff;}
 .bmi-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;}
 
 .sup-card{border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:20px;margin-bottom:14px;}
-.sup-card h4{margin:0 0 5px;font-size:17px;font-family:'Fraunces',serif;font-weight:600;}
+.sup-card h4{margin:0 0 5px;font-size:17px;font-family:'Space Grotesk',sans-serif;font-weight:600;}
 .sup-card p{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.5;}
 .brand-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
 .brand-row .name{width:130px;font-size:12.5px;font-weight:500;flex-shrink:0;color:var(--accent-2);}
@@ -209,37 +225,223 @@ a{color:inherit;}
   .row2{grid-template-columns:1fr;}
   .card{padding:22px;}
 }
+
+/* ===== Problem Solver ===== */
+.problem-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+.problem-item{
+  border:1px solid var(--border);background:var(--bg);border-radius:12px;
+  padding:16px 18px;cursor:pointer;transition:transform .18s, border-color .18s, background .18s;
+}
+.problem-item:hover{border-color:var(--accent-2);transform:translateX(4px);background:var(--card);}
+.problem-item .pt{font-weight:600;font-size:14.5px;}
+.problem-item .pc{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;display:block;}
+.solution-box{border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:24px;margin-top:6px;animation:cardIn .4s ease;}
+.solution-box h3{margin:0 0 12px;font-size:19px;}
+.solution-box .why{color:var(--muted);font-size:13.5px;margin-bottom:16px;line-height:1.6;}
+.solution-box ol,.solution-box ul{margin:0;padding-left:20px;line-height:1.8;font-size:14px;}
+.solution-box li{margin-bottom:6px;}
+.search-input-wrap{display:flex;gap:10px;margin-bottom:20px;}
+.search-input-wrap input{flex:1;padding:13px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;outline:none;}
+.search-input-wrap input:focus{border-color:var(--text);}
+
+/* ===== Ask Coach (chat) ===== */
+.chat-wrap{display:flex;flex-direction:column;height:520px;}
+.chat-log{flex:1;overflow-y:auto;padding:6px 4px 16px;display:flex;flex-direction:column;gap:14px;}
+.chat-msg{max-width:80%;padding:13px 16px;border-radius:14px;font-size:14px;line-height:1.55;animation:msgIn .3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.chat-msg.user{align-self:flex-end;background:var(--text);color:#0a0a0a;border-radius:14px 14px 4px 14px;}
+.chat-msg.bot{align-self:flex-start;background:var(--card-2);border:1px solid var(--border);border-radius:14px 14px 14px 4px;}
+.chat-input-row{display:flex;gap:10px;border-top:1px solid var(--border);padding-top:16px;}
+.chat-input-row input{flex:1;padding:13px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;outline:none;}
+.chat-input-row input:focus{border-color:var(--text);}
+.typing-dots{display:inline-flex;gap:4px;align-items:center;padding:4px 0;}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:typingBlink 1.2s infinite ease-in-out;}
+.typing-dots span:nth-child(2){animation-delay:.2s;}
+.typing-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes typingBlink{0%,80%,100%{opacity:.2;transform:translateY(0);}40%{opacity:1;transform:translateY(-3px);}}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.chip{border:1px solid var(--border);background:var(--bg);padding:8px 14px;border-radius:30px;font-size:12.5px;color:var(--muted);cursor:pointer;transition:.18s;}
+.chip:hover{border-color:var(--accent-2);color:var(--text);transform:translateY(-1px);}
+
+/* ===== Calorie Tracker ===== */
+.cal-result{border:1px solid var(--border);background:var(--bg);border-radius:14px;padding:24px;margin-top:18px;animation:cardIn .4s ease;}
+.cal-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:14px;}
+.cal-name{font-size:19px;font-weight:600;font-family:'Space Grotesk',sans-serif;}
+.cal-score{text-align:center;border:1px solid var(--border);border-radius:12px;padding:10px 18px;min-width:80px;}
+.cal-score .num{font-size:26px;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+.cal-score .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+.macro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+.macro-box{border:1px solid var(--border-soft);border-radius:10px;padding:12px 8px;text-align:center;background:var(--card);}
+.macro-box .v{font-size:17px;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+.macro-box .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+.cal-alt{border-top:1px solid var(--border);padding-top:16px;margin-top:6px;}
+.cal-alt h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;}
+.cal-log-list{margin-top:22px;}
+.cal-log-item{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border:1px solid var(--border-soft);border-radius:10px;margin-bottom:8px;font-size:13.5px;background:var(--card);}
+.cal-log-item .kcal{color:var(--muted);font-size:12px;}
+.cal-total-bar{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-top:14px;background:var(--card-2);}
+.cal-total-bar .v{font-size:22px;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+
+/* ===== Recipes ===== */
+.recipe-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.recipe-tab{border:1px solid var(--border);background:var(--bg);padding:9px 16px;border-radius:30px;font-size:12.5px;cursor:pointer;color:var(--muted);transition:.18s;}
+.recipe-tab:hover{color:var(--text);border-color:var(--accent-2);}
+.recipe-tab.active{background:var(--text);color:#0a0a0a;border-color:var(--text);}
+.recipe-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.recipe-card{border:1px solid var(--border);background:var(--bg);border-radius:12px;padding:16px;transition:transform .18s, border-color .18s;}
+.recipe-card:hover{transform:translateY(-3px);border-color:var(--accent-2);}
+.recipe-card .rtype{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+.recipe-card .rname{font-weight:600;font-size:14.5px;margin:5px 0 6px;}
+.recipe-card .rmeta{font-size:12px;color:var(--accent-2);}
+@media(max-width:560px){ .recipe-grid{grid-template-columns:1fr;} .macro-grid{grid-template-columns:repeat(2,1fr);} }
+
+/* ===== Trusted-by floating strip ===== */
+.trusted-strip{max-width:1000px;margin:0 auto;padding:10px 20px 70px;text-align:center;}
+.trusted-label{font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:30px;}
+.trusted-row{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;}
+.trust-card{
+  border:1px solid var(--border);background:var(--card);border-radius:16px;
+  padding:16px 20px;display:flex;align-items:center;gap:13px;min-width:240px;max-width:280px;
+  opacity:0;transform:translateY(24px);
+  animation:trustFloat .7s cubic-bezier(.16,1,.3,1) forwards, trustIdle 5s ease-in-out infinite;
+  animation-play-state:running, paused;
+  transition:transform .3s cubic-bezier(.2,.8,.25,1), border-color .3s, box-shadow .3s;
+}
+.trust-card:hover{transform:translateY(-5px) !important;border-color:var(--accent-2);box-shadow:0 16px 36px rgba(0,0,0,.4);animation-play-state:running, running;}
+.trust-card .icon{font-size:22px;flex-shrink:0;opacity:.85;}
+.trust-card .who{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;letter-spacing:-.01em;}
+.trust-card .quote{font-family:'Manrope',sans-serif;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.45;}
+@keyframes trustFloat{to{opacity:1;transform:translateY(0);}}
+@keyframes trustIdle{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@media(max-width:560px){ .trust-card{min-width:100%;} }
+
+/* ===== Hero entrance animation (intro splash) ===== */
+.intro-splash{
+  position:fixed;inset:0;z-index:200;background:#000;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .6s ease, visibility .6s ease;
+}
+.intro-splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.intro-text{
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(34px,9vw,80px);
+  letter-spacing:-.02em;
+  opacity:0;filter:blur(14px);transform:scale(.85);
+  animation:introIn 2.6s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes introIn{
+  0%{opacity:0;filter:blur(18px);transform:scale(.8);color:#ffd76a;text-shadow:0 0 40px rgba(255,215,106,.6);}
+  28%{opacity:1;filter:blur(0px);transform:scale(1.04);color:#ffd76a;text-shadow:0 0 50px rgba(255,215,106,.8);}
+  52%{color:#b5232f;text-shadow:0 0 45px rgba(181,35,47,.7);transform:scale(1.0);}
+  76%{color:#1a1a1a;text-shadow:0 0 20px rgba(255,255,255,.15);}
+  100%{opacity:1;filter:blur(0px);transform:scale(1);color:#f5f5f3;text-shadow:none;}
+}
+
+/* ===== Music player widget ===== */
+.music-widget{
+  position:fixed;bottom:20px;right:20px;z-index:90;
+  display:flex;align-items:center;gap:10px;
+  background:rgba(19,19,19,.85);backdrop-filter:blur(14px);
+  border:1px solid var(--border);border-radius:30px;padding:8px 14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+.music-toggle{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--card-2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.2s;
+}
+.music-toggle:hover{border-color:var(--text);}
+.music-toggle svg{width:15px;height:15px;}
+.music-vol{width:0;overflow:hidden;transition:width .25s ease;}
+.music-widget.expanded .music-vol{width:80px;}
+.music-vol input{width:80px;accent-color:var(--text);}
+@media(max-width:560px){ .music-widget{bottom:14px;right:14px;padding:7px 10px;} }
+
+/* ===== Fade-in-on-scroll ===== */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.25,1), transform .7s cubic-bezier(.2,.8,.25,1);}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ===== Glow / ripple buttons ===== */
+.btn{position:relative;overflow:hidden;}
+.btn-primary{box-shadow:0 8px 24px rgba(0,0,0,.4), 0 0 0 0 rgba(255,255,255,0);}
+.btn-primary:hover{box-shadow:0 8px 28px rgba(0,0,0,.45), 0 0 18px rgba(255,255,255,.18);}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rippleAnim .55s ease-out;pointer-events:none;}
+@keyframes rippleAnim{to{transform:scale(3);opacity:0;}}
+
+/* ===== Magnetic hover (desktop) ===== */
+@media(hover:hover){
+  .opt, .btn, .trust-card, .recipe-card{will-change:transform;}
+}
+
+/* ===== Animated gradient blob background ===== */
+.blob-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;mix-blend-mode:screen;animation:blobMove 22s ease-in-out infinite;}
+.blob.b1{width:420px;height:420px;background:radial-gradient(circle,#caa24a,transparent 70%);top:-10%;left:-8%;animation-duration:26s;}
+.blob.b2{width:380px;height:380px;background:radial-gradient(circle,#b5232f,transparent 70%);bottom:-12%;right:-6%;animation-duration:30s;animation-delay:-6s;}
+.blob.b3{width:300px;height:300px;background:radial-gradient(circle,#666,transparent 70%);top:40%;left:60%;animation-duration:34s;animation-delay:-12s;}
+@keyframes blobMove{
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(40px,-30px) scale(1.1);}
+  66%{transform:translate(-30px,30px) scale(.95);}
+}
+@media(max-width:560px){ .blob{filter:blur(50px);opacity:.35;} }
 </style>
 </head>
 <body>
 
-<!-- if you somehow inspected this far down... respect. but also, go make your diet plan instead 🥗 -->
+<!-- are bhchod if you somehow inspected this far down... respect. but also, go make your diet plan instead -->
+
+<div class="blob-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+
+<div class="intro-splash" id="introSplash"><div class="intro-text">MyDiet</div></div>
+
+<div class="music-widget" id="musicWidget">
+  <div class="music-toggle" id="musicToggle">
+    <svg id="musicIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+  </div>
+  <div class="music-vol"><input type="range" id="musicVol" min="0" max="1" step="0.01" value="0.4"></div>
+  <audio id="bgMusic" loop preload="none">
+    <!-- Add your own royalty-free track here, e.g. from Pixabay Music or YouTube Audio Library -->
+    <!-- <source src="music/background.mp3" type="audio/mpeg"> -->
+  </audio>
+</div>
 
 <div class="topbar">
   <div class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></div>
-  <div class="brand"><span class="dot"></span>MyDiet <small>by Aryan</small></div>
+  <div class="brand"><span class="dot"></span>MyDiet <small>by Aryann</small></div>
   <div style="width:42px"></div>
 </div>
 
 <div class="overlay" id="overlay"></div>
 <div class="sidebar" id="sidebar">
   <h3>Tools</h3>
-  <div class="side-link active" data-view="planner"><span class="ic">🥗</span>Diet Plan Maker</div>
-  <div class="side-link" data-view="workout"><span class="ic">🏋️</span>Workout Routine Maker</div>
-  <div class="side-link" data-view="bmi"><span class="ic">📏</span>BMI Calculator</div>
-  <div class="side-link" data-view="supps"><span class="ic">💊</span>Supplement Recommender</div>
-  <div class="sidebar-footer">MyDiet © 2026 — made by Aryan<br>Free forever. No login required.</div>
+  <div class="side-link active" data-view="planner"><span class="ic">01</span>Diet Plan Maker</div>
+  <div class="side-link" data-view="workout"><span class="ic">02</span>Workout Routine Maker</div>
+  <div class="side-link" data-view="bmi"><span class="ic">03</span>BMI Calculator</div>
+  <div class="side-link" data-view="calories"><span class="ic">04</span>Calorie Tracker<span class="new-badge">NEW</span></div>
+  <div class="side-link" data-view="supps"><span class="ic">05</span>Supplement Recommender</div>
+  <div class="side-link" data-view="solver"><span class="ic">06</span>Problem Solver</div>
+  <div class="side-link" data-view="coach"><span class="ic">07</span>Ask Coach</div>
+  <div class="side-link" data-view="recipes"><span class="ic">08</span>What to Eat</div>
+  <div class="side-link" data-view="skincare"><span class="ic">09</span>AI Skincare Advisor<span class="new-badge">NEW</span></div>
+  <div class="sidebar-footer">
+    MyDiet, made by Aryan<br> just a useless site. No login required.<br>
+    <a href="https://instagram.com/aryann.ax" target="_blank" rel="noopener" class="insta-link">@aryann.ax</a>
+  </div>
 </div>
 
 <div class="wrap" id="app"></div>
 
+<div class="trusted-strip">
+  <div class="trusted-label">log kya kya bol gaye humein use karke</div>
+  <div class="trusted-row" id="trustedRow"></div>
+</div>
+
 <script>
 /* ============================================================
-   psst. nothing fishy here, just clean code & good vibes.
-   (but fr, if you're a recruiter reading this — hi, I'm hireable 😎)
+   sojaa. nothing fishy here, lodu what you looking , code & good vibes.
+   (but fr, if you're a recruiter reading this, hi, I'm hireable 😎)
 ============================================================ */
 
-// ---------- DATA: MEALS (sample structure, expand freely) ----------
+// ---------- DATA: MEALS (sample structure, aur add krne hai abhiii) ----------
 const MEALS = {
   veg:{
     breakfast:[
@@ -328,7 +530,7 @@ const WORKOUTS = {
       ["Legs (Heavy)","Squats, Romanian Deadlift, Leg Press, Calves"],
       ["Shoulders + Arms","OHP, Lateral Raise, Curls, Tricep Extension"],
       ["Rest","Recovery, extra meal"],
-      ["Full Body Strength","Deadlift, Bench, Squat — heavy compound"],
+      ["Full Body Strength","Deadlift, Bench, Squat, heavy compound"],
       ["Back + Biceps","Rows, Pulldown, Curls"],
       ["Rest"," "]
     ],
@@ -362,7 +564,7 @@ const WORKOUTS = {
       ["Rest"," "]
     ],
     "Getting Lean":[
-      ["HIIT Cardio","Jumping Jacks, High Knees, Burpees — 20 min"],
+      ["HIIT Cardio","Jumping Jacks, High Knees, Burpees, 20 min"],
       ["Core + Lower Body","Squats, Lunges, Plank, Leg Raises"],
       ["Upper Body","Push-ups, Tricep Dips, Superman"],
       ["Active Recovery","Stretch + walk"],
@@ -460,7 +662,7 @@ function renderPlanner(){
     <div class="hero">
       <span class="kicker">Diet Plan Maker</span>
       <h1>Your Personal <em>Diet Plan</em>, Built for You</h1>
-      <p>Answer a few quick questions and get a full 7-day diet plan with protein counts — downloadable as a clean PDF.</p>
+      <p>Answer a few sawaal, hum bana denge full hafte ka diet, taaki "kal se start karunga" wala excuse aaj hi khatam ho jaaye.</p>
     </div>
     <div class="card" id="dietCard"></div>
   `;
@@ -482,8 +684,8 @@ function renderDietStep(){
     const d = dietState.data;
     inner += `
       <h2 class="q-title">Tell us about you</h2>
-      <p class="q-sub">Basic info to personalize your plan.</p>
-      <div class="field"><label>Full Name</label><input id="f_name" value="${d.name}" placeholder="e.g. Aryan Sharma"></div>
+      <p class="q-sub">Thoda apne baare mein bata de bhai, hum koi background check nahi kar rahe, bas plan banana hai. Sahi sahi bharna, fake height daal ke height-weight ratio bigaad ke humse mat lad jaana baad mein.</p>
+      <div class="field"><label>Full Name</label><input id="f_name" value="${d.name}" placeholder="e.g. Rohan Verma (CJP wale, Genz Yuva Neta)"></div>
       <div class="row2">
         <div class="field"><label>Age</label><input id="f_age" type="number" value="${d.age}" placeholder="22"></div>
         <div class="field"><label>Gender</label><select id="f_gender">
@@ -548,7 +750,7 @@ function renderDietResult(){
   const dietKey = d.diet === "Veg" ? "veg" : "nonveg";
   let html = `
     <div class="result-head">
-      <div class="badge">✓ Plan Ready</div>
+      <div class="badge">Plan Ready</div>
       <h2 class="q-title">Hey ${d.name}, here's your 7-day diet plan</h2>
       <p class="q-sub">Goal: ${d.goal} · ${d.diet} · ${d.intensity}</p>
     </div>
@@ -572,7 +774,7 @@ function renderDietResult(){
   });
   html += `</div>
     <div class="actions">
-      <button class="btn btn-primary" id="downloadDiet">⬇ Download PDF</button>
+      <button class="btn btn-primary" id="downloadDiet">Download PDF</button>
       <button class="btn btn-ghost" id="restartDiet">Start Over</button>
     </div>
     <p class="footer-note">This plan is general guidance, not medical advice. Consult a professional for medical conditions.</p>
@@ -608,7 +810,7 @@ function generateDietPDF(d){
   }
   function footer(){
     doc.setTextColor(150,150,150); doc.setFontSize(9);
-    doc.text("Made by Aryan — MyDiet.app", W/2, 815, {align:"center"});
+    doc.text("Made by Aryan, MyDiet.app", W/2, 815, {align:"center"});
   }
 
   y = header();
@@ -656,7 +858,7 @@ const wSteps = [
 function renderWorkout(){
   app.innerHTML = `
     <div class="hero"><span class="kicker">Workout Routine Maker</span><h1>Custom <em>Workout Plan</em></h1>
-    <p>A 7-day routine built around your goal, equipment and intensity.</p></div>
+    <p>7 din ka routine, tere goal aur excuses ke hisaab se, "aaj rest day hai" wala bahana yahan kaam nahi karega.</p></div>
     <div class="card" id="wCard"></div>`;
   renderWStep();
 }
@@ -697,14 +899,14 @@ function getWorkoutPlan(d){
 }
 function renderWorkoutResult(){
   const plan = getWorkoutPlan(wState.data);
-  let html = `<div class="result-head"><div class="badge">✓ Plan Ready</div>
+  let html = `<div class="result-head"><div class="badge">Plan Ready</div>
     <h2 class="q-title">Your 7-Day Workout Plan</h2>
     <p class="q-sub">${wState.data.goal} · ${wState.data.type} · ${wState.data.intensity}</p></div>`;
   plan.forEach(([title,detail],i)=>{
     html += `<div class="ex-block"><div><b>${DAYS[i]}: ${title}</b><div class="meta">${detail}</div></div></div>`;
   });
   html += `<div class="actions">
-    <button class="btn btn-primary" id="downloadWorkout">⬇ Download PDF</button>
+    <button class="btn btn-primary" id="downloadWorkout">Download PDF</button>
     <button class="btn btn-ghost" id="restartWorkout">Start Over</button></div>`;
   return html;
 }
@@ -723,21 +925,21 @@ function generateWorkoutPDF(d, plan){
   plan.forEach(([title,detail],i)=>{
     doc.setFillColor(20,20,20); doc.roundedRect(40,y-14,W-80,24,4,4,"F");
     doc.setTextColor(255,255,255); doc.setFont("helvetica","bold"); doc.setFontSize(12);
-    doc.text(`${DAYS[i]} — ${title}`, 48, y+2);
+    doc.text(`${DAYS[i]}, ${title}`, 48, y+2);
     y += 22;
     doc.setTextColor(60,60,60); doc.setFont("helvetica","normal"); doc.setFontSize(9.5);
     doc.text(detail, 48, y, {maxWidth:W-96});
     y += 36;
   });
   doc.setTextColor(150,150,150); doc.setFontSize(9);
-  doc.text("Made by Aryan — MyDiet.app", W/2, 815, {align:"center"});
+  doc.text("Made by Aryan, MyDiet.app", W/2, 815, {align:"center"});
   doc.save("MyDiet_Workout_Plan.pdf");
 }
 
 // ================= VIEW: BMI CALCULATOR =================
 function renderBMI(){
   app.innerHTML = `
-    <div class="hero"><span class="kicker">BMI Calculator</span><h1>Check Your <em>BMI</em></h1><p>Instantly check your Body Mass Index and what it means.</p></div>
+    <div class="hero"><span class="kicker">BMI Calculator</span><h1>Check Your <em>BMI</em></h1><p>Number daal, sach sun, BMI judge nahi karega par thoda reality check zaroor dega.</p></div>
     <div class="card">
       <div class="row2">
         <div class="field"><label>Height (cm)</label><input id="bmiHeight" type="number" placeholder="175"></div>
@@ -764,8 +966,8 @@ function renderBMI(){
         <div class="bmi-scale"><span>Under</span><span>Normal</span><span>Over</span><span>Obese</span></div>
         <p class="q-sub" style="margin-top:18px">${
           cat==="Healthy / Normal" ? "Great! Maintain your current habits with balanced nutrition & regular movement."
-          : cat==="Underweight" ? "Consider a calorie surplus with protein-rich meals — try our Diet Plan Maker."
-          : "Consider a structured diet + workout plan to move toward a healthier range — check our Diet & Workout tools."
+          : cat==="Underweight" ? "Consider a calorie surplus with protein-rich meals, try our Diet Plan Maker."
+          : "Consider a structured diet + workout plan to move toward a healthier range, check our Diet & Workout tools."
         }</p>
       </div>`;
   };
@@ -782,7 +984,7 @@ const supQs = [
 ];
 function renderSupps(){
   app.innerHTML = `<div class="hero"><span class="kicker">Supplement Recommender</span><h1>Your <em>Supplement</em> Stack</h1>
-    <p>Answer a few quick questions to get supplements that actually fit your needs.</p></div>
+    <p>Kuch sawaal poochenge, fir batayenge kaunsa dabba kharidna hai, bina kisi "bro science" ke.</p></div>
     <div class="card" id="supCard"></div>`;
   renderSupStep();
 }
@@ -819,7 +1021,7 @@ function getSupRecommendations(d){
 }
 function renderSupResult(){
   const recs = getSupRecommendations(supState.data);
-  let html = `<div class="result-head"><div class="badge">✓ Recommendations Ready</div>
+  let html = `<div class="result-head"><div class="badge">Recommendations Ready</div>
     <h2 class="q-title">Your Supplement Stack</h2>
     <p class="q-sub">Based on your training, energy & goals.</p></div>`;
   recs.forEach(key=>{
@@ -833,7 +1035,7 @@ function renderSupResult(){
     </div>`;
   });
   html += `<div class="actions"><button class="btn btn-ghost" id="restartSup">Retake Quiz</button></div>
-    <p class="footer-note">Ratings are aggregated approximations based on general online reviews — always check current third-party reviews before purchasing.</p>`;
+    <p class="footer-note">Ratings are aggregated approximations based on general online reviews, always check current third-party reviews before purchasing.</p>`;
   return html;
 }
 function bindSupResult(){
@@ -843,16 +1045,725 @@ function bindSupResult(){
   $("#restartSup").onclick = ()=>{ supState.step=0; supState.data={}; renderSupStep(); };
 }
 
+// ================= VIEW: PROBLEM SOLVER =================
+const PROBLEMS = [
+  {cat:"Pain & Injury",title:"Knee pain during squats",
+    why:"Usually caused by poor tracking (knees caving in), weak glutes, or going too heavy too soon without proper warm-up.",
+    fix:["Warm up with 5 mins of bodyweight squats + leg swings before loading weight","Focus on pushing knees out in line with toes throughout the movement","Reduce weight by 20-30% and rebuild form before progressing again","Add glute activation work (banded lateral walks) before leg day","If sharp pain persists beyond 2 sessions, stop and consult a physiotherapist"]},
+  {cat:"Pain & Injury",title:"Lower back pain after deadlifts",
+    why:"Almost always a form issue, rounding the lower back under load, or lifting with the back instead of hips/legs.",
+    fix:["Drop the weight significantly and rebuild from the hip hinge pattern","Keep the bar close to your shins, brace your core hard before lifting","Film yourself from the side to check for back rounding","Strengthen your core with planks and dead bugs 2x/week","Persistent pain beyond a few days needs a doctor, not more lifting"]},
+  {cat:"Pain & Injury",title:"Shoulder pain on bench press",
+    why:"Often from flaring elbows too wide, weak rotator cuffs, or insufficient warm-up of the shoulder joint.",
+    fix:["Tuck elbows to roughly 45-60 degrees instead of flaring to 90","Add 2 sets of light band external rotations before pressing","Reduce range of motion slightly if pain is at the bottom of the rep","Strengthen rear delts and rotator cuff 2x/week with light bands","Take a deload week if pain has lasted more than a week"]},
+  {cat:"Plateau",title:"Not gaining muscle despite training hard",
+    why:"Usually a calorie or protein deficit, inconsistent progressive overload, or poor recovery, not a 'genetics' problem.",
+    fix:["Track your food for a week, most people underestimate calories by 20-30%","Aim for 1.6-2.2g protein per kg bodyweight daily","Make sure you're adding weight or reps every 1-2 weeks (progressive overload)","Get 7-8 hours of sleep, this is when most muscle repair happens","Give any change at least 4-6 weeks before judging results"]},
+  {cat:"Plateau",title:"Stuck at the same weight for weeks (strength plateau)",
+    why:"Your body has adapted to the current stimulus, you need a new training variable.",
+    fix:["Try a deload week (50% volume) then come back stronger","Change rep ranges for 2-3 weeks (e.g. switch from 5 reps to 10-12 reps)","Check sleep and stress, both directly limit strength gains","Make sure you're not skipping warm-up sets that prime the nervous system","Reassess your diet, a slight calorie increase can break plateaus"]},
+  {cat:"Fat Loss",title:"Not losing fat despite dieting",
+    why:"Almost always a hidden calorie surplus (drinks, sauces, weekend eating) or overestimating workout calorie burn.",
+    fix:["Track everything for 5-7 days including drinks, oils, and condiments","Weigh yourself daily and use the weekly average, not single readings","Don't trust gym machine calorie counters, they overestimate significantly","Add 20-30 mins of daily walking on top of workouts","Be patient, sustainable fat loss is 0.5-1% of bodyweight per week"]},
+  {cat:"Fat Loss",title:"Losing muscle while cutting fat",
+    why:"Cutting calories too aggressively or not eating enough protein during a deficit.",
+    fix:["Keep your deficit moderate, 300-500 calories below maintenance, not 1000+","Increase protein to 2-2.2g per kg bodyweight while cutting","Keep lifting heavy, don't switch entirely to cardio","Avoid losing more than 1% of bodyweight per week","Consider a 'diet break' every 6-8 weeks at maintenance calories"]},
+  {cat:"Motivation",title:"Losing motivation to go to the gym",
+    why:"Common after the initial novelty fades, usually fixed by changing structure, not willpower.",
+    fix:["Switch up your routine or training split every 6-8 weeks","Train with a friend or join a community for accountability","Set a small, specific weekly goal instead of a vague long-term one","Track visible progress (photos, measurements), strength alone can feel slow","Allow yourself a planned rest day so workouts don't feel like punishment"]},
+  {cat:"Nutrition",title:"Always hungry even after meals",
+    why:"Usually low protein/fiber intake, or meals too low in volume for your calorie target.",
+    fix:["Add more protein and fiber-rich vegetables to every meal","Drink water before meals, thirst is often mistaken for hunger","Avoid liquid calories (juices, sugary drinks) which don't fill you up","Space meals evenly across the day instead of skipping then overeating","Make sure you're not under-eating overall, too few calories backfires"]},
+  {cat:"Nutrition",title:"Don't know how much protein to eat",
+    why:"Most people either wildly overestimate or underestimate their actual needs.",
+    fix:["General target: 1.6-2.2g protein per kg of bodyweight per day","For a 70kg person, that's roughly 112-154g of protein daily","Spread protein across 3-4 meals rather than one big serving","Use our Diet Plan Maker, it shows protein per meal automatically","Whole foods first; supplement with whey only to fill genuine gaps"]},
+  {cat:"Beginners",title:"Don't know where to start as a complete beginner",
+    why:"Information overload is the real problem, not lack of options.",
+    fix:["Pick ONE structured plan (use our Workout Routine Maker) and stick to it for 8 weeks","Learn 5 core movements well: squat, hinge, push, pull, carry","Focus on consistency over perfection for the first 2-3 months","Track your workouts so you can see objective progress","Don't change programs every week, give one a real chance first"]},
+  {cat:"Beginners",title:"Sore for days after every workout",
+    why:"Normal when starting out or trying a new movement, but excessive soreness usually means overdoing volume/intensity too fast.",
+    fix:["Light movement (walking, easy cardio) speeds up recovery more than rest","Make sure you're eating enough protein and staying hydrated","Increase training volume gradually, don't jump from 0 to 6 days/week","Soreness is not the goal, consistent progress is","If soreness lasts more than 4-5 days regularly, you're likely overtraining"]}
+];
+const solverState = { selected:null, query:"" };
+function renderSolver(){
+  app.innerHTML = `
+    <div class="hero"><span class="kicker">Problem Solver</span><h1>Stuck on Something? <em>Fix It Here</em></h1>
+    <p>Jo bhi pareshani hai, gym wali ya body wali, bata, fix ka jugaad yahin milega.</p></div>
+    <div class="card" id="solverCard"></div>`;
+  renderSolverList();
+}
+function renderSolverList(){
+  const card = $("#solverCard");
+  const q = solverState.query.toLowerCase();
+  const filtered = PROBLEMS.filter(p => !q || p.title.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q));
+  card.innerHTML = `
+    <div class="search-input-wrap">
+      <input id="solverSearch" placeholder="Search a problem... e.g. knee pain, plateau, motivation" value="${solverState.query}">
+    </div>
+    <div class="problem-grid">
+      ${filtered.length ? filtered.map((p,i)=>`
+        <div class="problem-item" data-i="${PROBLEMS.indexOf(p)}">
+          <span class="pc">${p.cat}</span>
+          <span class="pt">${p.title}</span>
+        </div>`).join("") : `<p class="q-sub">No matching problems found. Try a different keyword.</p>`}
+    </div>
+    <div id="solverDetail"></div>
+  `;
+  $("#solverSearch").oninput = (e)=>{ solverState.query = e.target.value; renderSolverList(); };
+  document.querySelectorAll(".problem-item").forEach(el=>{
+    el.onclick = ()=>{
+      const p = PROBLEMS[el.dataset.i];
+      $("#solverDetail").innerHTML = `
+        <div class="solution-box">
+          <h3>${p.title}</h3>
+          <div class="why"><b style="color:var(--text)">Why this happens:</b> ${p.why}</div>
+          <b style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);">How to fix it</b>
+          <ol style="margin-top:10px">${p.fix.map(f=>`<li>${f}</li>`).join("")}</ol>
+        </div>`;
+      $("#solverDetail").scrollIntoView({behavior:"smooth", block:"nearest"});
+    };
+  });
+}
+
+// ================= VIEW: ASK COACH (chat) =================
+const COACH_KB = [
+  {kw:["protein","how much protein"], a:"Aim for roughly 1.6-2.2g of protein per kg of your bodyweight per day, spread across 3-4 meals. For most people that's more important than the exact source, whole foods first, whey only to fill gaps. Check the Diet Plan Maker for protein-counted meals."},
+  {kw:["lose fat","fat loss","cutting","weight loss"], a:"Fat loss comes down to a consistent, moderate calorie deficit (around 300-500 calories below maintenance) combined with enough protein to protect muscle. Track your food for a few days, most people underestimate intake by 20-30%. Patience matters: 0.5-1% of bodyweight per week is sustainable."},
+  {kw:["muscle","bulk","gain weight","mass"], a:"Muscle gain needs a slight calorie surplus, 1.6-2.2g/kg protein, progressive overload (adding weight or reps over time), and 7-8 hours of sleep for recovery. Give any new program at least 4-6 weeks before judging results."},
+  {kw:["knee pain","knee hurts"], a:"Knee pain during squats is usually poor knee tracking, weak glutes, or going too heavy too fast. Warm up properly, keep knees tracking over your toes, and drop the weight 20-30% to rebuild form. If sharp pain continues past a couple of sessions, see a physiotherapist, don't push through it."},
+  {kw:["back pain","lower back"], a:"Lower back pain after lifting is almost always a form issue, usually rounding the back under load. Drop the weight, rebuild the hip-hinge pattern, and strengthen your core with planks. Persistent pain needs a doctor, not more lifting."},
+  {kw:["plateau","stuck","not progressing","no progress"], a:"Plateaus mean your body has adapted to the current stimulus. Try a deload week, change your rep range for a few weeks, check your sleep and stress levels, and make sure you're tracking progressive overload, not just showing up."},
+  {kw:["creatine"], a:"Creatine monohydrate is one of the most well-researched supplements, typically 3-5g daily, any time of day, taken consistently. It supports strength and muscle volume over time. Check the Supplement Recommender for brand comparisons."},
+  {kw:["preworkout","pre workout","energy before workout"], a:"If you're often low on energy before training, a pre-workout or even plain black coffee 30-45 mins before your session can help. If you prefer something natural, coffee or green tea works well too, check the Supplement Recommender for a personalized pick."},
+  {kw:["motivation","don't want to go","lazy"], a:"Motivation naturally dips after the initial novelty fades, that's normal, not a personal failing. Try changing your routine every 6-8 weeks, training with a friend, or setting one small specific weekly goal instead of a vague long-term one."},
+  {kw:["beginner","start","new to gym","first time"], a:"As a beginner, pick ONE structured plan and stick with it for 8 weeks instead of jumping between programs. Focus on 5 core movement patterns: squat, hinge, push, pull, carry. Use the Workout Routine Maker to get a 7-day plan tailored to you."},
+  {kw:["sore","soreness","doms"], a:"Soreness after a new movement or after a break is normal, but it shouldn't last more than 3-4 days. Light movement actually speeds recovery more than rest. If you're sore for days every single session, you're likely ramping up volume too fast."},
+  {kw:["veg protein","vegetarian protein","plant protein"], a:"Great vegetarian protein sources include moong dal, paneer, tofu, soya chunks, chickpeas, Greek yogurt, and lentils. Combining grains with legumes (like rice + dal) gives a more complete amino acid profile. Check the Diet Plan Maker's veg meal options."},
+  {kw:["how many days","workout split","train per week"], a:"For most people, 3-5 training days per week works well depending on goal and recovery capacity. Beginners often do well with full-body sessions 3x/week, while more advanced lifters might split into push/pull/legs across 5-6 days. Try the Workout Routine Maker for a plan matched to your intensity level."},
+];
+const chatState = { messages:[{role:"bot", text:"Hey, I'm your fitness coach. Ask me anything about training, diet, recovery, or supplements."}] };
+function renderCoach(){
+  app.innerHTML = `
+    <div class="hero"><span class="kicker">Ask Coach</span><h1>Talk to Your <em>Fitness Coach</em></h1>
+    <p>Jo poochna hai pooch le, coach available hai, judgment-free (mostly).</p></div>
+    <div class="card">
+      <div class="chip-row">
+        <div class="chip" data-q="How much protein do I need?">How much protein do I need?</div>
+        <div class="chip" data-q="Why am I not losing fat?">Why am I not losing fat?</div>
+        <div class="chip" data-q="My knee hurts during squats">My knee hurts during squats</div>
+        <div class="chip" data-q="How many days should I train?">How many days should I train?</div>
+      </div>
+      <div class="chat-wrap">
+        <div class="chat-log" id="chatLog"></div>
+        <div class="chat-input-row">
+          <input id="chatInput" placeholder="Type your question...">
+          <button class="btn btn-primary" id="chatSend">Send</button>
+        </div>
+      </div>
+    </div>`;
+  renderChatLog();
+  document.querySelectorAll(".chip").forEach(c=>{
+    c.onclick = ()=>{ $("#chatInput").value = c.dataset.q; sendChat(); };
+  });
+  $("#chatSend").onclick = sendChat;
+  $("#chatInput").onkeydown = (e)=>{ if(e.key==="Enter") sendChat(); };
+}
+function renderChatLog(){
+  const log = $("#chatLog");
+  log.innerHTML = chatState.messages.map(m=>`<div class="chat-msg ${m.role==='user'?'user':'bot'}">${m.text}</div>`).join("");
+  log.scrollTop = log.scrollHeight;
+}
+function matchCoachReply(q){
+  const lower = q.toLowerCase();
+  for(const entry of COACH_KB){
+    if(entry.kw.some(k=>lower.includes(k))) return entry.a;
+  }
+  return "Bhai itna deep sawaal mt kar abhi, developer is currently working on this model, isse complicated baatein mat puch filhal. Aa jayega update mein full gyaan, tab tak Diet Plan Maker, Workout Routine Maker ya Problem Solver try kar le, kaam ban jayega. hehe";
+}
+function sendChat(){
+  const input = $("#chatInput");
+  const text = input.value.trim();
+  if(!text) return;
+  chatState.messages.push({role:"user", text});
+  input.value = "";
+  renderChatLog();
+  const log = $("#chatLog");
+  const typingEl = document.createElement("div");
+  typingEl.className = "chat-msg bot";
+  typingEl.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
+  log.appendChild(typingEl);
+  log.scrollTop = log.scrollHeight;
+  setTimeout(()=>{
+    typingEl.remove();
+    chatState.messages.push({role:"bot", text: matchCoachReply(text)});
+    renderChatLog();
+  }, 600 + Math.random()*500);
+}
+
+// ================= CALORIE TRACKER =================
+// Static local food database (per typical serving / 100g where noted). Expand freely.
+const FOOD_DB = [
+  {names:["paratha","aloo paratha","plain paratha"], unit:"piece", cal:260, protein:6, carbs:36, fat:10, healthy:"Use less ghee, add a stuffed-veg paratha instead of plain for more fiber.", score:5},
+  {names:["roti","chapati","phulka"], unit:"piece", cal:80, protein:3, carbs:15, fat:1, healthy:"Already a solid healthy staple, pair with dal/sabzi for balance.", score:8},
+  {names:["curd","yogurt","dahi"], unit:"100g", cal:60, protein:3.5, carbs:4.7, fat:3.3, healthy:"Choose low-fat curd for a lighter option with similar protein.", score:8},
+  {names:["rice","white rice","steamed rice"], unit:"100g cooked", cal:130, protein:2.7, carbs:28, fat:0.3, healthy:"Swap a portion for brown rice for more fiber and slower digestion.", score:6},
+  {names:["brown rice"], unit:"100g cooked", cal:123, protein:2.7, carbs:25.6, fat:1, healthy:"Great choice already, high in fiber.", score:8},
+  {names:["dal","daal","lentil curry","moong dal","dal tadka"], unit:"100g", cal:104, protein:6, carbs:14, fat:3, healthy:"Already a great protein + fiber source, keep oil/ghee moderate.", score:8},
+  {names:["paneer","paneer curry","paneer bhurji"], unit:"100g", cal:265, protein:18, carbs:3.5, fat:21, healthy:"Use grilled/tawa paneer with less oil instead of curry with heavy gravy.", score:6},
+  {names:["chicken curry"], unit:"100g", cal:190, protein:18, carbs:5, fat:11, healthy:"Choose grilled or tandoori chicken over curry for less added fat.", score:6},
+  {names:["grilled chicken","chicken breast","tandoori chicken"], unit:"100g", cal:165, protein:31, carbs:0, fat:3.6, healthy:"Excellent lean protein choice, keep as is.", score:9},
+  {names:["egg","boiled egg","whole egg"], unit:"piece", cal:78, protein:6.3, carbs:0.6, fat:5.3, healthy:"Great protein source, pair with veggies for a balanced meal.", score:8},
+  {names:["egg white","egg whites"], unit:"piece", cal:17, protein:3.6, carbs:0.2, fat:0.1, healthy:"Very lean protein, good for cutting phases.", score:9},
+  {names:["omelette","egg omelette"], unit:"2-egg serving", cal:190, protein:13, carbs:2, fat:14, healthy:"Use less oil and add veggies (onion, tomato, spinach) for more nutrients.", score:6},
+  {names:["bread","white bread","toast"], unit:"slice", cal:75, protein:2.6, carbs:14, fat:1, healthy:"Switch to multigrain or whole wheat bread for more fiber.", score:5},
+  {names:["multigrain bread","brown bread","whole wheat bread"], unit:"slice", cal:70, protein:3.5, carbs:12, fat:1, healthy:"Good choice already.", score:7},
+  {names:["banana"], unit:"piece", cal:105, protein:1.3, carbs:27, fat:0.4, healthy:"Naturally healthy, great pre-workout carb source.", score:9},
+  {names:["apple"], unit:"piece", cal:95, protein:0.5, carbs:25, fat:0.3, healthy:"Naturally healthy snack with fiber.", score:9},
+  {names:["oats","oatmeal"], unit:"100g cooked", cal:71, protein:2.5, carbs:12, fat:1.5, healthy:"Already excellent, add nuts/fruit for more nutrients.", score:9},
+  {names:["poha"], unit:"100g", cal:130, protein:2.5, carbs:24, fat:3, healthy:"Add peanuts and veggies for more protein and micronutrients.", score:6},
+  {names:["upma"], unit:"100g", cal:132, protein:3, carbs:20, fat:4, healthy:"Add vegetables and a few peanuts for extra nutrients.", score:6},
+  {names:["idli"], unit:"piece", cal:39, protein:1.5, carbs:8, fat:0.2, healthy:"Already a light, healthy steamed option.", score:9},
+  {names:["dosa","plain dosa"], unit:"piece", cal:133, protein:3.5, carbs:18, fat:5, healthy:"Choose a thinner dosa with less oil, pair with sambar for protein.", score:6},
+  {names:["samosa"], unit:"piece", cal:262, protein:4, carbs:24, fat:17, healthy:"Occasional treat, bake instead of deep fry, or pick baked alternatives.", score:3},
+  {names:["pizza","pizza slice"], unit:"slice", cal:285, protein:12, carbs:36, fat:10, healthy:"Choose thin crust with veggie toppings over extra cheese/meat-heavy versions.", score:4},
+  {names:["burger"], unit:"piece", cal:354, protein:17, carbs:30, fat:18, healthy:"Choose a grilled chicken burger over fried, skip the extra cheese/mayo.", score:3},
+  {names:["french fries","fries"], unit:"100g", cal:312, protein:3.4, carbs:41, fat:15, healthy:"Swap for baked sweet potato wedges occasionally.", score:2},
+  {names:["soya chunks","soya"], unit:"100g cooked", cal:120, protein:13, carbs:9, fat:4, healthy:"Excellent plant protein, already a great choice.", score:9},
+  {names:["tofu"], unit:"100g", cal:76, protein:8, carbs:1.9, fat:4.8, healthy:"Great lean plant protein already.", score:9},
+  {names:["milk","whole milk"], unit:"glass (250ml)", cal:150, protein:8, carbs:12, fat:8, healthy:"Try toned/skimmed milk for fewer calories with similar protein.", score:7},
+  {names:["protein shake","whey shake"], unit:"scoop+water", cal:120, protein:24, carbs:3, fat:1.5, healthy:"Good post-workout option already.", score:8},
+  {names:["sweets","mithai","gulab jamun"], unit:"piece", cal:150, protein:2, carbs:22, fat:6, healthy:"Enjoy occasionally, portion control is key here.", score:2},
+  {names:["biryani","chicken biryani"], unit:"100g", cal:180, protein:9, carbs:22, fat:6, healthy:"Choose a lighter portion with more chicken/veg, less oily rice.", score:5},
+  {names:["chole","chickpea curry","chana"], unit:"100g", cal:164, protein:8, carbs:27, fat:2.6, healthy:"Already high fiber + protein, great choice.", score:8},
+  {names:["sabzi","mixed vegetable curry","vegetable curry"], unit:"100g", cal:90, protein:2.5, carbs:10, fat:4, healthy:"Great as is, keep oil moderate.", score:8},
+  {names:["fish curry","grilled fish"], unit:"100g", cal:140, protein:22, carbs:2, fat:5, healthy:"Excellent lean protein source, especially grilled.", score:9},
+  {names:["peanut butter"], unit:"tbsp", cal:94, protein:4, carbs:3, fat:8, healthy:"Healthy fats, just watch portion size.", score:7},
+  {names:["almonds"], unit:"10 pieces", cal:70, protein:2.6, carbs:2.6, fat:6, healthy:"Great healthy fat + protein snack already.", score:9},
+  {names:["coffee","black coffee"], unit:"cup", cal:2, protein:0.3, carbs:0, fat:0, healthy:"Virtually calorie-free, great pre-workout pick.", score:9},
+  {names:["tea","chai"], unit:"cup", cal:60, protein:1.5, carbs:8, fat:2.5, healthy:"Reduce added sugar to make this a much lighter option.", score:5},
+  {names:["sprouts","sprouts salad"], unit:"100g", cal:30, protein:3, carbs:6, fat:0.2, healthy:"Already a great low-cal, high-fiber snack.", score:9},
+  {names:["khichdi"], unit:"100g", cal:130, protein:4, carbs:22, fat:3, healthy:"Light and balanced, already a good choice.", score:7},
+  // ---- expanded coverage: breads & grains ----
+  {names:["naan","butter naan"], unit:"piece", cal:262, protein:8, carbs:46, fat:5, healthy:"Choose plain roti or tandoori roti over butter naan to cut fat.", score:4},
+  {names:["tandoori roti"], unit:"piece", cal:100, protein:3.5, carbs:18, fat:2, healthy:"Already a lighter bread option than naan/paratha.", score:7},
+  {names:["puri"], unit:"piece", cal:100, protein:1.5, carbs:11, fat:6, healthy:"Deep fried, swap for roti or steamed options where possible.", score:3},
+  {names:["paneer paratha"], unit:"piece", cal:300, protein:10, carbs:34, fat:13, healthy:"Use less ghee/oil while cooking, pair with curd instead of butter.", score:5},
+  {names:["lachha paratha"], unit:"piece", cal:280, protein:5, carbs:38, fat:12, healthy:"Swap for plain roti on most days, save this for occasional treats.", score:3},
+  {names:["jeera rice"], unit:"100g", cal:150, protein:2.8, carbs:30, fat:3, healthy:"Similar to plain rice, portion control matters more than the tempering.", score:6},
+  {names:["fried rice","veg fried rice"], unit:"100g", cal:163, protein:4, carbs:28, fat:4, healthy:"Ask for less oil and more vegetables, fewer sauces.", score:5},
+  {names:["pulao","veg pulao"], unit:"100g", cal:150, protein:3.5, carbs:26, fat:4, healthy:"Pair with raita/curd and a protein side for a balanced plate.", score:6},
+  {names:["quinoa"], unit:"100g cooked", cal:120, protein:4.4, carbs:21, fat:1.9, healthy:"Excellent grain choice already, high protein and fiber.", score:9},
+  {names:["dalia","broken wheat porridge"], unit:"100g cooked", cal:90, protein:3, carbs:18, fat:1, healthy:"Already a light, healthy breakfast option.", score:8},
+  {names:["bajra roti","millet roti"], unit:"piece", cal:97, protein:3, carbs:18, fat:1.2, healthy:"Great fiber-rich alternative to wheat roti.", score:8},
+  // ---- paneer / dairy variants ----
+  {names:["paneer tikka"], unit:"100g", cal:250, protein:18, carbs:6, fat:18, healthy:"Grilled already better than fried versions, go easy on butter glaze.", score:6},
+  {names:["malai paneer","shahi paneer"], unit:"100g", cal:290, protein:14, carbs:8, fat:23, healthy:"Rich gravy, choose palak paneer or bhurji for a lighter option.", score:4},
+  {names:["cottage cheese","low fat paneer"], unit:"100g", cal:98, protein:11, carbs:3.4, fat:4.3, healthy:"Great lean protein swap for regular paneer.", score:8},
+  {names:["cheese","processed cheese"], unit:"slice", cal:70, protein:4, carbs:0.5, fat:5.5, healthy:"Use sparingly, high in saturated fat and sodium.", score:3},
+  {names:["butter","makhan"], unit:"tsp", cal:35, protein:0, carbs:0, fat:4, healthy:"Use minimal amounts; ghee in moderation is a reasonable swap.", score:3},
+  {names:["ghee"], unit:"tsp", cal:40, protein:0, carbs:0, fat:4.5, healthy:"Use in small measured amounts rather than free-pouring.", score:4},
+  {names:["lassi","sweet lassi"], unit:"glass (250ml)", cal:165, protein:6, carbs:24, fat:5, healthy:"Choose a plain/salted lassi over sweet to cut sugar significantly.", score:4},
+  {names:["buttermilk","chaas"], unit:"glass (250ml)", cal:40, protein:2, carbs:4, fat:1.5, healthy:"Already a light, hydrating, protein-friendly drink.", score:8},
+  {names:["paneer bhurji"], unit:"100g", cal:240, protein:16, carbs:5, fat:18, healthy:"Use less oil, add more vegetables to bulk it up healthily.", score:6},
+  // ---- chicken / meat variants ----
+  {names:["chicken biryani"], unit:"100g", cal:200, protein:11, carbs:22, fat:7, healthy:"Ask for less oil/ghee and more chicken pieces relative to rice.", score:5},
+  {names:["chicken tikka"], unit:"100g", cal:185, protein:26, carbs:3, fat:8, healthy:"Already a lean, high-protein choice.", score:8},
+  {names:["chicken 65"], unit:"100g", cal:280, protein:20, carbs:12, fat:17, healthy:"Deep fried, swap for tandoori or grilled chicken when possible.", score:3},
+  {names:["fried chicken"], unit:"100g", cal:290, protein:19, carbs:14, fat:18, healthy:"Choose grilled or baked chicken instead of fried.", score:3},
+  {names:["mutton curry"], unit:"100g", cal:225, protein:21, carbs:4, fat:14, healthy:"Trim visible fat, choose leaner cuts and less oily gravy.", score:5},
+  {names:["keema","mutton keema"], unit:"100g", cal:235, protein:18, carbs:3, fat:17, healthy:"Use lean minced meat and less oil for a lighter version.", score:5},
+  {names:["prawns","prawn curry"], unit:"100g", cal:155, protein:20, carbs:4, fat:6, healthy:"Already a lean protein source, great as is.", score:8},
+  {names:["fish fry"], unit:"100g", cal:220, protein:20, carbs:8, fat:12, healthy:"Choose grilled/tandoori fish over deep fried.", score:5},
+  {names:["chicken nuggets"], unit:"5 pieces", cal:250, protein:13, carbs:15, fat:16, healthy:"Swap for grilled chicken strips for far more protein, less fat.", score:3},
+  {names:["chicken sandwich"], unit:"piece", cal:320, protein:18, carbs:30, fat:14, healthy:"Choose grilled chicken with whole wheat bread and less mayo.", score:5},
+  {names:["chicken soup"], unit:"bowl (250ml)", cal:120, protein:12, carbs:6, fat:5, healthy:"Already a light, protein-friendly option.", score:8},
+  // ---- snacks / street food ----
+  {names:["pakora","bhajiya"], unit:"100g", cal:315, protein:6, carbs:30, fat:19, healthy:"Deep fried, try baked or air-fried veg fritters instead.", score:2},
+  {names:["vada pav"], unit:"piece", cal:290, protein:6, carbs:40, fat:12, healthy:"Occasional treat, pair with extra chutney instead of fried garlic.", score:3},
+  {names:["pani puri","golgappa"], unit:"6 pieces", cal:180, protein:3, carbs:30, fat:6, healthy:"Relatively light as street food goes, go easy on the sweet water.", score:5},
+  {names:["bhel puri"], unit:"100g", cal:180, protein:4, carbs:28, fat:6, healthy:"Ask for less sev and more sprouts/veggies for a healthier version.", score:5},
+  {names:["dahi vada"], unit:"piece", cal:120, protein:4, carbs:14, fat:5, healthy:"Already moderate, use low-fat curd to lighten further.", score:6},
+  {names:["kachori"], unit:"piece", cal:230, protein:4, carbs:22, fat:14, healthy:"Deep fried, enjoy occasionally, not a daily snack.", score:2},
+  {names:["spring roll"], unit:"piece", cal:130, protein:3, carbs:16, fat:6, healthy:"Choose baked/steamed versions over deep fried where available.", score:5},
+  {names:["momos","veg momos"], unit:"6 pieces", cal:210, protein:6, carbs:34, fat:5, healthy:"Steamed momos are already a lighter choice, go easy on fried chutney.", score:6},
+  {names:["chicken momos"], unit:"6 pieces", cal:240, protein:14, carbs:30, fat:6, healthy:"Good protein-to-calorie ratio for a snack.", score:7},
+  {names:["nachos"], unit:"100g", cal:346, protein:8, carbs:36, fat:19, healthy:"Choose baked chips with salsa over cheese-loaded nachos.", score:3},
+  {names:["popcorn"], unit:"100g", cal:375, protein:11, carbs:74, fat:4, healthy:"Air-popped, lightly salted popcorn is a reasonably light snack.", score:6},
+  {names:["chips","potato chips"], unit:"100g", cal:536, protein:7, carbs:53, fat:35, healthy:"Swap for roasted chana or makhana for a lighter crunchy snack.", score:2},
+  {names:["namkeen","mixture"], unit:"100g", cal:480, protein:12, carbs:50, fat:28, healthy:"Very calorie-dense, portion strictly or swap for roasted nuts.", score:2},
+  {names:["dhokla"], unit:"piece", cal:160, protein:5, carbs:24, fat:5, healthy:"Steamed, already a lighter snack option.", score:7},
+  {names:["khaman"], unit:"100g", cal:170, protein:6, carbs:25, fat:5, healthy:"Similar to dhokla, light and protein-friendly.", score:7},
+  // ---- sweets / desserts ----
+  {names:["jalebi"], unit:"piece", cal:150, protein:1.5, carbs:22, fat:7, healthy:"Very high sugar, treat as an occasional indulgence only.", score:1},
+  {names:["rasgulla"], unit:"piece", cal:106, protein:2, carbs:22, fat:1, healthy:"Lower fat than most mithai, but still high sugar, moderate portions.", score:3},
+  {names:["kheer","rice kheer"], unit:"100g", cal:160, protein:3, carbs:24, fat:5, healthy:"Use less sugar and skim milk for a lighter version.", score:3},
+  {names:["ice cream"], unit:"100g", cal:207, protein:3.5, carbs:24, fat:11, healthy:"Choose a smaller scoop or fruit-based frozen dessert occasionally.", score:2},
+  {names:["chocolate","dark chocolate"], unit:"30g", cal:160, protein:2, carbs:17, fat:9, healthy:"Dark chocolate (70%+) in small amounts is a reasonable treat.", score:4},
+  {names:["cake","pastry"], unit:"slice", cal:300, protein:4, carbs:38, fat:14, healthy:"Occasional treat, share a slice rather than eating a full piece.", score:2},
+  {names:["halwa","gajar halwa"], unit:"100g", cal:280, protein:4, carbs:30, fat:16, healthy:"Use less ghee and sugar, or treat as an occasional festive food.", score:2},
+  {names:["barfi"], unit:"piece", cal:180, protein:3, carbs:20, fat:10, healthy:"Very calorie-dense, stick to one small piece on special occasions.", score:2},
+  // ---- fruits & veggies ----
+  {names:["mango"], unit:"piece (medium)", cal:150, protein:1.4, carbs:38, fat:0.6, healthy:"Naturally healthy, just watch portions if cutting calories.", score:7},
+  {names:["orange"], unit:"piece", cal:62, protein:1.2, carbs:15, fat:0.2, healthy:"Naturally healthy snack with vitamin C.", score:9},
+  {names:["watermelon"], unit:"100g", cal:30, protein:0.6, carbs:8, fat:0.2, healthy:"Very low calorie, hydrating snack.", score:9},
+  {names:["grapes"], unit:"100g", cal:69, protein:0.7, carbs:18, fat:0.2, healthy:"Healthy but easy to overeat, watch portion size.", score:7},
+  {names:["papaya"], unit:"100g", cal:43, protein:0.5, carbs:11, fat:0.3, healthy:"Great low-calorie, fiber-rich fruit.", score:9},
+  {names:["pomegranate","anar"], unit:"100g", cal:83, protein:1.7, carbs:19, fat:1.2, healthy:"Nutrient-dense and naturally healthy.", score:9},
+  {names:["salad","veg salad","cucumber tomato salad"], unit:"100g", cal:40, protein:1.5, carbs:6, fat:1, healthy:"Already a great low-cal option, add a protein source to make it a full meal.", score:9},
+  {names:["potato","aloo","boiled potato"], unit:"100g", cal:87, protein:1.9, carbs:20, fat:0.1, healthy:"Healthy in moderation, avoid deep frying for best results.", score:6},
+  {names:["sweet potato","shakarkandi"], unit:"100g", cal:86, protein:1.6, carbs:20, fat:0.1, healthy:"Great complex-carb swap for regular potato/rice.", score:8},
+  {names:["corn","boiled corn","bhutta"], unit:"100g", cal:96, protein:3.4, carbs:21, fat:1.5, healthy:"Good fiber source, go easy on added butter/salt.", score:7},
+  // ---- nuts, drinks, misc ----
+  {names:["cashews"], unit:"10 pieces", cal:90, protein:3, carbs:5, fat:7.5, healthy:"Healthy fats, keep portions to a small handful.", score:7},
+  {names:["walnuts"], unit:"5 halves", cal:65, protein:1.5, carbs:1.4, fat:6.5, healthy:"Excellent omega-3 source already.", score:9},
+  {names:["dates","khajoor"], unit:"3 pieces", cal:70, protein:0.6, carbs:18, fat:0.1, healthy:"Natural sugar source, good pre-workout energy.", score:7},
+  {names:["soft drink","cola","soda"], unit:"can (330ml)", cal:139, protein:0, carbs:35, fat:0, healthy:"Swap for sparkling water with lemon to cut empty sugar calories.", score:1},
+  {names:["packaged juice","fruit juice"], unit:"glass (250ml)", cal:120, protein:0.5, carbs:29, fat:0.2, healthy:"Whole fruit is better, less sugar spike, more fiber.", score:4},
+  {names:["energy drink"], unit:"can (250ml)", cal:115, protein:0, carbs:28, fat:0, healthy:"Black coffee gives similar alertness with far less sugar.", score:2},
+  {names:["beer"], unit:"can (330ml)", cal:154, protein:1.6, carbs:13, fat:0, healthy:"Alcohol calories add up fast, moderate intake if tracking calories.", score:3},
+  {names:["protein bar"], unit:"piece", cal:200, protein:20, carbs:22, fat:7, healthy:"Good convenient protein source, check sugar content on label.", score:7},
+  {names:["muesli","granola"], unit:"50g", cal:190, protein:5, carbs:33, fat:5, healthy:"Choose low-sugar varieties and pair with curd/milk.", score:7},
+  {names:["sandwich","veg sandwich"], unit:"piece", cal:250, protein:7, carbs:35, fat:9, healthy:"Use whole wheat bread and load with veggies, less mayo.", score:6},
+  {names:["wrap","paneer wrap"], unit:"piece", cal:280, protein:14, carbs:32, fat:11, healthy:"Whole wheat wrap with grilled filling is already a solid choice.", score:7},
+  {names:["pasta","white pasta"], unit:"100g cooked", cal:158, protein:5.8, carbs:31, fat:0.9, healthy:"Try whole wheat pasta and load with vegetables for more fiber.", score:6},
+  {names:["noodles","chowmein"], unit:"100g", cal:190, protein:5, carbs:30, fat:6, healthy:"Ask for more vegetables, less oil and sauce.", score:5},
+  {names:["maggi"], unit:"1 pack cooked", cal:340, protein:7, carbs:48, fat:13, healthy:"Add an egg and vegetables to make it more balanced.", score:4},
+  // ---- additional named dishes & combos for fuzzy coverage ----
+  {names:["gobi paratha","cauliflower paratha"], unit:"piece", cal:240, protein:5, carbs:32, fat:9, healthy:"Use less oil while cooking, pair with curd over butter.", score:5},
+  {names:["uttapam"], unit:"piece", cal:120, protein:3.5, carbs:18, fat:4, healthy:"Already a lighter fermented option, add veggies for more fiber.", score:7},
+  {names:["rajma chawal","rajma rice"], unit:"plate (combo)", cal:380, protein:14, carbs:62, fat:7, healthy:"Already a balanced combo, add a side salad for more fiber.", score:7},
+  {names:["dal chawal","dal rice"], unit:"plate (combo)", cal:320, protein:11, carbs:55, fat:6, healthy:"Solid balanced meal, add a vegetable side for more nutrients.", score:7},
+  {names:["chole bhature"], unit:"plate (combo)", cal:620, protein:14, carbs:70, fat:30, healthy:"Heavy combo, choose chole with roti instead of fried bhature most days.", score:3},
+  {names:["pav bhaji"], unit:"plate", cal:400, protein:8, carbs:50, fat:18, healthy:"Ask for less butter, choose multigrain pav if available.", score:4},
+  {names:["thepla"], unit:"piece", cal:110, protein:3, carbs:16, fat:4, healthy:"Already a fairly balanced flatbread, pair with curd.", score:7},
+  {names:["gulab jamun"], unit:"piece", cal:150, protein:2, carbs:22, fat:6, healthy:"Very sugar-syrup heavy, enjoy in small portions occasionally.", score:2},
+];
+function levenshtein(a,b){
+  const m=a.length, n=b.length;
+  if(!m) return n; if(!n) return m;
+  const dp = Array.from({length:m+1},(_, i)=>[i, ...Array(n).fill(0)]);
+  for(let j=0;j<=n;j++) dp[0][j]=j;
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++){
+    dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  }
+  return dp[m][n];
+}
+function fuzzyFindFood(seg){
+  // exact/substring match first
+  for(const food of FOOD_DB){ if(food.names.some(n => seg.includes(n))) return food; }
+  // fuzzy: check each word/phrase against food names within edit-distance tolerance
+  const words = seg.replace(/[0-9]/g,"").trim().split(/\s+/).filter(w=>w.length>2);
+  let best=null, bestDist=99;
+  for(const food of FOOD_DB){
+    for(const name of food.names){
+      const dist = levenshtein(seg.replace(/[0-9]/g,"").trim(), name);
+      const tolerance = Math.max(2, Math.floor(name.length*0.25));
+      if(dist<=tolerance && dist<bestDist){ best=food; bestDist=dist; }
+      words.forEach(w=>{
+        const wd = levenshtein(w, name);
+        const wtol = Math.max(1, Math.floor(name.length*0.25));
+        if(wd<=wtol && wd<bestDist){ best=food; bestDist=wd; }
+      });
+    }
+  }
+  return best;
+}
+function parseMealInput(text){
+  const lower = text.toLowerCase();
+  const segments = lower.split(/,| and |\+/).map(s=>s.trim()).filter(Boolean);
+  const results = [];
+  segments.forEach(seg=>{
+    const numMatch = seg.match(/(\d+(\.\d+)?)/);
+    const qty = numMatch ? parseFloat(numMatch[1]) : 1;
+    const found = fuzzyFindFood(seg);
+    if(found){
+      results.push({ food: found, qty, label: seg });
+    }
+  });
+  return results;
+}
+function renderCalories(){
+  app.innerHTML = `
+    <div class="hero"><span class="kicker">Calorie Tracker</span><h1>Know What's <em>In Your Meal</em></h1>
+    <p>Jo kha liya, seedha type kar de, hum bata denge kitna damage hua aur next time kya healthy khaaye.</p></div>
+    <div class="card">
+      <div class="search-input-wrap">
+        <input id="mealInput" placeholder="e.g. 2 paratha with 100 gram curd">
+        <button class="btn btn-primary" id="mealAdd">Add Meal</button>
+      </div>
+      <div id="mealOut"></div>
+      <div class="cal-log-list" id="mealLog"></div>
+      <div class="cal-total-bar" id="mealTotal" style="display:none;"></div>
+      <p class="footer-note">Calorie values come from a built-in food database for common meals, not a live lookup, treat as a close estimate, not a lab-grade measurement.</p>
+    </div>`;
+  calState.log = calState.log || [];
+  $("#mealAdd").onclick = addMeal;
+  $("#mealInput").onkeydown = (e)=>{ if(e.key==="Enter") addMeal(); };
+  renderMealLog();
+}
+const calState = { log: [] };
+function addMeal(){
+  const input = $("#mealInput");
+  const text = input.value.trim();
+  if(!text) return;
+  const parsed = parseMealInput(text);
+  if(!parsed.length){
+    $("#mealOut").innerHTML = `<p class="q-sub" style="margin-top:10px">Couldn't recognize a food in that, try simpler terms like "2 roti, 1 paneer curry" or check the food name spelling.</p>`;
+    return;
+  }
+  let totalCal=0,totalP=0,totalC=0,totalF=0,totalFib=0;
+  let detailHtml = "";
+  parsed.forEach(({food,qty,label})=>{
+    const cal = Math.round(food.cal*qty), p = Math.round(food.protein*qty*10)/10, c = Math.round(food.carbs*qty*10)/10, f = Math.round(food.fat*qty*10)/10;
+    const fiber = Math.round(food.carbs*qty*0.09*10)/10; // estimated fiber when not explicitly tracked
+    totalCal+=cal; totalP+=p; totalC+=c; totalF+=f; totalFib+=fiber;
+    detailHtml += `
+      <div class="cal-result">
+        <div class="cal-top">
+          <div><div class="cal-name">${qty} x ${food.names[0]} (${food.unit})</div></div>
+          <div class="cal-score"><div class="num">${food.score}/10</div><div class="lbl">Health Score</div></div>
+        </div>
+        <div class="macro-grid" style="grid-template-columns:repeat(5,1fr)">
+          <div class="macro-box"><div class="v">${cal}</div><div class="l">kcal</div></div>
+          <div class="macro-box"><div class="v">${p}g</div><div class="l">Protein</div></div>
+          <div class="macro-box"><div class="v">${c}g</div><div class="l">Carbs</div></div>
+          <div class="macro-box"><div class="v">${f}g</div><div class="l">Fat</div></div>
+          <div class="macro-box"><div class="v">~${fiber}g</div><div class="l">Fiber</div></div>
+        </div>
+        <div class="cal-alt"><h4>Healthier Alternative</h4><p class="q-sub" style="margin:0">${food.healthy}</p></div>
+      </div>`;
+  });
+  $("#mealOut").innerHTML = detailHtml;
+  calState.log.push({ text, cal: totalCal, p: totalP, c: totalC, f: totalF });
+  input.value = "";
+  renderMealLog();
+}
+function renderMealLog(){
+  const logEl = $("#mealLog");
+  const totalEl = $("#mealTotal");
+  if(!calState.log.length){ logEl.innerHTML=""; totalEl.style.display="none"; return; }
+  logEl.innerHTML = `<h4 style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 10px;">Today's Log</h4>` +
+    calState.log.map((m,i)=>`<div class="cal-log-item"><span>${m.text}</span><span class="kcal">${m.cal} kcal</span></div>`).join("");
+  const tot = calState.log.reduce((a,m)=>a+m.cal,0);
+  const totP = calState.log.reduce((a,m)=>a+m.p,0);
+  totalEl.style.display = "flex";
+  totalEl.innerHTML = `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Total Today</div><div class="v">${tot} kcal</div></div><div style="text-align:right"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Protein</div><div class="v">${Math.round(totP)}g</div></div>`;
+}
+
+// ================= RECIPES (What to Eat) =================
+const RECIPES = {
+  "Morning Breakfast":[
+    ["Moong Dal Chilla","Veg · 18g protein"],["Besan Chilla","Veg · 16g protein"],["Veg Poha with Peanuts","Veg · 8g protein"],
+    ["Vegetable Upma","Veg · 7g protein"],["Sprouts Bhel","Veg · 10g protein"],["Paneer Stuffed Paratha","Veg · 22g protein"],
+    ["Idli with Sambar","Veg · 9g protein"],["Plain Dosa with Chutney","Veg · 6g protein"],["Oats Porridge with Banana","Veg · 8g protein"],
+    ["Greek Yogurt with Berries","Veg · 15g protein"],["Egg Bhurji with Toast","Non-Veg · 20g protein"],["Boiled Eggs with Multigrain Toast","Non-Veg · 18g protein"],
+    ["Chicken Sausage & Scrambled Egg","Non-Veg · 24g protein"],["Masala Omelette","Non-Veg · 16g protein"],["Egg & Veg Sandwich","Non-Veg · 17g protein"]
+  ],
+  "Main Course":[
+    ["Rajma Chawal","Veg · 19g protein"],["Chole with Roti","Veg · 20g protein"],["Paneer Butter Masala with Rice","Veg · 24g protein"],
+    ["Dal Tadka with Brown Rice","Veg · 17g protein"],["Mixed Veg Curry with Roti","Veg · 14g protein"],["Soya Chunk Curry with Rice","Veg · 26g protein"],
+    ["Tofu Stir Fry with Brown Rice","Veg · 24g protein"],["Palak Paneer with Roti","Veg · 20g protein"],["Kadhi with Steamed Rice","Veg · 12g protein"],
+    ["Vegetable Pulao with Curd","Veg · 9g protein"],["Butter Chicken with Rice","Non-Veg · 28g protein"],["Chicken Curry with Roti","Non-Veg · 32g protein"],
+    ["Grilled Fish with Rice & Salad","Non-Veg · 30g protein"],["Egg Curry with Rice","Non-Veg · 24g protein"],["Mutton Curry (lean) with Roti","Non-Veg · 29g protein"]
+  ],
+  "Snacks":[
+    ["Roasted Chana","Veg · 12g protein"],["Sprouts Chaat","Veg · 10g protein"],["Makhana (roasted)","Veg · 6g protein"],
+    ["Peanut Chikki (small)","Veg · 5g protein"],["Vegetable Cutlet (baked)","Veg · 6g protein"],["Hummus with Carrot Sticks","Veg · 7g protein"],
+    ["Paneer Tikka (small portion)","Veg · 16g protein"],["Fruit & Nut Mix","Veg · 5g protein"],["Curd with Honey & Nuts","Veg · 9g protein"],
+    ["Multigrain Khakhra","Veg · 4g protein"],["Boiled Egg Chaat","Non-Veg · 12g protein"],["Grilled Chicken Skewers","Non-Veg · 22g protein"],
+    ["Tuna & Cracker Snack","Non-Veg · 18g protein"],["Chicken Tikka (small portion)","Non-Veg · 20g protein"],["Egg White Bites","Non-Veg · 14g protein"]
+  ],
+  "Post-Workout":[
+    ["Banana with Peanut Butter","Veg · 8g protein"],["Paneer Bhurji Bowl","Veg · 22g protein"],["Soya Chunk Salad","Veg · 24g protein"],
+    ["Greek Yogurt with Granola","Veg · 16g protein"],["Protein Shake with Banana","Veg · 26g protein"],["Tofu & Quinoa Bowl","Veg · 22g protein"],
+    ["Chickpea Salad with Lemon","Veg · 14g protein"],["Sprouted Moong Salad","Veg · 12g protein"],["Milk with Dates","Veg · 9g protein"],
+    ["Paneer Wrap (whole wheat)","Veg · 20g protein"],["Grilled Chicken & Rice Bowl","Non-Veg · 35g protein"],["Egg White Omelette Wrap","Non-Veg · 18g protein"],
+    ["Tuna Salad Bowl","Non-Veg · 28g protein"],["Chicken & Quinoa Salad","Non-Veg · 33g protein"],["Boiled Eggs with Banana","Non-Veg · 19g protein"]
+  ]
+};
+const recipeState = { tab:"Morning Breakfast" };
+function renderRecipes(){
+  app.innerHTML = `
+    <div class="hero"><span class="kicker">What to Eat</span><h1>60 Recipes, <em>Sorted For You</em></h1>
+    <p>60 recipes, veg-nonveg dono, taki "kya khaayein samajh nahi aata" wala rant band ho jaaye.</p></div>
+    <div class="card" id="recipeCard"></div>`;
+  renderRecipeList();
+}
+function renderRecipeList(){
+  const card = $("#recipeCard");
+  card.innerHTML = `
+    <div class="recipe-tabs">
+      ${Object.keys(RECIPES).map(cat=>`<div class="recipe-tab ${recipeState.tab===cat?'active':''}" data-cat="${cat}">${cat}</div>`).join("")}
+    </div>
+    <div class="recipe-grid">
+      ${RECIPES[recipeState.tab].map(([name,meta])=>`
+        <div class="recipe-card"><div class="rtype">${recipeState.tab}</div><div class="rname">${name}</div><div class="rmeta">${meta}</div></div>
+      `).join("")}
+    </div>`;
+  document.querySelectorAll(".recipe-tab").forEach(t=>{
+    t.onclick = ()=>{ recipeState.tab = t.dataset.cat; renderRecipeList(); };
+  });
+}
+
+// ================= AI SKINCARE ADVISOR =================
+const skinQs = [
+  {q:"What's your age range?", key:"age", opts:["Under 18","18-24","25-34","35+"]},
+  {q:"What's your gender?", key:"gender", opts:["Male","Female","Other / Prefer not to say"]},
+  {q:"How would you describe your skin type?", key:"type", opts:["Oily","Dry","Combination","Normal","Sensitive"]},
+  {q:"Do you struggle with acne or breakouts?", key:"acne", opts:["Frequently","Occasionally","Rarely","Never"]},
+  {q:"Do you have pigmentation or dark spots?", key:"pigmentation", opts:["Yes, significant","A little","Not really"]},
+  {q:"Is your skin sensitive or prone to redness?", key:"sensitivity", opts:["Very sensitive","Somewhat","Not sensitive"]},
+  {q:"How visible are your pores / blackheads?", key:"pores", opts:["Very visible","Somewhat","Barely noticeable"]},
+  {q:"How much sun exposure do you get daily?", key:"sun", opts:["A lot (outdoors most of day)","Moderate","Very little"]},
+  {q:"How would you rate your skin's hydration?", key:"hydration", opts:["Often feels dry/tight","Balanced","Often feels oily/greasy"]},
+  {q:"How many glasses of water do you drink daily?", key:"water", opts:["Less than 4","4-8","8+"]},
+  {q:"How's your sleep on most nights?", key:"sleep", opts:["Less than 6 hrs","6-8 hrs","8+ hrs"]},
+  {q:"How would you rate your day-to-day stress?", key:"stress", opts:["High","Moderate","Low"]},
+  {q:"What does your current routine look like?", key:"routine", opts:["Nothing/just water","Basic (cleanser only)","Cleanser + moisturizer","Full multi-step routine"]},
+  {q:"Any known allergies or ingredient sensitivities?", key:"allergies", opts:["Yes, fragrance/strong actives","Not sure","No known allergies"]},
+  {q:"What's your comfortable budget range per product?", key:"budget", opts:["Budget (under Rs 500)","Mid-range (Rs 500-1500)","Premium (Rs 1500+)"]},
+];
+const skinState = { step:0, data:{} };
+function renderSkincare(){
+  app.innerHTML = `
+    <div class="hero"><span class="kicker">AI Skincare Advisor</span><h1>Build Your <em>Skincare Routine</em></h1>
+    <p>A detailed quiz, then a personalized morning, night and weekly routine built around your actual skin.</p></div>
+    <div class="card" id="skinCard"></div>`;
+  renderSkinStep();
+}
+function renderSkinStep(){
+  const card = $("#skinCard");
+  if(skinState.step >= skinQs.length){ card.innerHTML = renderSkinResult(); bindSkinResult(); return; }
+  const s = skinQs[skinState.step];
+  const pct = Math.round((skinState.step/skinQs.length)*100);
+  card.innerHTML = `
+    <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-label"><span>Question ${skinState.step+1} of ${skinQs.length}</span><span>${pct}%</span></div></div>
+    <h2 class="q-title">${s.q}</h2>
+    <div class="opt-grid">${s.opts.map(o=>`<div class="opt ${skinState.data[s.key]===o?'selected':''}" data-val="${o}"><span class="t">${o}</span></div>`).join("")}</div>
+    <div class="nav-btns">
+      <button class="btn btn-ghost" id="skinBack" ${skinState.step===0?"disabled":""}>Back</button>
+      <button class="btn btn-primary" id="skinNext" ${skinState.data[s.key]?"":"disabled"}>Continue</button>
+    </div>`;
+  document.querySelectorAll("#skinCard .opt").forEach(o=>{
+    o.onclick = ()=>{ skinState.data[s.key]=o.dataset.val; renderSkinStep(); };
+  });
+  $("#skinBack").onclick = ()=>{ skinState.step--; renderSkinStep(); };
+  $("#skinNext").onclick = ()=>{ skinState.step++; renderSkinStep(); };
+}
+function getSkincareRoutine(d){
+  const budgetBrands = {
+    "Budget (under Rs 500)": ["Minimalist","Plum","Cetaphil"],
+    "Mid-range (Rs 500-1500)": ["The Ordinary","Dot & Key","COSRX"],
+    "Premium (Rs 1500+)": ["La Roche-Posay","Paula's Choice","CeraVe"]
+  };
+  const brands = budgetBrands[d.budget] || ["Minimalist","CeraVe","The Ordinary"];
+  const gentle = d.sensitivity === "Very sensitive" || d.allergies === "Yes, fragrance/strong actives";
+  const oily = d.type === "Oily" || d.hydration === "Often feels oily/greasy";
+  const dry = d.type === "Dry" || d.hydration === "Often feels dry/tight";
+  const acneProne = d.acne === "Frequently" || d.acne === "Occasionally";
+  const pigmentationConcern = d.pigmentation === "Yes, significant" || d.pigmentation === "A little";
+
+  const morning = [
+    {step:"Cleanser", product:`${gentle? "Cetaphil Gentle Skin Cleanser" : oily? brands[0]+" Salicylic Acid Cleanser" : brands[1]+" Hydrating Cleanser"}`,
+      why: gentle ? "A fragrance-free, low-irritation cleanser keeps sensitive skin calm without stripping it." : oily ? "A salicylic acid cleanser helps control excess oil and keep pores clear." : "A hydrating, non-foaming cleanser cleans without disturbing your skin barrier."},
+    {step:"Vitamin C Serum", product: brands[1]+" Vitamin C Serum",
+      why: pigmentationConcern ? "Vitamin C directly targets dark spots and uneven tone while protecting against environmental damage." : "Vitamin C brightens skin and adds antioxidant protection for the day ahead."},
+    {step:"Moisturizer", product: dry ? "CeraVe Moisturising Cream" : oily ? brands[0]+" Oil-Free Gel Moisturizer" : "Cetaphil Daily Hydrating Lotion",
+      why: dry ? "A richer cream-based moisturizer helps restore your skin's moisture barrier." : oily ? "A lightweight gel hydrates without adding extra shine or clogging pores." : "A balanced lotion keeps skin comfortable without feeling heavy."},
+    {step:"Sunscreen (SPF 50)", product: "La Roche-Posay Anthelios SPF 50",
+      why: d.sun === "A lot (outdoors most of day)" ? "With your sun exposure, a high-SPF, reapplication-friendly sunscreen is non-negotiable." : "Daily sunscreen is the single most effective anti-aging and anti-pigmentation step, rain or shine."}
+  ];
+  const night = [
+    {step:"Cleanser", product: gentle ? "Cetaphil Gentle Skin Cleanser" : "Simple double cleanse: micellar water + gel cleanser",
+      why: "Removing the day's sunscreen, oil and pollution buildup keeps pores clear overnight."},
+    {step:"Niacinamide Serum", product: "Minimalist 10% Niacinamide Serum",
+      why: acneProne ? "Niacinamide calms inflammation and helps regulate oil production, useful for breakout-prone skin." : "Niacinamide strengthens the skin barrier and helps even out tone over time."},
+    {step: gentle ? "Skip retinol for now" : "Retinol (start low, 2-3x/week)",
+      product: gentle ? "Not recommended yet for your sensitivity level" : "The Ordinary Granactive Retinoid 2% Emulsion",
+      why: gentle ? "Sensitive or reactive skin should build up barrier strength first. Retinol can be introduced later, slowly, under guidance." : "Retinol speeds up cell turnover, helping with fine lines, texture and post-acne marks. Always patch test first."},
+    {step:"Moisturizer", product: dry ? "CeraVe Moisturising Cream" : "COSRX Aloe Soothing Moisturizer",
+      why: "Night moisturizer locks in actives and supports repair while you sleep."}
+  ];
+  const weekly = [
+    {step:"Clay Mask (1-2x/week)", product: "Plum Green Tea Clay Mask",
+      why: oily || d.pores !== "Barely noticeable" ? "Clay masks help draw out excess oil and reduce the appearance of clogged pores." : "Use sparingly. Your skin doesn't need this often, 1x/week is plenty."},
+    {step:"Hydrating Mask (1x/week)", product: "Dot & Key Watermelon Hydrating Mask",
+      why: "A hydrating mask gives your skin barrier a boost, especially useful after using actives like retinol."},
+    {step: gentle ? "Skip exfoliant for now" : "Chemical Exfoliant (1x/week)",
+      product: gentle ? "Hold off until skin barrier is stronger" : "Paula's Choice 2% BHA Liquid Exfoliant",
+      why: gentle ? "Sensitive skin benefits more from soothing ingredients before adding exfoliating acids." : "A gentle BHA exfoliant helps with texture, pores and mild breakouts without over-stripping skin."}
+  ];
+  const avoid = gentle ? ["Fragrance/parfum","High-concentration acids (above 5%)","Alcohol denat in toners","Physical scrubs with harsh granules"]
+    : ["Over-exfoliating (more than 3x/week)","Mixing retinol + vitamin C in the same routine step","Skipping sunscreen on cloudy days"];
+  const prioritize = pigmentationConcern ? ["Vitamin C","Niacinamide","SPF (daily, non-negotiable)","Alpha Arbutin"]
+    : acneProne ? ["Salicylic Acid (BHA)","Niacinamide","Non-comedogenic moisturizer","SPF"]
+    : ["Hyaluronic Acid","Ceramides","Niacinamide","SPF"];
+  const timeline = "Most people start noticing texture and hydration improvements in 2-4 weeks. Pigmentation and acne marks typically take 8-12 weeks of consistent use to visibly fade. Retinol benefits build over 3-6 months.";
+
+  return { morning, night, weekly, avoid, prioritize, timeline };
+}
+function renderSkinResult(){
+  const r = getSkincareRoutine(skinState.data);
+  function block(title, items){
+    return `<div class="sup-card"><h4>${title}</h4>
+      ${items.map(it=>`
+        <div class="meal-opt" style="flex-direction:column;align-items:flex-start;gap:4px;">
+          <div style="display:flex;justify-content:space-between;width:100%;"><b>${it.step}</b><span class="pro">${it.product}</span></div>
+          <div class="q-sub" style="margin:0;font-size:12.5px;">${it.why}</div>
+        </div>`).join("")}
+    </div>`;
+  }
+  return `
+    <div class="result-head"><div class="badge">Routine Ready</div>
+      <h2 class="q-title">Your Personalized Skincare Routine</h2>
+      <p class="q-sub">${skinState.data.type} skin, ${skinState.data.budget}</p></div>
+    ${block("Morning Routine", r.morning)}
+    ${block("Night Routine", r.night)}
+    ${block("Weekly Treatments", r.weekly)}
+    <div class="sup-card">
+      <h4>Ingredients to Prioritize</h4>
+      <p style="margin:0 0 10px">${r.prioritize.join(", ")}</p>
+      <h4>Ingredients to Avoid</h4>
+      <p style="margin:0 0 10px">${r.avoid.join(", ")}</p>
+      <h4>Expected Timeline</h4>
+      <p style="margin:0">${r.timeline}</p>
+    </div>
+    <div class="actions"><button class="btn btn-ghost" id="restartSkin">Retake Quiz</button></div>
+    <p class="footer-note">This is general guidance based on your answers, not a dermatologist consultation. Patch test new products and consult a dermatologist for persistent or severe skin concerns.</p>`;
+}
+function bindSkinResult(){
+  $("#restartSkin").onclick = ()=>{ skinState.step=0; skinState.data={}; renderSkinStep(); };
+}
+
 // ================= ROUTER =================
 function render(){
   if(state.view==="planner") renderPlanner();
   else if(state.view==="workout") renderWorkout();
   else if(state.view==="bmi") renderBMI();
   else if(state.view==="supps") renderSupps();
+  else if(state.view==="solver") renderSolver();
+  else if(state.view==="coach") renderCoach();
+  else if(state.view==="calories") renderCalories();
+  else if(state.view==="recipes") renderRecipes();
+  else if(state.view==="skincare") renderSkincare();
 }
 render();
 
-/* end of file. ngl if you read all the way down here you deserve a protein shake 🥤 */
+// ================= TRUSTED-BY FLOATING STRIP =================
+const TRUST_ICONS = ["🏋","💪","🥤","⏱","🔥","🧘","🚴","🥗","🏃","🎯"];
+const TRUST_DATA = [
+  ["Abhishek","Breakup ke baad gym hi sahara dia mujhe."],
+  ["Saksham","Idk what to say, fck gym eat ice cream."],
+  ["Suyash","Body banne lagi to baal jadh gaye."],
+  ["Kunal","Diet plan dekha, fir bhi maggi khaa li, sorry."],
+  ["Rohit","2 mahine mein 4 kg, ab shirt size problem hai (achi wali)."],
+  ["Aditya","Workout plan follow kiya, motivation Insta se aaya."],
+  ["Yash","Protein calculator ne bata diya main kitna kam kha raha tha."],
+  ["Naman","BMI check kiya, ab gym jaana zaroori lagne laga."],
+  ["Devansh","Pehle din hi legs day, ab seedhi chadhna mushkil hai."],
+  ["Harsh","Coach se pucha kya khaaun, usne bola gym chala jaa pehle."],
+  ["Ishaan","Diet plan follow karte karte ghar walo ne bhi healthy khaana start kar diya."],
+  ["Tanish","Calorie tracker laga ke pata chala samosa itna heavy hota hai."],
+];
+function shuffleArr(a){ const arr=[...a]; for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+function renderTrustedStrip(){
+  const row = document.getElementById("trustedRow");
+  if(!row) return;
+  const picks = shuffleArr(TRUST_DATA).slice(0, 6);
+  row.innerHTML = picks.map((p,i)=>{
+    const icon = TRUST_ICONS[Math.floor(Math.random()*TRUST_ICONS.length)];
+    return `<div class="trust-card" style="animation-delay:${i*0.15}s">
+      <span class="icon">${icon}</span>
+      <div><div class="who">${p[0]}</div><div class="quote">${p[1]}</div></div>
+    </div>`;
+  }).join("");
+}
+renderTrustedStrip();
+
+// ================= INTRO SPLASH =================
+setTimeout(()=>{ document.getElementById("introSplash")?.classList.add("hide"); }, 2400);
+
+// ================= MUSIC PLAYER =================
+(function(){
+  const audio = document.getElementById("bgMusic");
+  const widget = document.getElementById("musicWidget");
+  const toggle = document.getElementById("musicToggle");
+  const volSlider = document.getElementById("musicVol");
+  const hasSource = audio.querySelector("source[src]");
+  if(!hasSource){ widget.style.display = "none"; return; }
+
+  const savedVol = parseFloat(localStorage.getItem("mydiet_vol"));
+  const savedMuted = localStorage.getItem("mydiet_muted");
+  audio.volume = isNaN(savedVol) ? 0.4 : savedVol;
+  volSlider.value = audio.volume;
+  let userPaused = savedMuted === "true";
+
+  function tryPlay(){
+    if(userPaused) return;
+    audio.play().catch(()=>{ /* autoplay blocked until user interacts */ });
+  }
+  document.body.addEventListener("click", tryPlay, { once:true });
+  tryPlay();
+
+  toggle.onclick = ()=>{
+    if(audio.paused){ audio.play(); userPaused=false; widget.classList.add("expanded"); }
+    else { audio.pause(); userPaused=true; }
+    localStorage.setItem("mydiet_muted", String(userPaused));
+  };
+  widget.addEventListener("mouseenter", ()=> widget.classList.add("expanded"));
+  widget.addEventListener("mouseleave", ()=>{ if(audio.paused) widget.classList.remove("expanded"); });
+  volSlider.oninput = (e)=>{
+    audio.volume = parseFloat(e.target.value);
+    localStorage.setItem("mydiet_vol", audio.volume);
+  };
+})();
+
+// ================= RIPPLE EFFECT ON BUTTONS =================
+document.addEventListener("click", (e)=>{
+  const btn = e.target.closest(".btn");
+  if(!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const ripple = document.createElement("span");
+  const size = Math.max(rect.width, rect.height);
+  ripple.className = "ripple";
+  ripple.style.width = ripple.style.height = size + "px";
+  ripple.style.left = (e.clientX - rect.left - size/2) + "px";
+  ripple.style.top = (e.clientY - rect.top - size/2) + "px";
+  btn.appendChild(ripple);
+  setTimeout(()=> ripple.remove(), 600);
+});
+
+// ================= MAGNETIC HOVER (desktop only) =================
+if(window.matchMedia("(hover: hover)").matches){
+  document.addEventListener("mousemove", (e)=>{
+    const el = e.target.closest(".btn-primary, .opt");
+    document.querySelectorAll(".magnet-active").forEach(m=>{
+      if(m !== el){ m.style.transform = ""; m.classList.remove("magnet-active"); }
+    });
+    if(el){
+      const r = el.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width/2)) * 0.08;
+      const dy = (e.clientY - (r.top + r.height/2)) * 0.08;
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+      el.classList.add("magnet-active");
+    }
+  });
+}
+
+// ================= SCROLL REVEAL =================
+function observeReveals(){
+  const items = document.querySelectorAll(".card, .day-card, .sup-card, .recipe-card, .trust-card, .solution-box");
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold:0.1 });
+  items.forEach(el=>{ el.classList.add("reveal"); io.observe(el); });
+}
+const _origRender = render;
+render = function(){ _origRender(); setTimeout(observeReveals, 30); };
+observeReveals();
+
+/* end of file. ngl if you read all the way down here buy me a protein shake */
 </script>
 </body>
 </html>
