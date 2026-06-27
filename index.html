@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<!-- yo, curious traveler peeking at the source laude? nothing to see here, just vibes and <div>s 👀 -->
+<!-- yo, curious traveler peeking at the source? nothing to see here, just vibes and <div>s 👀 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyDiet, Personalized Diet & Workout Planner</title>
 <meta name="description" content="Get a free personalized diet plan, workout routine, BMI rating and supplement guide, by Aryan.">
-<!-- bro really opened devtools for THIS 😂 go touch some grass bkl -->
+<!-- bro really opened devtools for THIS 😂 go touch some grass -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* ---------------------------------------------------------
    if you're reading the CSS instead of using the app...
-   ngl that's kinda sus behavior lode 🕵️
+   ngl that's kinda sus behavior chief 🕵️
 --------------------------------------------------------- */
 :root{
   --bg:#0a0a0a;
@@ -387,7 +387,7 @@ a{color:inherit;}
 </head>
 <body>
 
-<!-- are bhchod if you somehow inspected this far down... respect. but also, go make your diet plan instead -->
+<!-- if you somehow inspected this far down... respect. but also, go make your diet plan instead -->
 
 <div class="blob-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 
@@ -399,14 +399,13 @@ a{color:inherit;}
   </div>
   <div class="music-vol"><input type="range" id="musicVol" min="0" max="1" step="0.01" value="0.4"></div>
   <audio id="bgMusic" loop preload="none">
-    <!-- Add your own royalty-free track here, e.g. from Pixabay Music or YouTube Audio Library -->
-     <source src="music/background.mp3" type="audio/mpeg">
+    <source src="music/background.mp3" type="audio/mpeg">
   </audio>
 </div>
 
 <div class="topbar">
   <div class="menu-btn" id="menuBtn" aria-label="menu"><span></span><span></span><span></span></div>
-  <div class="brand"><span class="dot"></span>MyDiet <small>by Aryann</small></div>
+  <div class="brand"><span class="dot"></span>MyDiet <small>by Aryan</small></div>
   <div style="width:42px"></div>
 </div>
 
@@ -423,7 +422,7 @@ a{color:inherit;}
   <div class="side-link" data-view="recipes"><span class="ic">08</span>What to Eat</div>
   <div class="side-link" data-view="skincare"><span class="ic">09</span>AI Skincare Advisor<span class="new-badge">NEW</span></div>
   <div class="sidebar-footer">
-    MyDiet, made by Aryan<br> just a useless site. No login required.<br>
+    MyDiet, made by Aryan<br>Free forever. No login required.<br>
     <a href="https://instagram.com/aryann.ax" target="_blank" rel="noopener" class="insta-link">@aryann.ax</a>
   </div>
 </div>
@@ -437,11 +436,11 @@ a{color:inherit;}
 
 <script>
 /* ============================================================
-   sojaa. nothing fishy here, lodu what you looking , code & good vibes.
+   psst. nothing fishy here, just clean code & good vibes.
    (but fr, if you're a recruiter reading this, hi, I'm hireable 😎)
 ============================================================ */
 
-// ---------- DATA: MEALS (sample structure, aur add krne hai abhiii) ----------
+// ---------- DATA: MEALS (sample structure, expand freely) ----------
 const MEALS = {
   veg:{
     breakfast:[
@@ -1689,30 +1688,43 @@ setTimeout(()=>{ document.getElementById("introSplash")?.classList.add("hide"); 
   const audio = document.getElementById("bgMusic");
   const widget = document.getElementById("musicWidget");
   const toggle = document.getElementById("musicToggle");
+  const icon = document.getElementById("musicIcon");
   const volSlider = document.getElementById("musicVol");
   const hasSource = audio.querySelector("source[src]");
   if(!hasSource){ widget.style.display = "none"; return; }
+
+  const ICON_ON = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>`;
+  const ICON_OFF = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>`;
 
   const savedVol = parseFloat(localStorage.getItem("mydiet_vol"));
   const savedMuted = localStorage.getItem("mydiet_muted");
   audio.volume = isNaN(savedVol) ? 0.4 : savedVol;
   volSlider.value = audio.volume;
-  let userPaused = savedMuted === "true";
+  audio.muted = savedMuted === "true";
 
-  function tryPlay(){
-    if(userPaused) return;
-    audio.play().catch(()=>{ /* autoplay blocked until user interacts */ });
-  }
-  document.body.addEventListener("click", tryPlay, { once:true });
-  tryPlay();
+  function setIcon(){ icon.innerHTML = audio.muted ? ICON_OFF : ICON_ON; }
+  setIcon();
+
+  audio.play().catch(()=>{ /* blocked until a user gesture happens, handled below */ });
+  document.body.addEventListener("click", function startOnce(){
+    if(audio.paused) audio.play().catch(err=>{ console.warn("MyDiet: audio failed to play", err); });
+    document.body.removeEventListener("click", startOnce);
+  }, { once:true });
+
+  audio.addEventListener("error", ()=>{
+    console.error("MyDiet: music file failed to load, check the path/filename in the <source> tag and that it was actually uploaded to the repo.");
+    widget.style.display = "none";
+  });
 
   toggle.onclick = ()=>{
-    if(audio.paused){ audio.play(); userPaused=false; widget.classList.add("expanded"); }
-    else { audio.pause(); userPaused=true; }
-    localStorage.setItem("mydiet_muted", String(userPaused));
+    audio.muted = !audio.muted;
+    localStorage.setItem("mydiet_muted", String(audio.muted));
+    setIcon();
+    if(!audio.muted && audio.paused) audio.play().catch(()=>{});
+    widget.classList.add("expanded");
   };
   widget.addEventListener("mouseenter", ()=> widget.classList.add("expanded"));
-  widget.addEventListener("mouseleave", ()=>{ if(audio.paused) widget.classList.remove("expanded"); });
+  widget.addEventListener("mouseleave", ()=> widget.classList.remove("expanded"));
   volSlider.oninput = (e)=>{
     audio.volume = parseFloat(e.target.value);
     localStorage.setItem("mydiet_vol", audio.volume);
@@ -1763,8 +1775,9 @@ const _origRender = render;
 render = function(){ _origRender(); setTimeout(observeReveals, 30); };
 observeReveals();
 
-/* end of file. ngl if you read all the way down here buy me a protein shake */
+/* end of file. ngl if you read all the way down here you deserve a protein shake */
 </script>
 </body>
 </html>
+
 
